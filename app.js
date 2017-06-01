@@ -1,4 +1,5 @@
 var express = require('express');
+var expressValidator = require('express-validator');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -9,6 +10,7 @@ var configs = require('./configs/config');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var books = require('./routes/books');
 
 var app = express();
 
@@ -30,7 +32,8 @@ if (app.get('env') === 'production') {
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressValidator());
 app.use(cookieParser());
 app.use(configSesison);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -46,6 +49,7 @@ app.use(function (req, res, next) {
 //controllers
 index(app);
 users(app);
+books(app);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
