@@ -78,8 +78,7 @@ router.get('/', function (req, res, next) {
             if (err) {
                 res.status(400).send(err);
             } else {
-                //res.json(results);
-                res.render('index');
+                res.render('index', {home: results.home, categories: results.categories, offices: results.offices, conditions: results.conditions});
             }
         }
     );

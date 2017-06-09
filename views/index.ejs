@@ -3,13 +3,14 @@
 <main class="main-content">
 
     <!-- Best Seller Products -->
+    <% home.items.forEach(function (section) { %>
     <section class="best-seller tc-padding">
         <div class="container">
 
             <!-- Main Heading -->
             <div class="main-heading-holder">
                 <div class="main-heading style-1">
-                    <h2>The <span class="theme-color">Latest</span> Books</h2>
+                    <h2> <span class="theme-color"><%= section.title %></span></h2>
                 </div>
             </div>
             <!-- Main Heading -->
@@ -17,144 +18,33 @@
             <!-- Best sellers Tabs -->
             <div class="best-sellers-tabs">
                 <div class="best-seller-slider">
-
+                    <% section.data.forEach(function (book) { %>
                     <!-- Product Box -->
                     <div class="item">
                         <div class="product-box">
                             <div class="product-img">
-                                <img src="images/best-seller/img-01.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
+                                <img src="<%= book.image.thumb_path %>" alt="<%= book.title %>">
                             </div>
                             <div class="product-detail">
                                 <span>Novel</span>
-                                <h5><a href="book-detail.html">Mars Club</a></h5>
-                                <p>How to Write a Book Review...</p>
+                                <h5><a href="book-detail.html"> <%= book.title %></a></h5>
+                                <p>Book Review...</p>
                                 <div class="rating-nd-price">
                                     <ul class="rating-stars">
+                                        <% for (var i=1; i <= book.avg_star; i++) {%>
                                         <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
+                                        <% } %>
                                     </ul>
                                 </div>
                                 <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
+                                    <span>Author: <%= book.author %></span>
                                     <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-02.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Beer Fastival</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-03.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Cover Design</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-04.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Festa Junnia</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
+                    <% }) %>
                 </div>
             </div>
             <!-- Best sellers Tabs -->
@@ -162,330 +52,7 @@
         </div>
     </section>
     <!-- Best Seller Products -->
-
-    <!-- Best Seller Products -->
-    <section class="best-seller tc-padding">
-        <div class="container">
-
-            <!-- Main Heading -->
-            <div class="main-heading-holder">
-                <div class="main-heading style-1">
-                    <h2>The <span class="theme-color">Latest</span> Books</h2>
-                </div>
-            </div>
-            <!-- Main Heading -->
-
-            <!-- Best sellers Tabs -->
-            <div class="best-sellers-tabs">
-                <div class="best-seller-slider">
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-01.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Mars Club</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-02.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Beer Fastival</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-03.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Cover Design</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-04.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Festa Junnia</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                </div>
-            </div>
-            <!-- Best sellers Tabs -->
-
-        </div>
-    </section>
-    <!-- Best Seller Products -->
-
-    <!-- Best Seller Products -->
-    <section class="best-seller tc-padding">
-        <div class="container">
-
-            <!-- Main Heading -->
-            <div class="main-heading-holder">
-                <div class="main-heading style-1">
-                    <h2>The <span class="theme-color">Latest</span> Books</h2>
-                </div>
-            </div>
-            <!-- Main Heading -->
-
-            <!-- Best sellers Tabs -->
-            <div class="best-sellers-tabs">
-                <div class="best-seller-slider">
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-01.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Mars Club</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-02.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Beer Fastival</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-03.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Cover Design</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                    <!-- Product Box -->
-                    <div class="item">
-                        <div class="product-box">
-                            <div class="product-img">
-                                <img src="images/best-seller/img-04.jpg" alt="">
-                                <ul class="product-cart-option position-center-x">
-                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-cart-arrow-down"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product-detail">
-                                <span>Novel</span>
-                                <h5><a href="book-detail.html">Festa Junnia</a></h5>
-                                <p>How to Write a Book Review...</p>
-                                <div class="rating-nd-price">
-                                    <ul class="rating-stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-half-o"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="aurthor-detail">
-                                    <span>Author: Pawel Kadysz</span>
-                                    <a class="add-wish" href="#"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Product Box -->
-
-                </div>
-            </div>
-            <!-- Best sellers Tabs -->
-
-        </div>
-    </section>
-    <!-- Best Seller Products -->
-
-
+    <% }) %>
 </main>
 <!-- Main Content -->
 <%- include layout/footer.ejs %>

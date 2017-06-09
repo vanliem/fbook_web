@@ -30,12 +30,12 @@
     "isotope": "^3.0.4",
     "parallax.js": "^1.4.2",
     "turn.js": "*",
-    "waypoints": "^4.0.1",
     "owl.carousel": "^2.2.1",
     "jquery_appear": "^0.3.6",
     "jquery-prettyPhoto": "^3.1.6",
     "tether": "^1.4.0",
     "classie": "^1.0.1",
-    "jquery-timeline": "^0.3.1"
+    "Merriweather": "https://google-fonts.azurewebsites.net/googleFonts/Merriweather?family=Merriweather:300,300italic,400italic,400,700,700italic,900,900italic",
+    "Lato": "https://google-fonts.azurewebsites.net/googleFonts/Lato?family=Lato:400,300,300italic,400italic,700,700italic,900italic,900,100italic,100"
   }
 }
