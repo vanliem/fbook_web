@@ -1,6 +1,7 @@
 var express = require('express');
 var expressValidator = require('express-validator');
 var path = require('path');
+var expressLayouts = require('express-ejs-layouts');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -16,6 +17,9 @@ var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('layout', 'layout/template');
+
+app.use(expressLayouts);
 
 var configSesison = session({
     secret: 'keyboard cat',
