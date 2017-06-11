@@ -1,11 +1,12 @@
-
+<% data.items.forEach(function (section) { %>
 <!--Begin section-->
 <section>
     <div class="space-40"></div>
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
-                <h2>Our <strong>Category</strong></h2>
+                <!--<h2>Our <strong>Category</strong></h2>-->
+                <h2><%= section.title %></h2>
                 <div class="title-bar blue">
                     <ul class="list-inline list-unstyled">
                         <li><i class="icofont icofont-square"></i></li>
@@ -16,6 +17,7 @@
         </div>
         <div class="space-20"></div>
         <div class="row">
+            <% section.data.forEach(function (book) {%>
             <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.1s">
                 <div class="category-item well yellow">
                     <div class="media">
@@ -23,425 +25,40 @@
                             <img src="images/book/book-xs-1.jpg" class="media-object" alt="">
                         </div>
                         <div class="media-body">
-                            <h5>Smothered In Hughs</h5>
-                            <h6>By John Doe</h6>
+                            <h5><%= (book.title.length > 30) ? book.title.substring(0, 30) + ' ...' : book.title %></h5>
+                            <h6>By <%= book.author %></h6>
                             <div class="space-10"></div>
                             <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li><i class="icofont icofont-star"></i></li>
+                                <% if (book.avg_star > 0) { %>
+                                    <% for (var i=1; i < book.avg_star; i++) {%>
+                                    <li class="active"><i class="icofont icofont-star"></i></li>
+                                    <% }%>
+                                <% } else {%>
+                                    <li><i class="icofont icofont-star"></i></li>
+                                <% }%>
                             </ul>
                             <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
+                            <p>
+                                <%= book.description.length > 70 ?
+                                        book.description.substring(0, 70) + ' ...' :
+                                        book.description
+                                %>
+                            </p>
+                            <a href="/books/<%= book.id%>" class="text-primary">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.2s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-2.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>The Art Of The Surf</h5>
-                            <h6>By Mako Sheffield</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur  adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.3s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-3.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>Creative Business</h5>
-                            <h6>By Sarah Smith</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.4s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-4.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>Hustle Now Enjoy Later</h5>
-                            <h6>By Benjamin Thomson</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.5s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-5.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>The History Of Street Art</h5>
-                            <h6>By Linda Dinno</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <% }) %>
         </div>
         <div class="space-20"></div>
         <div class="row">
             <div class="col-xs-12 text-center">
-                <a href="books.html" class="btn btn-info btn-xs">See More</a>
+                <a href="/books/?field=<%= section.key %>&page=1" class="btn btn-info btn-xs">More</a>
             </div>
         </div>
         <div class="space-40"></div>
     </div>
 </section>
 <!--End section-->
-
-<!--Begin section-->
-<section>
-    <div class="space-20"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
-                <h2>Our <strong>Category</strong></h2>
-                <div class="title-bar blue">
-                    <ul class="list-inline list-unstyled">
-                        <li><i class="icofont icofont-square"></i></li>
-                        <li><i class="icofont icofont-square"></i></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="space-20"></div>
-        <div class="row">
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.1s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-1.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>Smothered In Hughs</h5>
-                            <h6>By John Doe</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.2s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-2.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>The Art Of The Surf</h5>
-                            <h6>By Mako Sheffield</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.3s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-3.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>Creative Business</h5>
-                            <h6>By Sarah Smith</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.4s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-4.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>Hustle Now Enjoy Later</h5>
-                            <h6>By Benjamin Thomson</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.5s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-5.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>The History Of Street Art</h5>
-                            <h6>By Linda Dinno</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="space-20"></div>
-        <div class="row">
-            <div class="col-xs-12 text-center">
-                <a href="books.html" class="btn btn-info btn-xs">See More</a>
-            </div>
-        </div>
-        <div class="space-40"></div>
-    </div>
-</section>
-<!--End section-->
-
-<!--Begin section-->
-<section>
-    <div class="space-20"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
-                <h2>Our <strong>Category</strong></h2>
-                <div class="title-bar blue">
-                    <ul class="list-inline list-unstyled">
-                        <li><i class="icofont icofont-square"></i></li>
-                        <li><i class="icofont icofont-square"></i></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="space-20"></div>
-        <div class="row">
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.1s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-1.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>Smothered In Hughs</h5>
-                            <h6>By John Doe</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.2s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-2.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>The Art Of The Surf</h5>
-                            <h6>By Mako Sheffield</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.3s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-3.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>Creative Business</h5>
-                            <h6>By Sarah Smith</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.4s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-4.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>Hustle Now Enjoy Later</h5>
-                            <h6>By Benjamin Thomson</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.5s">
-                <div class="category-item well yellow">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="images/book/book-xs-5.jpg" class="media-object" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5>The History Of Street Art</h5>
-                            <h6>By Linda Dinno</h6>
-                            <div class="space-10"></div>
-                            <ul class="list-inline list-unstyled rating-star">
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class="active"><i class="icofont icofont-star"></i></li>
-                                <li class=""><i class="icofont icofont-star"></i></li>
-                            </ul>
-                            <div class="space-10"></div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor </p>
-                            <a href="books.html" class="text-primary">See the Book</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="space-20"></div>
-        <div class="row">
-            <div class="col-xs-12 text-center">
-                <a href="books.html" class="btn btn-info btn-xs">See More</a>
-            </div>
-        </div>
-        <div class="space-40"></div>
-    </div>
-</section>
-<!--End section-->
+<% }) %>

@@ -1,0 +1,120 @@
+<section>
+    <div class="space-80"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 pull-right">
+                <h4><%= section_name%> books</h4>
+                <div class="space-30"></div>
+                <div class="row">
+                    <div class="pull-left col-xs-12 col-sm-5 col-md-6">
+                        <p>Books in section name</p>
+                    </div>
+                    <div class="pull-right col-xs-12 col-sm-7 col-md-6">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="sort">Sort By : </label>
+                                <div class="col-xs-8">
+                                    <div class="form-group">
+                                        <select name="sort" id="sort" class="form-control">
+                                            <option value="">Best Match</option>
+                                            <option value="">Best Book</option>
+                                            <option value="">Latest Book</option>
+                                            <option value="">Old Book</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <div class="space-20"></div>
+                <div class="row">
+                    <% section.item.data.forEach(function (book) {%>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="category-item well yellow">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="images/book/book-xs-1.jpg" class="media-object" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <h5><%= (book.title.length > 30) ? book.title.substring(0, 30) + ' ...' : book.title %></h5>
+                                    <h6>By <%= book.author %></h6>
+                                    <div class="space-10"></div>
+                                    <ul class="list-inline list-unstyled rating-star">
+                                        <% if (book.avg_star > 0) { %>
+                                        <% for (var i=1; i < book.avg_star; i++) {%>
+                                        <li class="active"><i class="icofont icofont-star"></i></li>
+                                        <% }%>
+                                        <% } else {%>
+                                        <li><i class="icofont icofont-star"></i></li>
+                                        <% }%>
+                                    </ul>
+                                    <div class="space-10"></div>
+                                    <p>
+                                        <%= book.description.length > 70 ?
+                                                book.description.substring(0, 70) + ' ...' :
+                                                book.description
+                                        %>
+                                    </p>
+                                    <a href="/books/<%= book.id%>" class="text-primary">Xem chi tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+                <div class="space-60"></div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="shop-pagination pull-right">
+                            <ul id="pagination-demo" class="pagination-sm pagination">
+                                <li class="page-item first"><a href="#" class="page-link">First</a></li>
+                                <li class="page-item prev"><a href="#" class="page-link">Previous</a></li>
+                                <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                                <li class="page-item"><a href="#" class="page-link">4</a></li>
+                                <li class="page-item"><a href="#" class="page-link">5</a></li>
+                                <li class="page-item"><a href="#" class="page-link">6</a></li>
+                                <li class="page-item"><a href="#" class="page-link">7</a></li>
+                                <li class="page-item next"><a href="#" class="page-link">Next</a></li>
+                                <li class="page-item last"><a href="#" class="page-link">Last</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sidebar-Start -->
+            <div class="col-xs-12 col-md-2">
+                <aside>
+                    <h3><i class="icofont icofont-filter"></i> Filter By</h3>
+                    <div class="space-30"></div>
+                    <div class="sigle-sidebar">
+                        <h4>Category</h4>
+                        <hr>
+                        <ul class="list-unstyled menu-tip">
+                            <% categories.items.forEach(function (category) {%>
+                            <li><a href="#"><%= category.name %></a></li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                    <div class="space-20"></div>
+                    <div class="sigle-sidebar">
+                        <h4>Rating</h4>
+                        <hr>
+                        <ul class="list-inline list-unstyled rating-star">
+                            <li class="active"><i class="icofont icofont-star"></i></li>
+                            <li class="active"><i class="icofont icofont-star"></i></li>
+                            <li class="active"><i class="icofont icofont-star"></i></li>
+                            <li class="active"><i class="icofont icofont-star"></i></li>
+                            <li class="active"><i class="icofont icofont-star"></i></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+            <!-- Sidebar-End -->
+        </div>
+    </div>
+    <div class="space-80"></div>
+</section>
