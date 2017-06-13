@@ -5,13 +5,14 @@ var expressLayouts = require('express-ejs-layouts');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var configs = require('./configs/config');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var books = require('./routes/books');
+var authentication = require('./routes/authentication');
 
 var app = express();
 
@@ -21,25 +22,12 @@ app.set('layout', 'layout/template');
 
 app.use(expressLayouts);
 
-var configSesison = session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {secure: true}
-});
-
-if (app.get('env') === 'production') {
-    app.set('trust proxy', 1);
-    sessionOptions.cookie.secure = true;
-}
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(configSesison);
+app.use(session({resave: true, saveUninitialized: true, secret: 'key', cookie: { maxAge: 60000 }}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configs
@@ -54,6 +42,8 @@ app.use(function (req, res, next) {
 index(app);
 users(app);
 books(app);
+authentication.login(app);
+authentication.callback(app);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
@@ -64,7 +54,6 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
-
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 

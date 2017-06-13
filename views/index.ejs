@@ -22,7 +22,7 @@
                 <div class="category-item well yellow">
                     <div class="media">
                         <div class="media-left">
-                            <img src="<%= book.image.thumb_path %>" class="media-object" alt="">
+                            <img src="<%# book.image.thumb_path %>" class="media-object" alt="">
                         </div>
                         <div class="media-body">
                             <h5 title="<%= book.title %>"><%= (book.title.length > 20) ? book.title.substring(0, 20) + ' ...' : book.title %></h5>
