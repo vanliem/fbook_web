@@ -66,11 +66,6 @@
                         <li class="active">
                             <a href="#sc1">Home</a>
                         </li>
-                        <% if (!access_token) { %>
-                            <li>
-                                <a href="/login">Login with Framgia</a>
-                            </li>
-                        <% } %>
                         <li>
                             <a href="#sc2">About</a>
                         </li>
@@ -86,6 +81,16 @@
                         <li>
                             <a href="books.html">Books</a>
                         </li>
+                        <% if (typeof access_token !== 'undefined' && access_token) { %>
+                            <li>
+                                <a href="/logout">Logout</a>
+                            </li>
+                        <% }
+                        else { %>
+                            <li>
+                                <a href="/login">Login with Framgia</a>
+                            </li>
+                        <% } %>
                     </ul>
                 </div>
             </div>
