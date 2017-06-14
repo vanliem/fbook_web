@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(session({resave: true, saveUninitialized: true, secret: 'key', cookie: { maxAge: 60000 }}));
+app.use(session({resave: true, saveUninitialized: true, secret: 'wemakeitawesome', cookie: { maxAge: 60000 }}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configs
@@ -44,6 +44,7 @@ users(app);
 books(app);
 authentication.login(app);
 authentication.callback(app);
+authentication.logout(app);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

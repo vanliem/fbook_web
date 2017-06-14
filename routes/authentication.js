@@ -1,5 +1,6 @@
 var loginController = require('../controllers/login');
 var callbackController = require('../controllers/callback');
+var logoutController = require('../controllers/logout');
 
 module.exports = {
     login: function (app) {
@@ -7,5 +8,8 @@ module.exports = {
     },
     callback: function (app) {
         app.use('/callback', callbackController);
+    },
+    logout: function (app) {
+        app.use('/logout', logoutController);
     }
 };
