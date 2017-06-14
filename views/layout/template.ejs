@@ -41,6 +41,9 @@
 <!--End footer-->
 
 <!-- Vandor-JS -->
+<script type="text/javascript">
+    var API_PATH = "<%= configs.api_base_url %>";
+</script>
 <script src="/bower/jquery/dist/jquery.min.js"></script>
 <script src="/bower/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- Plugin-JS -->
@@ -53,6 +56,10 @@
 <script src="/javascripts/plugins.js"></script>
 <!-- Active-JS -->
 <script src="/javascripts/main.js"></script>
+
+<% if(locals.appjs) { %>
+<%- appjs %>
+<% }%>
 
 </body>
 
