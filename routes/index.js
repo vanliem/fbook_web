@@ -1,4 +1,3 @@
-
 var indexController = require('../controllers/index');
 
 var index = function (app) {

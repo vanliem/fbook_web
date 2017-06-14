@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var util = require('util');
-var headers = require('../helpers/headers');
+var objectHeaders = require('../helpers/headers');
 
 router.get('/', function (req, res, next) {
     req.checkQuery('field', 'Invalid field').notEmpty().isAlpha();
@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
 
             request({
                 url: req.configs.api_base_url + 'books/?field=' + field + '&page=' + page,
-                headers: headers()
+                headers: objectHeaders.headers
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
                     try {
@@ -44,7 +44,7 @@ router.get('/:id', function (req, res, next) {
         } else {
             request({
                 url: req.configs.api_base_url + 'books/' + req.params.id,
-                headers: headers()
+                headers: objectHeaders.headers
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
                     try {
