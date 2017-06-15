@@ -18,12 +18,12 @@
         <div class="row">
             <% if (section.data.length > 0 ) { %>
             <% section.data.forEach(function (book, index) { %>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.<%= index + 1%>s">
+            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.<%= index + 1 %>s">
                 <div class="category-item well yellow">
                     <div class="media">
                         <div class="media-left">
-                            <% if (book.image) { %>
-                            <img src="<%= book.image.thumb_path%>" class="media-object" alt="">
+                            <% if (book.image !== null) { %>
+                            <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="">
                             <% } else { %>
                             <img src="/images/book_thumb_default.jpg" class="media-object" alt="">
                             <% } %>
@@ -34,7 +34,7 @@
                             <div class="space-10"></div>
                             <ul class="list-inline list-unstyled rating-star">
                                 <li class="active"><i class="icofont icofont-star"></i></li>
-                                <strong><%= book.avg_star %> / 10</strong>
+                                <strong><%= book.avg_star %> / <%= configs.default_book_star %></strong>
                             </ul>
                             <div class="space-10"></div>
                             <p>

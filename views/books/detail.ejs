@@ -1,0 +1,213 @@
+<section class="relative fix" id="sc3">
+    <div class="container">
+        <div class="space-50"></div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
+                <h2>Book detail</h2>
+                <div class="space-20"></div>
+                <div class="title-bar blue">
+                    <ul class="list-inline list-unstyled">
+                        <li><i class="icofont icofont-square"></i></li>
+                        <li><i class="icofont icofont-square"></i></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 book-list-position padding60  ">
+                <div class="book-list-photo ">
+                    <div class="book-list">
+                        <% data.item.media.forEach(function (image) { %>
+                        <div class="book_item">
+                            <img src="<%= image.web.medium_path %>" alt="library">
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="bookslide_nav">
+                    <i class="icofont icofont-long-arrow-left testi_prev"></i>
+                    <i class="icofont icofont-long-arrow-right testi_next"></i>
+                </div>
+            </div>
+            <div class="col-xs-12 pull-right col-md-6 padding60 wow fadeInRight">
+                <div class="book-content">
+                    <div class="book-details-item">
+                        <h4 class="tip-left">Title</h4>
+                        <p class="lead"><%= data.item.title %></p>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-8">
+                                <h4 class="tip-left">Author</h4>
+                                <div class="media">
+                                    <div class="media-left">
+                                        <img src="/images/user/icon_user_default.png" class="media-object author-photo img-thumbnail" alt="library">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5><%= data.item.author %></h5>
+                                        <p>23 Books Created</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-30"></div>
+                        <h4 class="tip-left">Description</h4>
+                        <p><%= data.item.description %></p>
+                        <div class="space-20"></div>
+                        <h4 class="tip-left">Rating</h4>
+                        <ul class="list-inline list-unstyled rating-star">
+                            <li class="active"><i class="icofont icofont-star"></i></li>
+                        </ul>
+                        <p><%= data.item.avg_star %> / <%= configs.default_book_star %></p>
+                        <div class="space-20"></div>
+                        <a href="books.html" class="btn btn-primary hover-btn-default">Booking</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="relative" id="sc5">
+    <div class="container">
+        <div class="panel">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#user_review">User Review</a></li>
+                    <li><a data-toggle="tab" href="#user_reading">User Reading</a></li>
+                    <li><a data-toggle="tab" href="#user_waiting">User Waiting</a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="user_review">
+                        <div class="row event-list">
+                            <% if (data.item.reviews_detail_book !== null) { %>
+                            <% data.item.reviews_detail_book.forEach(function (review) { %>
+                            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                                <div class="event-item wow fadeInRight">
+                                    <h4 class="show tip-left">July 20,2017 <span class="">02.30 Am</span></h4>
+                                    <div class="well">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <% if (review.user.avatar !== null) { %>
+                                                <img src="<%= review.user.avatar %>" class="media-object" alt="library">
+                                                <% } else { %>
+                                                <img src="/images/user/icon_user_default.png" class="media-object" alt="library">
+                                                <% } %>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="space-10"></div>
+                                                <a href="books.html"><h4 class="media-heading"><%= review.user.name %></h4></a>
+                                                <div class="space-10"></div>
+                                                <ul class="list-inline list-unstyled rating-star">
+                                                    <li class="active"><i class="icofont icofont-star"></i> <%= review.star %> / <%= configs.default_book_star %></li>
+                                                </ul>
+                                                <p><%= review.content %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-20"></div>
+                            </div>
+                            <% }) %>
+                            <% } %>
+                        </div>
+                        <div class="row ">
+                            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                                <h4><strong>Add review</strong></h4>
+                            </div>
+                            <form action="#">
+                                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" id="name" class="form-control bg-info" placeholder="Enter your name...">
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" class="form-control bg-info" placeholder="Enter your email...">
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                                    <div class="form-group">
+                                        <label for="content">Content</label>
+                                        <textarea name="content" id="content" class="form-control bg-info" cols="50" rows="5" placeholder="Enter your review..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="space-20"></div>
+                                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                                    <button type="submit" class="btn btn-primary hover-btn-default">Create Accout <i class="fa fa-long-arrow-right"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="user_reading">
+                        <div class="row event-list">
+                            <% if (data.item.user_reading_book !== null) { %>
+                            <% data.item.user_reading_book.forEach(function (user) {%>
+                            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                                <div class="event-item wow fadeInRight">
+                                    <h4 class="show tip-left">July 20,2017 <span class="">02.30 Am</span></h4>
+                                    <div class="well">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <% if (user.avatar !== null) { %>
+                                                <img src="<%= user.avatar %>" class="media-object" alt="library">
+                                                <% } else { %>
+                                                <img src="/images/user/icon_user_default.png" class="media-object" alt="library">
+                                                <% } %>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="space-10"></div>
+                                                <a href="books.html"><h4 class="media-heading"><%= user.name %></h4></a>
+                                                <div class="space-10"></div>
+                                                <p><%= user.name %></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-20"></div>
+                            </div>
+                            <% }) %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="user_waiting">
+                        <div class="row event-list">
+                            <% if (data.item.users_waiting_book) { %>
+                            <% data.item.users_waiting_book.forEach(function (user) { %>
+                            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                                <div class="event-item wow fadeInRight">
+                                    <h4 class="show tip-left">July 20,2017 <span class="">02.30 Am</span></h4>
+                                    <div class="well">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <% if (user.avatar !== null) { %>
+                                                <img src="<%= user.avatar %>" class="media-object" alt="library">
+                                                <% } else { %>
+                                                <img src="/images/user/icon_user_default.png" class="media-object" alt="library">
+                                                <% } %>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="space-10"></div>
+                                                <a href="books.html"><h4 class="media-heading"><%= user.name %></h4></a>
+                                                <div class="space-10"></div>
+                                                <p><%= user.name %></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-20"></div>
+                            </div>
+                            <% }) %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-100"></div>
+</section>

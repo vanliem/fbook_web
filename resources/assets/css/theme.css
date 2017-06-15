@@ -150,7 +150,7 @@
 }
 
 .overlay-bg.blue:after {
-    background-color: #2352c5;
+    background-color: #33CC33;
 }
 
 .home-slide .item img,
@@ -471,7 +471,7 @@
 .bookslide_nav .testi_next {
     border-radius: 50%;
     bottom: -40px;
-    color: #ffffff;
+    color: black;
     font-size: 20px;
     height: 40px;
     left: 46%;

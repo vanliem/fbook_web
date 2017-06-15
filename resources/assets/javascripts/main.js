@@ -42,28 +42,6 @@ jQuery(document).ready(function ($) {
         pager: true, // Boolean: Show pager, true or false
     });
 
-    // Book-details Slider
-    var book_slide2 = $('.book-details');
-    book_slide2.owlCarousel({
-        loop: true,
-        margin: 30,
-        autoplay: false,
-        dots: true,
-        autoplayTimeout: 4000,
-        smartSpeed: 600,
-        responsive: {
-            0: {
-                items: 1
-            },
-            600: {
-                items: 1
-            },
-            992: {
-                items: 1
-            }
-        }
-    });
-
     // Book List Slider
     var book_slide = $('.book-list');
     book_slide.owlCarousel({
@@ -101,9 +79,6 @@ jQuery(document).ready(function ($) {
 
     book_slide.on('translate.owl.carousel', function (property) {
         $('.book-content .owl-dot:eq(' + property.page.index + ')').click();
-    });
-    book_slide2.on('translate.owl.carousel', function (property) {
-        $('.book-list-photo .owl-dot:eq(' + property.page.index + ')').click();
     });
 
     /* Gallery Slider Active
