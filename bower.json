@@ -25,6 +25,7 @@
     "scrollup": "^2.4.1",
     "wow": "^1.1.2",
     "cardslider": "^1.1.3",
-    "modernizr": "2.8.3"
+    "modernizr": "2.8.3",
+    "jquery-1.12.4.min": "https://code.jquery.com/jquery-1.12.4.min.js"
   }
 }

@@ -30,13 +30,13 @@
                 <hr>
                 <div class="space-20"></div>
                 <div class="row ajax-book-content">
-                    <% section.item.data.forEach(function (book) {%>
+                    <% section.item.data.forEach(function (book) { %>
                     <div class="col-xs-12 col-md-6">
                         <div class="category-item well yellow">
                             <div class="media">
                                 <div class="media-left">
-                                    <% if (book.image) { %>
-                                    <img src="<%= book.image.thumb_path%>" class="media-object" alt="">
+                                    <% if (book.image !== null) { %>
+                                    <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="">
                                     <% } else { %>
                                     <img src="/images/book_thumb_default.jpg" class="media-object" alt="">
                                     <% } %>
@@ -47,7 +47,7 @@
                                     <div class="space-10"></div>
                                     <ul class="list-inline list-unstyled rating-star">
                                         <li class="active"><i class="icofont icofont-star"></i></li>
-                                        <strong><%= book.avg_star %> / 10</strong>
+                                        <strong><%= book.avg_star %> / <%= configs.default_book_star %></strong>
                                     </ul>
                                     <div class="space-10"></div>
                                     <p>

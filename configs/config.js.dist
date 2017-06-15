@@ -5,7 +5,8 @@ var config = {
     auth_server_base_url: "http://auth.framgia.vn/auth/hr_system/authorize",
     client_id: "YRsMngWe7ZLwuTFRkpVNUutE",
     client_secret: "06de87ccaad2e0104fec49157bb6352245649081b547e943ba23e0d378f2",
-    auth_server_authorization_code_url: "http://auth.framgia.vn/auth/hr_system/access_token"
+    auth_server_authorization_code_url: "http://auth.framgia.vn/auth/hr_system/access_token",
+    default_book_star: 5
 };
 
 module.exports = config;

@@ -40,7 +40,7 @@ Book.generateBookXhtml = function (book) {
     xhtml += '<div class="media-left">';
 
     if (book.image !== null) {
-        xhtml += '<img src="'+ book.image.thumb_path +'" class="media-object" alt="">';
+        xhtml += '<img src="'+ book.image.web.thumbnail_path +'" class="media-object" alt="">';
     } else {
         xhtml += '<img src="/images/book_thumb_default.jpg" class="media-object" alt="">';
     }

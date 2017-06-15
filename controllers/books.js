@@ -75,7 +75,7 @@ router.get('/:id', function (req, res, next) {
                 if (!error && response.statusCode === 200) {
                     try {
                         var data = JSON.parse(body);
-                        res.json(data);
+                        res.render('books/detail', {data: data, pageTitle: 'Chi tiết'});
                     } catch (errorJSONParse) {
                         res.status(400).json(errorJSONParse);
                     }
