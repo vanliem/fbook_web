@@ -7,6 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var flash = require('connect-flash');
 var configs = require('./configs/config');
 
 var index = require('./routes/index');
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
 app.use(cookieParser());
 app.use(session({resave: true, saveUninitialized: true, secret: 'wemakeitawesome', cookie: { maxAge: 60000 }}));
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configs

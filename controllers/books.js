@@ -4,6 +4,7 @@ var request = require('request');
 var util = require('util');
 var async = require('async');
 var objectHeaders = require('../helpers/headers');
+var authorize = require('../middlewares/authorize');
 
 router.get('/', function (req, res, next) {
     req.checkQuery('field', 'Invalid field').notEmpty().isAlpha();
@@ -75,7 +76,8 @@ router.get('/:id', function (req, res, next) {
                 if (!error && response.statusCode === 200) {
                     try {
                         var data = JSON.parse(body);
-                        res.render('books/detail', {data: data, pageTitle: 'Chi tiết', access_token: req.session.access_token});
+                        var messages = req.flash('errors');
+                        res.render('books/detail', {data: data, pageTitle: 'Chi tiết', access_token: req.session.access_token, messages: messages});
                     } catch (errorJSONParse) {
                         res.status(400).json(errorJSONParse);
                     }
@@ -87,5 +89,35 @@ router.get('/:id', function (req, res, next) {
         }
     });
 });
+
+router.post('/review/:id', authorize.isAuthenticated, function (req, res, next) {
+    req.checkBody('content').notEmpty().len(1, 255);
+
+    req.getValidationResult().then(function (result) {
+        if (!result.isEmpty()) {
+            req.flash('errors', result.array());
+            res.redirect('/books/' + req.params.id + '#form-review');
+        } else {
+            var star = req.body.star ? req.body.star : 1;
+            request.post({
+                url: req.configs.api_base_url + 'books/review/' + req.params.id,
+                form: {'item': {'content': req.body.content, 'star': star}},
+                headers: objectHeaders.headers({'Authorization': req.session.access_token})
+            }, function (error, response, body) {
+                if (!error && response.statusCode === 200) {
+                    try {
+                        res.redirect('/books/' + req.params.id + '#form-review');
+                    } catch (errorJSONParse) {
+                        res.status(response.statusCode).json(errorJSONParse);
+                    }
+                } else {
+                    var errorResponse = JSON.parse(body);
+                    res.status(response.statusCode).json(errorResponse.message.description);
+                }
+            });
+        }
+    });
+});
+
 
 module.exports = router;
