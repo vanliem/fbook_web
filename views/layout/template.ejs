@@ -40,7 +40,7 @@
 <%- include footer.ejs %>
 <!--End footer-->
 
-<!-- Vandor-JS -->
+<!-- Vendor-JS -->
 <script type="text/javascript">
     var API_PATH = "<%= configs.api_base_url %>";
 </script>
@@ -57,6 +57,7 @@
 <!-- Active-JS -->
 <script src="/javascripts/main.js"></script>
 <script src="/javascripts/books/search.js" type="text/javascript"></script>
+<script src="/bower/jquery-validation/dist/jquery.validate.min.js"></script>
 
 <% if(locals.appjs) { %>
 <%- appjs %>
