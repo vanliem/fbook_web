@@ -19,15 +19,33 @@ router.get('/', function(req, res, next) {
                     var data = JSON.parse(body);
 
                     if (data.hasOwnProperty('access_token')) {
-                        req.session.access_token = data.access_token;
+                        request({
+                            url: req.configs.api_base_url + 'user-profile',
+                            headers: objectHeaders.headers({'Authorization': data.access_token})
+                        }, function (error, response, body) {
+                            if (!error && response.statusCode === 200) {
+                                try {
+                                    var user = JSON.parse(body);
+                                    req.session.name = user.item.name;
+                                    req.session.email = user.item.email;
+                                    req.session.avatar = user.item.avatar;
+                                    req.flash('info', 'Login success!!!');
 
-                        res.redirect('home');
+                                    res.redirect('home');
+                                } catch (errsorJSONParse) {
+                                    res.json('Login fail');
+                                }
+                            } else {
+                                res.json('Login fail');
+                            }
+                        });
+
                     }
                 } catch (errorJSONParse) {
-                    res.json("Login fail");
+                    res.json('Login fail');
                 }
             } else {
-                res.json("Login fail");
+                res.json('Login fail');
             }
         });
     } else {

@@ -5,8 +5,9 @@ var util = require('util');
 var async = require('async');
 var objectHeaders = require('../helpers/headers');
 var authorize = require('../middlewares/authorize');
+var localSession = require('../middlewares/localSession');
 
-router.get('/', function (req, res, next) {
+router.get('/', localSession, function (req, res, next) {
     req.checkQuery('field', 'Invalid field').notEmpty().isAlpha();
 
     req.getValidationResult().then(function (result) {
@@ -55,14 +56,18 @@ router.get('/', function (req, res, next) {
                 if (err) {
                     res.status(400).send(err);
                 } else {
-                    res.render('books/section', {field: field, section: results.section, categories: results.categories});
+                    res.render('books/section', {
+                        field: field,
+                        section: results.section,
+                        categories: results.categories,
+                    });
                 }
             });
         }
     });
 });
 
-router.get('/:id', function (req, res, next) {
+router.get('/:id', localSession, function (req, res, next) {
     req.checkParams('id', 'Invalid id').notEmpty().isInt();
     req.getValidationResult().then(function (result) {
         if (!result.isEmpty()) {
@@ -77,7 +82,11 @@ router.get('/:id', function (req, res, next) {
                     try {
                         var data = JSON.parse(body);
                         var messages = req.flash('errors');
-                        res.render('books/detail', {data: data, pageTitle: 'Chi tiết', access_token: req.session.access_token, messages: messages});
+                        res.render('books/detail', {
+                            data: data,
+                            pageTitle: 'Chi tiết',
+                            messages: messages
+                        });
                     } catch (errorJSONParse) {
                         res.status(400).json(errorJSONParse);
                     }
