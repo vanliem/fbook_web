@@ -5,11 +5,16 @@ var app = express();
 
 module.exports = {
     isAuthenticated: function (req, res, next) {
-        if (!req.session.access_token) {
+        if (!req.session.name || !req.session.email || !req.session.avatar) {
             res.send(401, 'Unauthenticated');
         }
 
-        res.locals.access_token = req.session.access_token;
+        res.locals.user = {
+            "name": req.session.name,
+            "email": req.session.email,
+            "avatar": req.session.avatar
+        };
+
         next();
     }
 };
