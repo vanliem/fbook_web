@@ -59,7 +59,7 @@
                         <ul class="list-inline list-unstyled rating-star">
                             <li class="active"><i class="icofont icofont-star"></i></li>
                         </ul>
-                        <p><%= data.item.avg_star %> / <%= configs.default_book_star %></p>
+                        <p><%= data.item.avg_star %> / <%= configs.book.default_star %></p>
                         <div class="space-20"></div>
                         <a href="books.html" class="btn btn-primary hover-btn-default">Booking</a>
                     </div>
@@ -101,7 +101,7 @@
                                                 <a href="javascript:void(0)"><h4 class="media-heading"><%= review.user.name %></h4></a>
                                                 <div class="space-10"></div>
                                                 <ul class="list-inline list-unstyled rating-star">
-                                                    <li class="active"><i class="icofont icofont-star"></i> <%= review.star %> / <%= configs.default_book_star %></li>
+                                                    <li class="active"><i class="icofont icofont-star"></i> <%= review.star %> / <%= configs.book.default_star %></li>
                                                 </ul>
                                                 <p><%= review.content %></p>
                                             </div>
@@ -210,6 +210,8 @@
 <script type="text/javascript">
     $('#form-review').validate();
 </script>
+<script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>
+
+<%- contentFor('appCss') %>
 <link href="/bower/bootstrap-star-rating/css/star-rating.css" rel="stylesheet" type="text/css">
 <link href="/bower/bootstrap-star-rating/css/theme-krajee-fa.css" rel="stylesheet" type="text/css">
-<script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>
