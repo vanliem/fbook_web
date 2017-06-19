@@ -128,27 +128,11 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
-                                    <div class="form-group">
-                                        <label class="radio-inline">
-                                            <input type="radio" name="star" value="1">1 Star
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="star" value="2">2 Star
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="star" value="3">3 Star
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="star" value="4">4 Star
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="star" value="5">5 Star
-                                        </label>
-                                    </div>
+                                <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" data-step="1" data-size="xs">
                                 </div>
                                 <div class="space-20"></div>
                                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
-                                    <button type="submit" class="btn btn-primary hover-btn-default">Create Account <i class="fa fa-long-arrow-right"></i></button>
+                                    <button type="submit" class="btn btn-primary hover-btn-default"> Review <i class="fa fa-long-arrow-right"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -226,3 +210,6 @@
 <script type="text/javascript">
     $('#form-review').validate();
 </script>
+<link href="/bower/bootstrap-star-rating/css/star-rating.css" rel="stylesheet" type="text/css">
+<link href="/bower/bootstrap-star-rating/css/theme-krajee-fa.css" rel="stylesheet" type="text/css">
+<script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>

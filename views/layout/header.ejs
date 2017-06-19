@@ -110,8 +110,13 @@
     <div class="space-100"></div>
     <div class="header-text">
         <% if (typeof info != 'undefined' && info != '') { %>
-            <div class="col-md-4 col-md-offset-4 alert alert-danger alert-dismissable fade in">
+            <div class="col-md-4 col-md-offset-4 alert alert-success alert-dismissable fade in">
                 <center> <strong> <%= info %> </strong> </center>
+            </div>
+        <% } %>
+        <% if (typeof error != 'undefined' && error != '') { %>
+            <div class="col-md-4 col-md-offset-4 alert alert-danger alert-dismissable fade in">
+                <center> <strong> <%= error %> </strong> </center>
             </div>
         <% } %>
         <div class="container">

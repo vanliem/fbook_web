@@ -19,6 +19,7 @@ router.get('/', function(req, res, next) {
                     var data = JSON.parse(body);
 
                     if (data.hasOwnProperty('access_token')) {
+                        req.session.access_token = data.access_token;
                         request({
                             url: req.configs.api_base_url + 'user-profile',
                             headers: objectHeaders.headers({'Authorization': data.access_token})
