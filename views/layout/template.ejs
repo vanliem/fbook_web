@@ -41,10 +41,13 @@
 <!--End footer-->
 
 <!-- Vendor-JS -->
+<script src="/bower/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
     var API_PATH = "<%= configs.api_base_url %>";
+    $.fn.andSelf = function() {
+        return this.addBack.apply(this, arguments);
+    }
 </script>
-<script src="/bower/jquery/dist/jquery.min.js"></script>
 <script src="/bower/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- Plugin-JS -->
 <script src="/javascripts/owl.carousel.min.js"></script>
