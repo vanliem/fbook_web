@@ -50,12 +50,34 @@ router.get('/', function (req, res, next) {
                             callback(null, null);
                         }
                     });
-                }
+                },
+                conditions: function (callback) {
+                    request({
+                        url: req.configs.api_base_url + 'books/sort-by',
+                        headers: objectHeaders.headers
+                    }, function (error, response, body) {
+                        if (!error && response.statusCode === 200) {
+                            try {
+                                var conditions = JSON.parse(body);
+                                callback(null, conditions);
+                            } catch (errorJSONParse) {
+                                callback(null, null);
+                            }
+                        } else {
+                            callback(null, null);
+                        }
+                    });
+                },
             }, function (err, results) {
                 if (err) {
                     res.status(400).send(err);
                 } else {
-                    res.render('books/section', {field: field, section: results.section, categories: results.categories});
+                    res.render('books/section', {
+                        field: field,
+                        section: results.section,
+                        categories: results.categories,
+                        conditions: results.conditions
+                    });
                 }
             });
         }

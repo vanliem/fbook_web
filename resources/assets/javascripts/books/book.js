@@ -32,6 +32,30 @@ Book.loadMoreAtSectionPage = function (field, page) {
     });
 };
 
+
+Book.listBooksByCondition = function () {
+    $.ajax({
+        url: API_PATH + 'books/?field=' + field + '&page=' + page,
+        contentType: 'application/json',
+        dataType: 'json',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        method: 'POST'
+    }).done(function (response) {
+        response.item.data.forEach(function (book) {
+            $('.row .ajax-book-content').append(scope.generateBookXhtml(book));
+        });
+
+        if (response.item.next_page !== null) {
+            $('.btn-loadmore-book').attr('data-next-page', response.item.next_page);
+        } else {
+            $('.btn-loadmore-book').addClass('hidden');
+        }
+
+    }).fail(function (error) {
+        alert('error');
+    });
+};
+
 Book.generateBookXhtml = function (book) {
     var xhtml = '';
     xhtml += '<div class="col-xs-12 col-md-6">';
