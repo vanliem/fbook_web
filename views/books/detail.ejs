@@ -107,7 +107,9 @@
                                                 <a href="javascript:void(0)"><h4 class="media-heading"><%= review.user.name %></h4></a>
                                                 <div class="space-10"></div>
                                                 <ul class="list-inline list-unstyled rating-star">
-                                                    <li class="active"><i class="icofont icofont-star"></i> <%= review.star %> / <%= configs.book.default_star %></li>
+                                                <% for (var i=0; i<review.star; i++) { %>
+                                                    <li class="active"><i class="icofont icofont-star"></i></li>
+                                                <% } %>
                                                 </ul>
                                                 <p><%= review.content %></p>
                                             </div>
