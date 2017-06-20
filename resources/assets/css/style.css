@@ -106,9 +106,14 @@ input:-webkit-autofill:focus {
    outline: none;
 }
 
+.category-container {
+    padding-right: 0;
+}
+
 .search-result {
     max-height: 200px;
     overflow: auto;
+    padding-right: 0;
 }
 
 #data-search {

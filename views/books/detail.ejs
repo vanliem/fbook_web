@@ -49,7 +49,7 @@
                                     </div>
                                     <% } else { %>
                                     <div class="media-left">
-                                        <img src="/images/logo_framgia.png" class="media-object author-photo img-thumbnail" alt="library">
+                                        <img src="/images/logo_framgia.png" class="media-object author-photo background--white img-thumbnail" alt="library">
                                         <br>
                                         <h5> By Framgia </h5>
                                     </div>
@@ -97,9 +97,9 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <% if (review.user.avatar !== null) { %>
-                                                <img src="<%= review.user.avatar %>" class="media-object" alt="library">
+                                                <img src="<%= review.user.avatar %>" class="media-object w-70-h-70" alt="library">
                                                 <% } else { %>
-                                                <img src="/images/user/icon_user_default.png" class="media-object" alt="library">
+                                                <img src="/images/user/icon_user_default.png" class="media-object  w-70-h-70" alt="library">
                                                 <% } %>
                                             </div>
                                             <div class="media-body">
