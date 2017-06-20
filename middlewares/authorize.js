@@ -5,7 +5,7 @@ var app = express();
 
 module.exports = {
     isAuthenticated: function (req, res, next) {
-        if (!req.session.name || !req.session.email || !req.session.avatar) {
+        if (typeof req.session.name == 'undefined' || typeof req.session.email == 'undefined') {
             res.send(401, 'Unauthenticated');
         }
 

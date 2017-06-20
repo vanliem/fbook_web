@@ -4,7 +4,6 @@ var request = require('request');
 var util = require('util');
 var async = require('async');
 var objectHeaders = require('../helpers/headers');
-var authorize = require('../middlewares/authorize');
 var localSession = require('../middlewares/localSession');
 
 router.get('/', localSession, function (req, res, next) {
@@ -85,7 +84,9 @@ router.get('/:id', localSession, function (req, res, next) {
                         res.render('books/detail', {
                             data: data,
                             pageTitle: 'Chi tiết',
-                            messages: messages
+                            messages: messages,
+                            error: req.flash('error'),
+                            info: req.flash('info')
                         });
                     } catch (errorJSONParse) {
                         res.status(400).json(errorJSONParse);
@@ -99,7 +100,7 @@ router.get('/:id', localSession, function (req, res, next) {
     });
 });
 
-router.post('/review/:id', authorize.isAuthenticated, function (req, res, next) {
+router.post('/review/:id', function (req, res, next) {
     req.checkBody('content').notEmpty().len(1, 255);
 
     req.getValidationResult().then(function (result) {
@@ -107,7 +108,7 @@ router.post('/review/:id', authorize.isAuthenticated, function (req, res, next) 
             req.flash('errors', result.array());
             res.redirect('/books/' + req.params.id + '#form-review');
         } else {
-            var star = req.body.star ? req.body.star : 1;
+            var star = req.body.star != 0 ? req.body.star : 1;
             request.post({
                 url: req.configs.api_base_url + 'books/review/' + req.params.id,
                 form: {'item': {'content': req.body.content, 'star': star}},
@@ -115,18 +116,22 @@ router.post('/review/:id', authorize.isAuthenticated, function (req, res, next) 
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
                     try {
-                        res.redirect('/books/' + req.params.id + '#form-review');
+                        req.flash('info', 'Thank for your review');
+                        res.redirect('back');
                     } catch (errorJSONParse) {
-                        res.status(response.statusCode).json(errorJSONParse);
+                        res.redirect('back');
                     }
                 } else {
-                    var errorResponse = JSON.parse(body);
-                    res.status(response.statusCode).json(errorResponse.message.description);
+                    if (response.statusCode == 401) {
+                        res.redirect('../../login');
+                    } else {
+                        req.flash('error', 'Dont\'t allow review one more time');
+                        res.redirect('back');
+                    }
                 }
             });
         }
     });
 });
-
 
 module.exports = router;
