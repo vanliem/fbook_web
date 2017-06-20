@@ -67,4 +67,10 @@ app.use(function (err, req, res, next) {
 
 app.locals.configs = configs;
 
+getString = function (string, maxLength) {
+    if (typeof string !== 'undefined' && string) {
+        return string.length > maxLength ? string.substring(0, maxLength) + '...' : string;
+    }
+}
+
 module.exports = app;
