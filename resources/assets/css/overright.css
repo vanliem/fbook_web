@@ -180,3 +180,17 @@
 .media-body {
     padding: 5px;
 }
+
+.category-item.well {
+    height: 300px;
+    overflow: hidden;
+}
+
+.background--white {
+    background-color: white !important;
+}
+
+.w-70-h-70 {
+    width: 70px;
+    height: 70px;
+}
