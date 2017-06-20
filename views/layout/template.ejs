@@ -26,11 +26,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
     <script src="/bower/modernizr/modernizr.js"></script>
-    <%
-        getString = function (string, maxLength) {
-            return string.length > maxLength ? string.substring(0, maxLength) + '...' : string;
-        }
-    %>
     <% if(locals.appCss) { %>
     <%- appCss %>
     <% }%>

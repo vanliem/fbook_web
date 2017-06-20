@@ -41,13 +41,19 @@
                             <div class="col-xs-12 col-sm-8">
                                 <h4 class="tip-left">Author</h4>
                                 <div class="media">
-                                    <div class="media-left">
-                                        <img src="/images/user/icon_user_default.png" class="media-object author-photo img-thumbnail" alt="library">
-                                    </div>
+                                    <% if (typeof (data.item.author) != 'undefined' && data.item.author) { %>
                                     <div class="media-body">
+                                        <img src="/images/user_default.png" class="media-object author-photo img-thumbnail" alt="library">
+                                        <br>
                                         <h5><%= data.item.author %></h5>
-                                        <p>23 Books Created</p>
                                     </div>
+                                    <% } else { %>
+                                    <div class="media-left">
+                                        <img src="/images/logo_framgia.png" class="media-object author-photo img-thumbnail" alt="library">
+                                        <br>
+                                        <h5> By Framgia </h5>
+                                    </div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>

@@ -42,8 +42,16 @@
                                     <% } %>
                                 </div>
                                 <div class="media-body">
-                                    <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
-                                    <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
+                                    <% if (typeof (book.title) != 'undefined' && book.title) {%>
+                                        <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
+                                    <% } else {%>
+                                        <h6>No title</h6>
+                                    <% } %>
+                                    <% if (typeof (book.author) != 'undefined' && book.author) {%>
+                                        <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
+                                    <% } else {%>
+                                        <h6>By Framgia</h6>
+                                    <% } %>
                                     <div class="space-10"></div>
                                     <ul class="list-inline list-unstyled rating-star">
                                         <li class="active"><i class="icofont icofont-star"></i></li>
