@@ -53,10 +53,7 @@
                                         <h6>By Framgia</h6>
                                     <% } %>
                                     <div class="space-10"></div>
-                                    <ul class="list-inline list-unstyled rating-star">
-                                        <li class="active"><i class="icofont icofont-star"></i></li>
-                                        <strong><%= book.avg_star %> / <%= configs.book.default_star %></strong>
-                                    </ul>
+                                    <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value=<%= book.avg_star %> disabled="true" data-step="0.01" data-size="xs">
                                     <div class="space-10"></div>
                                     <p>
                                         <%= book.overview %>
@@ -118,3 +115,10 @@
         Book.loadMoreAtSectionPage(field, nextPage);
     });
 </script>
+
+<script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>
+
+<%- contentFor('appCss') %>
+<link href="/bower/bootstrap-star-rating/css/star-rating.css" rel="stylesheet" type="text/css">
+<link href="/bower/bootstrap-star-rating/css/theme-krajee-fa.css" rel="stylesheet" type="text/css">
+

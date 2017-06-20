@@ -8,8 +8,8 @@ var config = {
     auth_server_authorization_code_url: "http://auth.framgia.vn/auth/hr_system/access_token",
     book: {
         default_star: 5,
-        title_limit_characters: 15,
-        author_limit_characters: 10
+        title_limit_characters: 50,
+        author_limit_characters: 40
     }
 };
 
