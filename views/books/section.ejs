@@ -15,7 +15,7 @@
                                 <label class="control-label col-xs-4" for="sort">Sort By : </label>
                                 <div class="col-xs-8">
                                     <div class="form-group">
-                                        <select name="sort" id="sort" class="form-control">
+                                        <select name="sort" id="sort-book" class="form-control">
                                             <option value="">Best Match</option>
                                             <option value="">Best Book</option>
                                             <option value="">Latest Book</option>
@@ -42,18 +42,18 @@
                                     <% } %>
                                 </div>
                                 <div class="media-body">
-                                    <h5><%= (book.title.length > 20) ? book.title.substring(0, 20) + ' ...' : book.title %></h5>
-                                    <h6>By <%= book.author %></h6>
+                                    <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
+                                    <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
                                     <div class="space-10"></div>
                                     <ul class="list-inline list-unstyled rating-star">
                                         <li class="active"><i class="icofont icofont-star"></i></li>
-                                        <strong><%= book.avg_star %> / <%= configs.default_book_star %></strong>
+                                        <strong><%= book.avg_star %> / <%= configs.book.default_star %></strong>
                                     </ul>
                                     <div class="space-10"></div>
                                     <p>
                                         <%= book.overview %>
                                     </p>
-                                    <a href="/books/<%= book.id%>" class="text-primary">Xem chi tiết</a>
+                                    <a href="/books/<%= book.id %>" class="text-primary">Xem chi tiết</a>
                                 </div>
                             </div>
                         </div>

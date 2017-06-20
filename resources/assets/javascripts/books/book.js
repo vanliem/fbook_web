@@ -46,8 +46,12 @@ Book.generateBookXhtml = function (book) {
     }
     xhtml += '</div>';
     xhtml += '<div class="media-body">';
-    xhtml += '<h5>' + book.title.length > 20 ? book.title.substring(0, 20) + ' ...' : book.title + '</h5>';
-    xhtml += '<h6>' + book.author + '</h6>';
+
+    var bookTitle = (book.title.length) > 15 ? (book.title.substring(0, 15) + ' ...') : book.title;
+    xhtml += '<h5 title="'+ book.title +'">' + bookTitle + '</h5>';
+
+    var bookAuthor = (book.author.length) > 10 ? (book.author.substring(0, 10) + ' ...') : book.author;
+    xhtml += '<h6 title="'+ book.title +'">' + bookAuthor + '</h6>';
     xhtml += '<div class="space-10"></div>';
     xhtml += '<ul class="list-inline list-unstyled rating-star">';
     xhtml += '<li class="active"><i class="icofont icofont-star"></i></li>';
