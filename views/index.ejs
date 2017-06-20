@@ -29,8 +29,18 @@
                             <% } %>
                         </div>
                         <div class="media-body">
-                            <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
-                            <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
+                            <%
+                                var bookTitle = book.title.length > configs.book.title_limit_characters
+                                    ? book.title.substring(0, configs.book.title_limit_characters) + '...'
+                                    : book.title ;
+                            %>
+                            <h5 title="<%= book.title %>"><%= bookTitle %></h5>
+                            <%
+                                var bookAuthor = book.author.length > configs.book.author_limit_characters
+                                    ? book.author.substring(0, configs.book.author_limit_characters) + '...'
+                                    : book.author ;
+                            %>
+                            <h6 title="<%= book.author %>">By <%= bookAuthor %></h6>
                             <div class="space-10"></div>
                             <ul class="list-inline list-unstyled rating-star">
                                 <li class="active"><i class="icofont icofont-star"></i></li>
