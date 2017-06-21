@@ -71,6 +71,6 @@ getString = function (string, maxLength) {
     if (typeof string !== 'undefined' && string) {
         return string.length > maxLength ? string.substring(0, maxLength) + '...' : string;
     }
-}
+};
 
 module.exports = app;
