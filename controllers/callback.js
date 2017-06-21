@@ -40,7 +40,6 @@ router.get('/', function(req, res, next) {
                                 res.json('Login fail');
                             }
                         });
-
                     }
                 } catch (errorJSONParse) {
                     res.json('Login fail');
