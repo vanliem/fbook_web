@@ -65,6 +65,31 @@
 <script src="/javascripts/main.js"></script>
 <script src="/javascripts/books/search.js" type="text/javascript"></script>
 <script src="/bower/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/bower/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+<script>
+    function showNotify(type, message, option, setting) {
+        if (!!message) {
+            option.message = message;
+        }
+
+        if (!!type) {
+            setting.type = type;
+        }
+
+        $.notify(option, setting);
+    }
+</script>
+<% if (typeof info != 'undefined' && info != '') { %>
+    <script>
+        showNotify('success', "<%= info %>", {icon: "glyphicon glyphicon-ok"}, {delay: 1000})
+    </script>
+<% } %>
+
+<% if (typeof error != 'undefined' && error != '') { %>
+    <script>
+        showNotify('danger', "<%= error %>", {icon: "glyphicon glyphicon-remove"}, {delay: 2000})
+    </script>
+<% } %>
 
 <% if(locals.appjs) { %>
 <%- appjs %>
