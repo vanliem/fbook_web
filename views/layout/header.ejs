@@ -32,13 +32,13 @@
                 <!--Toggle-button-->
 
                 <!--Active User-->
-                <% if (typeof user.name !== 'undefined' && user.name) { %>
+                <% if (typeof user != 'undefined' && typeof user.name !== 'undefined' && user.name) { %>
                     <div class="nav navbar-right">
                     <div class="active-user navbar-left active">
                         <ul class="list-unstyled">
                             <li>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <% if (typeof user.avatar !== 'undefined' && user.avatar) { %>
+                                    <% if (typeof user != 'undefined' && typeof user.avatar !== 'undefined' && user.avatar) { %>
                                         <img src="<%= user.avatar %>" class="img-circle img-thumbnail" alt="library" />
                                     <% }
                                     else { %>
@@ -47,7 +47,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#"> <span><i class="icofont icofont-user"></i></span> Profile</a>
+                                        <a href="/users/profile"> <span><i class="icofont icofont-user"></i></span> Profile</a>
                                     </li>
                                     <li>
                                         <a href="#"> <span><i class="icofont icofont-notification"></i></span> Notifications</a>
@@ -89,7 +89,7 @@
                         <li>
                             <a href="books.html">Books</a>
                         </li>
-                        <% if (typeof user.name !== 'undefined' && user.name) { %>
+                        <% if (typeof user != 'undefined' && typeof user.name !== 'undefined' && user.name) { %>
                             <li>
                                 <a href="#"><%= user.name %></a>
                             </li>

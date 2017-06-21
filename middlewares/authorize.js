@@ -6,13 +6,13 @@ var app = express();
 module.exports = {
     isAuthenticated: function (req, res, next) {
         if (typeof req.session.name == 'undefined' || typeof req.session.email == 'undefined') {
-            res.send(401, 'Unauthenticated');
+            return res.redirect('back');
         }
 
         res.locals.user = {
-            "name": req.session.name,
-            "email": req.session.email,
-            "avatar": req.session.avatar
+            'name': req.session.name,
+            'email': req.session.email,
+            'avatar': req.session.avatar
         };
 
         next();

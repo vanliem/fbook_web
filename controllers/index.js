@@ -15,7 +15,8 @@ router.get('/', localSession, function (req, res, next) {
                 res.render('index', {
                     data: data,
                     pageTitle: 'Trang chủ',
-                    info: req.flash('info')
+                    info: req.flash('info'),
+                    error: req.flash('error'),
                 });
             } catch (errorJSONParse) {
                 res.status(400).json(errorJSONParse);
