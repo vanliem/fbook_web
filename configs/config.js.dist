@@ -10,6 +10,9 @@ var config = {
         default_star: 5,
         title_limit_characters: 50,
         author_limit_characters: 40
+    },
+    user: {
+        category_name: 30
     }
 };
 

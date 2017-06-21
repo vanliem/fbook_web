@@ -1,0 +1,56 @@
+<section class="relative fix" id="sc3">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
+                <br>
+                <h2>User profile</h2>
+                <div class="title-bar blue">
+                    <ul class="list-inline list-unstyled">
+                        <li><i class="icofont icofont-square"></i></li>
+                        <li><i classs="icofont icofont-square"></i></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 book-list-position padding60">
+                <button type="button" class="btn-save btn btn-info">Save</button>
+                <div class="rows">
+                    <% categories.items.forEach(function (category) {%>
+                        <div class="col-md-6 list-category">
+                        <span class="button-checkbox">
+                            <button type="button" class="btn-category btn-block btn-sm" data-color="info"><%= getString(category.name, configs.user.category_name) %></button>
+                            <input type="checkbox" class="hidden"/>
+                        </span>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+            <div class="col-xs-12 pull-right col-md-6 padding60 wow fadeInRight">
+                <div class="book_item">
+                    <% if (typeof data.avatar != 'undefined' && data.avatar) { %>
+                        <img class="img-profile" src="<%= data.avatar %>" alt="library">
+                    <% } else { %>
+                        <img class="img-profile" src="/images/user_default.png" alt="library">
+                    <% } %>
+                </div>
+                <div class="book-content">
+                    <div class="book-details-item">
+                        <h4 class="tip-left">Name</h4>
+                        <p class="lead"><%= data.name %></p>
+                        <h4 class="tip-left">Email</h4>
+                        <p class="lead"><%= data.email %></p>
+                        <h4 class="tip-left">Phone</h4>
+                        <p class="lead"><%= data.phone %></p>
+                        <h4 class="tip-left">Code</h4>
+                        <p class="lead"><%= data.code %></p>
+                        <h4 class="tip-left">Position</h4>
+                        <p class="lead"><%= data.position %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<%- contentFor('appjs') %>
+<script src="/javascripts/users/list_category.js" type="text/javascript"></script>

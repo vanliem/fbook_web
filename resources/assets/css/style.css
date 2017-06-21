@@ -143,3 +143,20 @@ input:-webkit-autofill:focus {
 #data-search li a:hover:not(.header) {
     background-color: #eee; /* Add a hover effect to all links, except for headers */
 }
+
+.btn-category {
+    text-align: left;
+}
+
+.list-category {
+    margin-top: 5px;
+}
+
+.img-profile {
+    width: 250px;
+    margin-bottom: 20px;
+}
+
+.btn-save {
+    margin-left: 15px;
+}
