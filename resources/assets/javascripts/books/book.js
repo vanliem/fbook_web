@@ -42,7 +42,7 @@ Book.generateBookXhtml = function (book) {
     if (typeof(book.image.web.thumbnail_path) !== 'undefined') {
         xhtml += '<img src="'+ book.image.web.thumbnail_path +'" class="media-object" alt="">';
     } else {
-        xhtml += '<img src="/images/book_thumb_default.jpg" class="media-object" alt="">';
+        xhtml += '<img src="/image/book/thumb-default" class="media-object" alt="">';
     }
     xhtml += '</div>';
     xhtml += '<div class="media-body">';

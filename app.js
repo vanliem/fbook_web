@@ -13,6 +13,7 @@ var configs = require('./configs/config');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var books = require('./routes/books');
+var images = require('./routes/images');
 var authentication = require('./routes/authentication');
 
 var app = express();
@@ -44,6 +45,7 @@ app.use(function (req, res, next) {
 index(app);
 users(app);
 books(app);
+images(app);
 authentication.login(app);
 authentication.callback(app);
 authentication.logout(app);
