@@ -18,7 +18,7 @@
         <div class="row">
             <% if (section.data.length > 0 ) { %>
             <% section.data.forEach(function (book, index) { %>
-            <div class="col-xs-12 col-md-6 wow fadeInLeft" data-wow-delay="0.<%= index + 1 %>s">
+            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.<%= index + 1 %>s">
                 <div class="category-item well yellow">
                     <div class="media">
                         <div class="media-left">
@@ -34,7 +34,7 @@
                             <% } else {%>
                                 <h6>No title</h6>
                             <% } %>
-                            <% if (typeof (book.author) != 'undefined' && book.author) {%>
+                            <% if (typeof (book.author) != 'undefined' && book.author) { %>
                                 <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
                             <% } else {%>
                                 <h6>By Framgia</h6>
@@ -44,7 +44,7 @@
                             <p>
                                 <%= book.overview %>
                             </p>
-                            <a href="/books/<%= book.id %>" class="text-primary">Xem chi tiết</a>
+                            <a href="/books/<%= book.id %>" class="text-primary">View detail</a>
                         </div>
                     </div>
                 </div>
@@ -65,6 +65,60 @@
 </section>
 <!--End section-->
 <% }) %>
+
+<% if (typeof(suggestedBooks) != 'undefined' && suggestedBooks) { %>
+    <div class="space-40"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
+                    <h2><strong>Suggested books</strong></h2>
+                    <div class="title-bar blue">
+                        <ul class="list-inline list-unstyled">
+                            <li><i class="icofont icofont-square"></i></li>
+                            <li><i class="icofont icofont-square"></i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="space-20"></div>s
+    <div class="container">
+        <% suggestedBooks.items.data.forEach(function (book) { %>
+        <div class="col-xs-12 col-md-4">
+            <div class="category-item well yellow">
+                <div class="media">
+                    <div class="media-left">
+                        <% if (book.image !== null) { %>
+                        <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="">
+                        <% } else { %>
+                        <img src="/images/book_thumb_default.jpg" class="media-object" alt="">
+                        <% } %>
+                    </div>
+                    <div class="media-body">
+                        <% if (typeof (book.title) != 'undefined' && book.title) { %>
+                            <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
+                        <% } else {%>
+                            <h6>No title</h6>
+                        <% } %>
+                        <% if (typeof (book.author) != 'undefined' && book.author) { %>
+                            <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
+                        <% } else {%>
+                            <h6>By Framgia</h6>
+                        <% } %>
+                        <div class="space-10"></div>
+                        <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value=<%= book.avg_star %> disabled="true" data-step="0.01" data-size="xs">
+                        <div class="space-10"></div>
+                        <p>
+                            <%= book.overview %>
+                        </p>
+                        <a href="/books/<%= book.id %>" class="text-primary">View detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+<% } %>
 
 <%- contentFor('appjs') %>
 <script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>

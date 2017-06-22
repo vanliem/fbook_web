@@ -3,7 +3,11 @@ $(document).ready(function() {
         e.preventDefault();
         var interestedCategoryIds = [];
         var categoryIds = $('.hide-categoryIds').data('categoryIds');
-        var accessToken = $('.hide-categoryIds').data('accessToken');
+        if (typeof(access_token) === 'undefined') {
+            showNotify('danger', 'Update interested categories fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+
+            return false;
+        }
 
         for (var i=0; i< categoryIds.length; i++) {
             if ($("#category" + i).is(":checked")) {
@@ -18,7 +22,7 @@ $(document).ready(function() {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': accessToken,
+                'Authorization': access_token,
             },
             type: 'POST',
             data: JSON.stringify({

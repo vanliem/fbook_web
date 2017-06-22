@@ -62,7 +62,6 @@ router.get('/profile', authorize.isAuthenticated, function(req, res, next) {
                 categories: results.categories,
                 interestedCategoryIds: interestedCategoryIds,
                 categoryIds: categoryIds,
-                accessToken: req.session.access_token,
             });
         }
     });

@@ -10,6 +10,7 @@ module.exports = {
         }
 
         res.locals.user = req.session.user;
+        res.locals.access_token = req.session.access_token;
 
         next();
     }
