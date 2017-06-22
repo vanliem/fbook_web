@@ -3,11 +3,11 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-md-10 pull-right">
-                <h3><%= field %> books</h3>
+                <h3>CATEGORY_NAME</h3>
                 <div class="space-30"></div>
                 <div class="row">
                     <div class="pull-left col-xs-12 col-sm-5 col-md-6">
-                        <p>Books in <%= field%></p>
+                        <p>Books in CATEGORY_NAME </p>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-7 col-md-6">
                         <form class="form-horizontal">
@@ -30,26 +30,26 @@
                 <hr>
                 <div class="space-20"></div>
                 <div class="row ajax-book-content">
-                    <% section.item.data.forEach(function (book) { %>
+                    <% books.items.data.forEach(function (book) { %>
                     <div class="col-xs-12 col-md-6">
                         <div class="category-item well yellow">
                             <div class="media">
                                 <div class="media-left">
                                     <% if (book.image !== null) { %>
-                                    <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="">
+                                        <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="">
                                     <% } else { %>
-                                    <img src="/images/book_thumb_default.jpg" class="media-object" alt="">
+                                        <img src="/images/book_thumb_default.jpg" class="media-object" alt="">
                                     <% } %>
                                 </div>
                                 <div class="media-body">
-                                    <% if (typeof (book.title) != 'undefined' && book.title) {%>
+                                    <% if (typeof (book.title) != 'undefined' && book.title) { %>
                                         <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
-                                    <% } else {%>
+                                    <% } else { %>
                                         <h6>No title</h6>
                                     <% } %>
-                                    <% if (typeof (book.author) != 'undefined' && book.author) {%>
+                                    <% if (typeof (book.author) != 'undefined' && book.author) { %>
                                         <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
-                                    <% } else {%>
+                                    <% } else { %>
                                         <h6>By Framgia</h6>
                                     <% } %>
                                     <div class="space-10"></div>
@@ -58,7 +58,7 @@
                                     <p>
                                         <%= book.overview %>
                                     </p>
-                                    <a href="/books/<%= book.id %>" class="text-primary">Xem chi tiết</a>
+                                    <a href="/books/<%= book.id %>" class="text-primary">View detail</a>
                                 </div>
                             </div>
                         </div>
@@ -66,11 +66,17 @@
                     <% }) %>
                 </div>
                 <div class="space-60"></div>
+                <% if (books.items.next_page !== null) { %>
                 <div class="row">
                     <div class="col-xs-12 text-center">
-                        <a href="javascript:void(0)" class="btn btn-warning btn-xs btn-loadmore-book" data-field="<%= field %>" data-next-page="<%= section.item.next_page %>">More</a>
+                        <a href="javascript:void(0)"
+                           class="btn btn-warning btn-xs btn-loadmore-book"
+                           data-category-id="<%= categoryId %>"
+                           data-next-page="<%= books.items.next_page %>">More
+                        </a>
                     </div>
                 </div>
+                <% } %>
             </div>
             <!-- Sidebar-Start -->
             <div class="col-xs-12 col-md-2">
@@ -82,7 +88,7 @@
                         <hr>
                         <ul class="list-unstyled menu-tip">
                             <% categories.items.forEach(function (category) { %>
-                            <li><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
+                                <li><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
                             <% }) %>
                         </ul>
                     </div>
@@ -108,11 +114,13 @@
 
 <%- contentFor('appjs') %>
 <script src="/javascripts/books/book.js" type="text/javascript"></script>
+
 <script type="text/javascript">
     $('.btn-loadmore-book').on('click', function () {
         var nextPage = $(this).attr('data-next-page');
-        var field = $(this).attr('data-field');
-        Book.loadMoreAtSectionPage(field, nextPage);
+        var categoryId = $(this).attr('data-category-id');
+
+        Book.loadMoreAtListBooksByCategoryPage(categoryId, nextPage);
     });
 </script>
 

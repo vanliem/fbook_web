@@ -100,6 +100,65 @@ router.get('/:id', localSession, function (req, res, next) {
     });
 });
 
+
+router.get('/category/:category_id', function (req, res, next) {
+    req.checkParams('category_id', 'Invalid category').notEmpty().isInt();
+
+    req.getValidationResult().then(function (result) {
+        if (!result.isEmpty()) {
+            res.status(400).send('There have been validation errors: ' + util.inspect(result.array()));
+            return;
+        } else {
+            async.parallel({
+                books: function (callback) {
+                    request({
+                        url: req.configs.api_base_url + 'books/category/' + req.params.category_id,
+                        headers: objectHeaders.headers
+                    }, function (error, response, body) {
+                        if (!error && response.statusCode === 200) {
+                            try {
+                                var books = JSON.parse(body);
+                                callback(null, books);
+                            } catch (errorJSONParse) {
+                                callback(null, null);
+                            }
+                        } else {
+                            callback(null, null);
+                        }
+                    });
+                },
+                categories: function (callback) {
+                    request({
+                        url: req.configs.api_base_url + 'categories',
+                        headers: objectHeaders.headers
+                    }, function (error, response, body) {
+                        if (!error && response.statusCode === 200) {
+                            try {
+                                var categories = JSON.parse(body);
+                                callback(null, categories);
+                            } catch (errorJSONParse) {
+                                callback(null, null);
+                            }
+                        } else {
+                            callback(null, null);
+                        }
+                    });
+                }
+            }, function (err, results) {
+                if (err) {
+                    res.redirect('back');
+                } else {
+                    res.render('books/category', {
+                        books: results.books,
+                        categories: results.categories,
+                        categoryId: req.params.category_id
+                    });
+                }
+            });
+        }
+    });
+});
+
 router.post('/review/:id', function (req, res, next) {
     req.checkBody('content').notEmpty().len(1, 255);
 
