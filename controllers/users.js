@@ -47,10 +47,22 @@ router.get('/profile', authorize.isAuthenticated, function(req, res, next) {
 
             return res.redirect('../home');
         } else {
+            categoryIds = results.categories.items.map(function(category) {
+                return category.id;
+            });
+            var interestedCategoryIds;
+
+            if (results.user.item.tags) {
+                interestedCategoryIds = results.user.item.tags.split(",");
+            }
+
             res.render('users/profile', {
                 data: results.user.item,
                 pageTitle: 'User profile',
                 categories: results.categories,
+                interestedCategoryIds: interestedCategoryIds,
+                categoryIds: categoryIds,
+                accessToken: req.session.access_token,
             });
         }
     });

@@ -26,6 +26,8 @@ $(document).on('keyup', '#search-book', function (e) {
             } else {
                 $('#data-search').append('<li><a href="#">Not found</a></li>');
             }
+        }).fail(function (error) {
+            $('#data-search').empty();
         });
     }
 });

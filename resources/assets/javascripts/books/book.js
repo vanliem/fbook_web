@@ -28,7 +28,7 @@ Book.loadMoreAtSectionPage = function (field, page) {
         }
 
     }).fail(function (error) {
-        alert('error');
+        showNotify('danger', "Dont't allow load more books", {icon: "glyphicon glyphicon-remove"}, {delay: 1000});
     });
 };
 
