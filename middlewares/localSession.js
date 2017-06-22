@@ -1,11 +1,8 @@
 var session = require('express-session');
 
 localSession = function(req, res, next) {
-    res.locals.user = {
-        "name": req.session.name,
-        "email": req.session.email,
-        "avatar": req.session.avatar
-    };
+    res.locals.user = req.session.user;
+    res.locals.access_token = req.session.access_token;
 
     next();
 };

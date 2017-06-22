@@ -48,6 +48,13 @@
 <script src="/bower/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
     var API_PATH = "<%= configs.api_base_url %>";
+    var access_token, user = null;
+
+    <% if(typeof(locals.access_token) !== 'undefined') { %>
+        access_token = "<%= locals.access_token %>";
+        user = JSON.parse('<%- JSON.stringify(locals.user) %>');
+    <% } %>
+
     $.fn.andSelf = function() {
         return this.addBack.apply(this, arguments);
     }
@@ -93,7 +100,7 @@
 
 <% if(locals.appjs) { %>
 <%- appjs %>
-<% }%>
+<% } %>
 
 </body>
 

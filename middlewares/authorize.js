@@ -5,15 +5,11 @@ var app = express();
 
 module.exports = {
     isAuthenticated: function (req, res, next) {
-        if (typeof req.session.name == 'undefined' || typeof req.session.email == 'undefined') {
+        if (typeof req.session.user === 'undefined' || typeof req.session.access_token === 'undefined') {
             return res.redirect('back');
         }
 
-        res.locals.user = {
-            'name': req.session.name,
-            'email': req.session.email,
-            'avatar': req.session.avatar
-        };
+        res.locals.user = req.session.user;
 
         next();
     }

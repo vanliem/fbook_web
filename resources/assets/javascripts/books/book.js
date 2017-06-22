@@ -67,3 +67,74 @@ Book.generateBookXhtml = function (book) {
 
     return xhtml;
 };
+
+Book.booking = function (bookId, status) {
+    if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
+        showNotify('danger', 'Please login before booking', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        return false;
+    }
+    var data = JSON.stringify({
+        item : {
+            book_id: bookId,
+            status: status
+        }
+    });
+
+    $.ajax({
+        url: API_PATH + 'books/booking/' + bookId,
+        dataType: 'json',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': access_token},
+        method: 'POST',
+        data: data
+    }).done(function () {
+        $('#booking-book').addClass('disabled');
+
+        var xhtml = '';
+        xhtml += '<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">';
+        xhtml += '<div class="event-item wow fadeInRight">';
+        xhtml += '<div class="well">';
+        xhtml += '<div class="media">';
+        xhtml += '<div class="media-left">';
+
+        if (user.avatar !== null) {
+            xhtml += '<img src="'+ user.avatar +'" class="media-object" alt="library">';
+        } else {
+            xhtml += '<img src="/images/user/icon_user_default.png" class="media-object" alt="library">';
+        }
+        xhtml += '</div>';
+        xhtml += '<div class="media-body">';
+        xhtml += '<div class="space-10"></div>';
+        xhtml += '<a href="books.html"><h4 class="media-heading">'+ user.name +'</h4></a>';
+        xhtml += '<div class="space-10"></div>';
+        xhtml += '<p>'+ user.name +'</p>';
+        xhtml += '</div>';
+        xhtml += '</div>';
+        xhtml += '</div>';
+        xhtml += '</div>';
+        xhtml += '<div class="space-20"></div>';
+        xhtml += '</div>';
+
+        if (status == 1) {
+            $('#user_waiting').find('.event-list').append(xhtml);
+        } else if (status == 2) {
+            $('#user_reading').find('.event-list').append(xhtml);
+        } else {
+            location.reload();
+        }
+
+        showNotify('success', 'Booking success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+
+    }).fail(function (error) {
+        var msg = '';
+        if (typeof(error.responseJSON.message.description) !== 'undefined') {
+            error.responseJSON.message.description.forEach(function (err) {
+                msg += err;
+            });
+        } else {
+            msg = 'Don\'t allow booking this book';
+        }
+
+        showNotify('dangder', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    });
+};
+

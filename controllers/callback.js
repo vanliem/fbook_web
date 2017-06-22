@@ -27,9 +27,7 @@ router.get('/', function(req, res, next) {
                             if (!error && response.statusCode === 200) {
                                 try {
                                     var user = JSON.parse(body);
-                                    req.session.name = user.item.name;
-                                    req.session.email = user.item.email;
-                                    req.session.avatar = user.item.avatar;
+                                    req.session.user = user.item;
                                     req.flash('info', 'Login success!!!');
 
                                     res.redirect('home');
