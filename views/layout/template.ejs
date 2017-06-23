@@ -83,6 +83,10 @@
             setting.type = type;
         }
 
+        if (typeof setting.offset === 'undefined' || setting.offset === null) {
+            setting.offset = {x: 50, y: 80};
+        }
+
         $.notify(option, setting);
     }
 </script>
