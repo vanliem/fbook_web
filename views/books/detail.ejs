@@ -142,16 +142,28 @@
                             <form action="/books/review/<%= data.item.id %>" id="form-review" method="post">
                                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
                                     <div class="form-group">
-                                        <label for="content">Content</label>
-                                        <textarea name="content" id="content" class="form-control bg-info" cols="50" rows="5" placeholder="Enter your review..." required></textarea>
+                                        <% if (typeof(dataReview) != 'undefined' && dataReview && typeof(user) != 'undefined' && typeof(dataReview.user) != 'undefined' && dataReview.user.id == user.id
+                                        ) { %>
+                                            <textarea name="content" id="content" class="form-control bg-info" cols="50" rows="5"placeholder="Enter your review..." required> <%= dataReview.content%> </textarea>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" data-step="1" value=<%= dataReview.star %> data-size="xs">
+                                            </div>
+                                        <% } else { %>
+                                            <textarea name="content" id="content" class="form-control bg-info" cols="50" rows="5" placeholder="Enter your review..." required></textarea>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" data-step="1" data-size="xs">
+                                            </div>
+                                        <% } %>
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
-                                <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" data-step="1" data-size="xs">
                                 </div>
                                 <div class="space-20"></div>
                                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
-                                    <button type="submit" class="btn btn-primary hover-btn-default"> Review <i class="fa fa-long-arrow-right"></i></button>
+                                    <% if (typeof(dataReview) != 'undefined' && dataReview && typeof(user) != 'undefined' && typeof(dataReview.user) != 'undefined' && dataReview.user.id == user.id
+                                        ) { %>
+                                        <button type="submit" class="btn btn-primary hover-btn-default"> Edit review <i class="fa fa-long-arrow-right"></i></button>
+                                    <% } else { %>
+                                        <button type="submit" class="btn btn-primary hover-btn-default"> Review <i class="fa fa-long-arrow-right"></i></button>
+                                    <% } %>
                                 </div>
                             </form>
                         </div>
@@ -193,9 +205,9 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <% if (user.avatar !== null) { %>
-                                                <img src="<%= user.avatar %>" class="media-object" alt="library">
+                                                    <img src="<%= user.avatar %>" class="media-object w-70-h-70" alt="library">
                                                 <% } else { %>
-                                                <img src="/images/user/icon_user_default.png" class="media-object" alt="library">
+                                                    <img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">
                                                 <% } %>
                                             </div>
                                             <div class="media-body">

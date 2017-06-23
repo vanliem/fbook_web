@@ -71,23 +71,25 @@ Book.generateBookXhtml = function (book) {
     xhtml += '</div>';
     xhtml += '<div class="media-body">';
 
-    var bookTitle = (book.title.length) > 15 ? (book.title.substring(0, 15) + ' ...') : book.title;
+    var bookTitle = (book.title.length) > configs.book.title_limit_characters
+     ? (book.title.substring(0, configs.book.title_limit_characters) + ' ...') : book.title;
     xhtml += '<h5 title="'+ book.title +'">' + bookTitle + '</h5>';
 
-    var bookAuthor = (book.author.length) > 10 ? (book.author.substring(0, 10) + ' ...') : book.author;
+    var bookAuthor = (book.author.length) > configs.book.author_limit_characters ? (book.author.substring(0, configs.book.author_limit_characters) + ' ...') : book.author;
     xhtml += '<h6 title="'+ book.title +'">' + bookAuthor + '</h6>';
     xhtml += '<div class="space-10"></div>';
-    xhtml += '<ul class="list-inline list-unstyled rating-star">';
-    xhtml += '<li class="active"><i class="icofont icofont-star"></i></li>';
-    xhtml += '<strong>'+ book.avg_star +' / 10</strong>';
+    xhtml += '<input id="rating-book" name="star" class="rating" disabled="true" value="' + book.avg_star + '"data-size="xs">';
     xhtml += '</ul>';
     xhtml += '<div class="space-10"></div>';
     xhtml += '<p>'+ book.overview +'</p>';
-    xhtml += '<a href="/books/'+ book.id +'" class="text-primary">Xem chi tiết</a>';
+    xhtml += '<a href="/books/'+ book.id +'" class="text-primary">View detail</a>';
     xhtml += '</div>';
     xhtml += '</div>';
     xhtml += '</div>';
     xhtml += '</div>';
+    xhtml += '<script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>';
+    xhtml += '<link href="/bower/bootstrap-star-rating/css/star-rating.css" rel="stylesheet" type="text/css">';
+    xhtml += '<link href="/bower/bootstrap-star-rating/css/theme-krajee-fa.css" rel="stylesheet" type="text/css">';
 
     return xhtml;
 };

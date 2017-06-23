@@ -55,6 +55,8 @@
         user = JSON.parse('<%- JSON.stringify(locals.user) %>');
     <% } %>
 
+    var configs = JSON.parse('<%- JSON.stringify(configs) %>');
+
     $.fn.andSelf = function() {
         return this.addBack.apply(this, arguments);
     }
