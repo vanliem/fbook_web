@@ -65,17 +65,18 @@
                         <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value=<%= data.item.avg_star %> disabled="true" data-step="0.01" data-size="xs">
                         <div class="space-20"></div>
                         <% if (data.item.status === 1) { %>
-                            <% if (
-                                typeof(user) !== 'undefined' &&
-                                typeof(data.item.user_reading_book) !== 'undefined' &&
-                                data.item.user_reading_book.length > 0  &&
-                                user.id === data.item.user_reading_book[0].id) {
+                            <%
+                            if (
+                                typeof(user) !== 'undefined'
+                                && data.item.user_reading_book !== null
+                                && user.id === data.item.user_reading_book.id
+                            ) {
                             %>
-                            <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="3">Return Book</button>
+                                <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="3">Return Book</button>
                             <% } else { %>
                             <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="2">Booking</button>
                             <% } %>
-                        <%  } else { %>
+                        <%  } else if (data.item.status === 0) { %>
                             <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="1">Add to Waiting</button>
                         <% } %>
                     </div>
@@ -158,31 +159,27 @@
                     <div class="tab-pane fade" id="user_reading">
                         <div class="row event-list">
                             <% if (data.item.user_reading_book !== null) { %>
-                            <% data.item.user_reading_book.forEach(function (user) { %>
                             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
                                 <div class="event-item wow fadeInRight">
                                     <div class="well">
                                         <div class="media">
                                             <div class="media-left">
-                                                <% if (user.avatar !== null) { %>
-                                                <img src="<%= user.avatar %>" class="media-object" alt="library">
+                                                <% if (data.item.user_reading_book.avatar !== null) { %>
+                                                <img src="<%= data.item.user_reading_book.avatar %>" class="media-object" alt="library">
                                                 <% } else { %>
                                                 <img src="/images/user/icon_user_default.png" class="media-object" alt="library">
                                                 <% } %>
                                             </div>
                                             <div class="media-body">
                                                 <div class="space-10"></div>
-                                                <a href="books.html"><h4 class="media-heading"><%= user.name %></h4></a>
+                                                <a href="#"><h4 class="media-heading"><%= data.item.user_reading_book.name %></h4></a>
                                                 <div class="space-10"></div>
-                                                <p><%= user.name %></p>
-
+                                                <p><%= data.item.user_reading_book.name %></p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="space-20"></div>
                             </div>
-                            <% }) %>
                             <% } %>
                         </div>
                     </div>
