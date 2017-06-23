@@ -160,3 +160,7 @@ input:-webkit-autofill:focus {
 .btn-save {
     margin-left: 15px;
 }
+
+.caption, .clear-rating {
+    display: none !important;
+}
