@@ -97,6 +97,7 @@ Book.booking = function (bookId, status) {
         showNotify('danger', 'Please login before booking', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
         return false;
     }
+
     var data = JSON.stringify({
         item : {
             book_id: bookId,
@@ -105,14 +106,12 @@ Book.booking = function (bookId, status) {
     });
 
     $.ajax({
-        url: API_PATH + 'books/booking/' + bookId,
+        url: API_PATH + 'books/booking',
         dataType: 'json',
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': access_token},
         method: 'POST',
         data: data
     }).done(function () {
-        $('#booking-book').addClass('disabled');
-
         var xhtml = '';
         xhtml += '<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">';
         xhtml += '<div class="event-item wow fadeInRight">';
@@ -140,10 +139,17 @@ Book.booking = function (bookId, status) {
 
         if (status == 1) {
             $('#user_waiting').find('.event-list').append(xhtml);
+            $('#booking-book').attr('data-status', 4);
+            $('#booking-book').html('Cancel Waiting');
         } else if (status == 2) {
             $('#user_reading').find('.event-list').append(xhtml);
+            $('#booking-book').attr('data-status', 3);
+            $('#booking-book').html('Return Book');
         } else {
-            location.reload();
+            setTimeout(function() {
+                showNotify('success', 'Booking success', {icon: 'glyphicon glyphicon-ok'}, {delay: 2000});
+                location.reload();
+            }, 2000);
         }
 
         showNotify('success', 'Booking success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
