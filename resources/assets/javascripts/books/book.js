@@ -169,4 +169,3 @@ Book.booking = function (bookId, status) {
         showNotify('dangder', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
     });
 };
-

@@ -59,6 +59,8 @@ router.get('/', localSession, function (req, res, next) {
                         field: field,
                         section: results.section,
                         categories: results.categories,
+                        error: req.flash('error'),
+                        info: req.flash('info'),
                     });
                 }
             });
@@ -105,11 +107,12 @@ router.get('/:id', localSession, function (req, res, next) {
                             dataReview: dataReview,
                         });
                     } catch (errorJSONParse) {
-                        res.status(400).json(errorJSONParse);
+                        req.flash('error', 'Don\'t allow show this book');
+                        res.redirect('back');
                     }
                 } else {
-                    var errorResponse = JSON.parse(body);
-                    res.status(400).json(errorResponse.message.description);
+                    req.flash('error', 'Don\'t allow show this book');
+                    res.redirect('back');
                 }
             });
         }
