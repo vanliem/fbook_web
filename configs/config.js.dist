@@ -13,6 +13,14 @@ var config = {
     },
     user: {
         category_name: 30
+    },
+    book_user: {
+        status: {
+            "waiting": 1,
+            "reading": 2,
+            "done": 3,
+            "cancel_waiting": 4
+        }
     }
 };
 
