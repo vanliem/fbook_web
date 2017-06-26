@@ -28,7 +28,7 @@ Book.loadMoreAtSectionPage = function (field, page) {
         }
 
     }).fail(function (error) {
-        showNotify('danger', "Dont't allow load more books", {icon: "glyphicon glyphicon-remove"}, {delay: 1000});
+        showNotify('danger', "Don't allow load more books", {icon: "glyphicon glyphicon-remove"}, {delay: 1000});
     });
 };
 
@@ -52,7 +52,7 @@ Book.loadMoreAtListBooksByCategoryPage = function (categoryId, page) {
         }
 
     }).fail(function (error) {
-        showNotify('error', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
     });
 };
 
@@ -122,9 +122,9 @@ Book.booking = function (bookId, status) {
         xhtml += '<div class="media-left">';
 
         if (user.avatar !== null) {
-            xhtml += '<img src="'+ user.avatar +'" class="media-object" alt="library">';
+            xhtml += '<img src="'+ user.avatar +'" class="media-object w-70-h-70" alt="library">';
         } else {
-            xhtml += '<img src="/images/user/icon_user_default.png" class="media-object" alt="library">';
+            xhtml += '<img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">';
         }
         xhtml += '</div>';
         xhtml += '<div class="media-body">';
@@ -166,6 +166,6 @@ Book.booking = function (bookId, status) {
             msg = 'Don\'t allow booking this book';
         }
 
-        showNotify('dangder', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
     });
 };

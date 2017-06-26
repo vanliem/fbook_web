@@ -198,3 +198,11 @@
 [data-notify="container"][class*="alert-"] {
     width: 300px;
 }
+
+.error {
+    color: red;
+}
+
+.has-error .form-control {
+    border-color: red !important;
+}
