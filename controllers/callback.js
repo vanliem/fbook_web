@@ -28,22 +28,30 @@ router.get('/', function(req, res, next) {
                                 try {
                                     var user = JSON.parse(body);
                                     req.session.user = user.item;
-                                    req.flash('info', 'Login success!!!');
+                                    req.flash('info', 'Login success');
 
-                                    res.redirect('home');
+                                    if (req.header('Referer') == req.configs.url_sign_in_auth_server) {
+                                        return res.redirect('home');
+                                    }
+
+                                    res.redirect('back');
                                 } catch (errsorJSONParse) {
-                                    res.json('Login fail');
+                                    req.flash('error', 'Login fail');
+                                    res.redirect('home');
                                 }
                             } else {
-                                res.json('Login fail');
+                                req.flash('error', 'Login fail');
+                                res.redirect('home');
                             }
                         });
                     }
                 } catch (errorJSONParse) {
-                    res.json('Login fail');
+                    req.flash('error', 'Login fail');
+                    res.redirect('home');
                 }
             } else {
-                res.json('Login fail');
+                req.flash('error', 'Login fail');
+                res.redirect('home');
             }
         });
     } else {
