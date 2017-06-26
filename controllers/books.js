@@ -80,13 +80,29 @@ router.get('/:id', localSession, function (req, res, next) {
                 if (!error && response.statusCode === 200) {
                     try {
                         var data = JSON.parse(body);
+                        var dataReview = null;
+
+                        if (
+                            typeof(data.item.reviews_detail_book) != 'undefined'
+                            && data.item.reviews_detail_book
+                        ) {
+                            data.item.reviews_detail_book.forEach (function (review) {
+                                if (typeof(req.session.user) != 'undefined' && review.user.id == req.session.user.id) {
+                                    dataReview = review;
+
+                                    return;
+                                }
+                            });
+                        }
+
                         var messages = req.flash('errors');
                         res.render('books/detail', {
                             data: data,
                             pageTitle: 'Chi tiết',
                             messages: messages,
                             error: req.flash('error'),
-                            info: req.flash('info')
+                            info: req.flash('info'),
+                            dataReview: dataReview,
                         });
                     } catch (errorJSONParse) {
                         res.status(400).json(errorJSONParse);
@@ -184,7 +200,7 @@ router.post('/review/:id', function (req, res, next) {
                     if (response.statusCode == 401) {
                         res.redirect('../../login');
                     } else {
-                        req.flash('error', 'Dont\'t allow review one more time');
+                        req.flash('error', 'Dont\'t allow review this book');
                         res.redirect('back');
                     }
                 }
