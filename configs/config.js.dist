@@ -11,7 +11,11 @@ var config = {
     book: {
         default_star: 5,
         title_limit_characters: 30,
-        author_limit_characters: 20
+        author_limit_characters: 20,
+        status: {
+            "unavailable": 0,
+            "available": 1
+        }
     },
     user: {
         category_name: 30

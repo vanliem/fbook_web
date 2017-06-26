@@ -99,7 +99,7 @@ Book.booking = function (bookId, status) {
         showNotify('danger', 'Please login before booking', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
         return false;
     }
-
+    var scope = this;
     var data = JSON.stringify({
         item : {
             book_id: bookId,
@@ -114,44 +114,40 @@ Book.booking = function (bookId, status) {
         method: 'POST',
         data: data
     }).done(function () {
-        var xhtml = '';
-        xhtml += '<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">';
-        xhtml += '<div class="event-item wow fadeInRight">';
-        xhtml += '<div class="well">';
-        xhtml += '<div class="media">';
-        xhtml += '<div class="media-left">';
+        var buttonBooking = $('#booking-book');
+        var userWaitings = $('#user_waiting .event-list');
+        var userReading = $('#user_reading .event-list');
+        var bookUserStatus = configs.book_user.status;
+        var xhtml = scope.generateUserXhtml(user);
 
-        if (user.avatar !== null) {
-            xhtml += '<img src="'+ user.avatar +'" class="media-object w-70-h-70" alt="library">';
-        } else {
-            xhtml += '<img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">';
-        }
-        xhtml += '</div>';
-        xhtml += '<div class="media-body">';
-        xhtml += '<div class="space-10"></div>';
-        xhtml += '<a href="books.html"><h4 class="media-heading">'+ user.name +'</h4></a>';
-        xhtml += '<div class="space-10"></div>';
-        xhtml += '<p>'+ user.name +'</p>';
-        xhtml += '</div>';
-        xhtml += '</div>';
-        xhtml += '</div>';
-        xhtml += '</div>';
-        xhtml += '<div class="space-20"></div>';
-        xhtml += '</div>';
+        $('section:eq(1)').find('#user-'+ user.id).remove();
 
-        if (status == 1) {
-            $('#user_waiting').find('.event-list').append(xhtml);
-            $('#booking-book').attr('data-status', 4);
-            $('#booking-book').html('Cancel Waiting');
-        } else if (status == 2) {
-            $('#user_reading').find('.event-list').append(xhtml);
-            $('#booking-book').attr('data-status', 3);
-            $('#booking-book').html('Return Book');
-        } else {
-            setTimeout(function() {
-                showNotify('success', 'Booking success', {icon: 'glyphicon glyphicon-ok'}, {delay: 2000});
-                location.reload();
-            }, 2000);
+        switch (parseInt(status)) {
+            case bookUserStatus.waiting:
+                userWaitings.append(xhtml);
+                buttonBooking.attr('data-status', bookUserStatus.cancel_waiting).html('Cancel Waiting');
+                break;
+
+            case bookUserStatus.reading:
+                userReading.append(xhtml);
+                buttonBooking.attr('data-status', bookUserStatus.done).html('Return Book');
+                break;
+
+            case bookUserStatus.done:
+                if (userReading.length > 0) {
+                    buttonBooking.html('Add to Waiting');
+                } else if (userWaitings.find('.event-list').length > 0) {
+                    buttonBooking.html('Add to Reading');
+                }
+                break;
+
+            case bookUserStatus.cancel_waiting:
+                if (userReading.length > 0) {
+                    buttonBooking.html('Add to Waiting');
+                } else if (userWaitings.length > 0) {
+                    buttonBooking.html('Add to Reading');
+                }
+                break;
         }
 
         showNotify('success', 'Booking success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
@@ -168,4 +164,33 @@ Book.booking = function (bookId, status) {
 
         showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
     });
+};
+
+Book.generateUserXhtml = function (user) {
+    var xhtml = '';
+    xhtml += '<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9" id="user-'+ user.id +'">';
+    xhtml += '<div class="event-item wow fadeInRight">';
+    xhtml += '<div class="well">';
+    xhtml += '<div class="media">';
+    xhtml += '<div class="media-left">';
+
+    if (user.avatar !== null) {
+        xhtml += '<img src="'+ user.avatar +'" class="media-object w-70-h-70" alt="library">';
+    } else {
+        xhtml += '<img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">';
+    }
+    xhtml += '</div>';
+    xhtml += '<div class="media-body">';
+    xhtml += '<div class="space-10"></div>';
+    xhtml += '<a href="#"><h4 class="media-heading">'+ user.name +'</h4></a>';
+    xhtml += '<div class="space-10"></div>';
+    xhtml += '<p>'+ user.name +'</p>';
+    xhtml += '</div>';
+    xhtml += '</div>';
+    xhtml += '</div>';
+    xhtml += '</div>';
+    xhtml += '<div class="space-20"></div>';
+    xhtml += '</div>';
+
+    return xhtml;
 };
