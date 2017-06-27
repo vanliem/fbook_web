@@ -1,4 +1,4 @@
-<section class="relative fix" id="sc3">
+<section class="relative fix">
     <div class="container">
         <div class="space-50"></div>
         <div class="row">
@@ -65,47 +65,45 @@
                         <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value=<%= data.item.avg_star %> disabled="true" data-step="0.01" data-size="xs">
                         <div class="space-20"></div>
                         <% if (typeof user !== 'undefined') { %>
-                            <% if (data.item.status === 0) { %>
+                            <% var userReading = data.item.user_reading_book; %>
+                            <% var userWaitings = data.item.users_waiting_book; %>
+                            <% var bookStatus = data.item.status; %>
+
+                            <% if (bookStatus === configs.book.status.unavailable) { %>
                                 <%
-                                    if (
-                                        data.item.user_reading_book !== null
-                                        && user.id === data.item.user_reading_book.id
-                                    ) {
+                                if (userReading !== null && user.id === userReading.id) {
                                 %>
-                                        <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.done %>">Return Book</button>
+                                    <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.status.done %>">Return Book</button>
                                 <%
-                                    } else if (
-                                            data.item.user_reading_book !== null
-                                            && data.item.users_waiting_book.length === 0
-                                    ) {
+                                } else if (userReading !== null && userWaitings.length === 0) {
                                 %>
-                                    <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.waiting %>">Add to Waiting</button>
+                                    <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.status.waiting %>">Add to Waiting</button>
                                 <% } %>
 
                                 <%
-                                    if (data.item.users_waiting_book.length > 0) {
+                                    if (userWaitings.length > 0) {
                                         var flag = true;
-                                        data.item.users_waiting_book.forEach(function (user_waiting) {
-                                            if (user.id === user_waiting.id) {
+                                        for(var i = 0; i < userWaitings.length; i++) {
+                                            if (user.id === userWaitings[i].id) {
                                                 flag = false;
                                 %>
                                                 <button
                                                     class="btn btn-primary hover-btn-default btn-xs"
                                                     id="booking-book" data-id="<%= data.item.id %>"
-                                                    data-status="3">Cancel Waiting
+                                                    data-status="<%= configs.book_user.status.cancel_waiting %>">Cancel Waiting
                                                 </button>
+                                            <% break; %>
                                             <% } %>
-                                        <% }) %>
-
-                                        <% if (flag) { %>
-                                            <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.waiting %>">Add to Waiting</button>
+                                        <% } %>
+                                        <% if (flag && userReading !== null && user.id !== userReading.id) { %>
+                                            <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.status.waiting %>">Add to Waiting</button>
                                         <% } %>
                                     <% } %>
-                            <% } else if (data.item.status === 1) { %>
-                                <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.reading %>">Add to Reading</button>
+                            <% } else if (bookStatus === configs.book.status.available) { %>
+                                <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.status.reading %>">Add to Reading</button>
                             <% } %>
                         <% } else { %>
-                            <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.reading %>">Add to Reading</button>
+                            <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= configs.book_user.status.reading %>">Add to Reading</button>
                         <% } %>
                     </div>
                 </div>
@@ -113,7 +111,7 @@
         </div>
     </div>
 </section>
-<section class="relative" id="sc5">
+<section class="relative"">
     <div class="container">
         <div class="panel">
             <div class="panel-heading">
@@ -225,9 +223,9 @@
                     </div>
                     <div class="tab-pane fade" id="user_waiting">
                         <div class="row event-list">
-                            <% if (data.item.users_waiting_book) { %>
+                            <% if (data.item.users_waiting_book.length > 0) { %>
                             <% data.item.users_waiting_book.forEach(function (user) { %>
-                            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
+                            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9" id="user-<%= user.id %>">
                                 <div class="event-item wow fadeInRight">
                                     <div class="well">
                                         <div class="media">
