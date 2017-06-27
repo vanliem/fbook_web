@@ -3,11 +3,11 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-md-10 pull-right">
-                <h3>CATEGORY_NAME</h3>
+                <h3><%= books.items.data.length > 0 ? books.items.data[0].category.name : '' %></h3>
                 <div class="space-30"></div>
                 <div class="row">
                     <div class="pull-left col-xs-12 col-sm-5 col-md-6">
-                        <p>Books in CATEGORY_NAME </p>
+                        <p>Books in <%= books.items.data.length > 0 ? books.items.data[0].category.name : '' %> </p>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-7 col-md-6">
                         <form class="form-horizontal">

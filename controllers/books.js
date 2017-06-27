@@ -82,29 +82,73 @@ router.get('/:id', localSession, function (req, res, next) {
                 if (!error && response.statusCode === 200) {
                     try {
                         var data = JSON.parse(body);
-                        var dataReview = null;
+                        var currentUserReview = null;
+                        var btnBooking = {
+                            'text': 'Add to Reading',
+                            'data_status': req.configs.book_user.status.reading
+                        };
 
-                        if (
-                            typeof(data.item.reviews_detail_book) != 'undefined'
-                            && data.item.reviews_detail_book
-                        ) {
-                            data.item.reviews_detail_book.forEach (function (review) {
-                                if (typeof(req.session.user) != 'undefined' && review.user.id == req.session.user.id) {
-                                    dataReview = review;
+                        if (typeof req.session.user !== 'undefined') {
+                            var userReading = data.item.user_reading_book;
+                            var userWaitings = data.item.users_waiting_book;
+                            var bookStatus = data.item.status;
 
-                                    return;
+                            if (data.item.reviews_detail_book.length > 0) {
+                                data.item.reviews_detail_book.forEach (function (review) {
+                                    if (review.user.id === req.session.user.id) {
+                                        currentUserReview = review;
+                                        return;
+                                    }
+                                });
+                            }
+
+                            if (bookStatus === req.configs.book.status.unavailable) {
+                                if (userReading !== null) {
+                                    if (req.session.user.id === userReading.id) {
+                                        btnBooking = {
+                                            'text': 'Return Book',
+                                            'data_status': req.configs.book_user.status.done
+                                        };
+                                    } else if (userWaitings.length === 0) {
+                                        btnBooking = {
+                                            'text': 'Add to Waiting',
+                                            'data_status': req.configs.book_user.status.waiting
+                                        };
+                                    }
                                 }
-                            });
+
+                                if (userWaitings.length > 0) {
+                                    var flag = true;
+                                    userWaitings.forEach(function (userWaiting) {
+                                        if (userWaiting.id === req.session.user.id) {
+                                            flag = false;
+                                            btnBooking = {
+                                                'text': 'Cancel Waiting',
+                                                'data_status': req.configs.book_user.status.cancel_waiting
+                                            };
+                                            return;
+                                        }
+                                    });
+
+                                    if (flag && userReading !== null && req.session.user.id !== userReading.id) {
+                                        btnBooking = {
+                                            'text': 'Add to Waiting',
+                                            'data_status': req.configs.book_user.status.waiting
+                                        };
+                                    }
+                                }
+                            }
                         }
 
                         var messages = req.flash('errors');
+                        data.item.btn_booking = btnBooking;
+                        data.item.current_user_review = currentUserReview;
                         res.render('books/detail', {
                             data: data,
                             pageTitle: 'Chi tiết',
                             messages: messages,
                             error: req.flash('error'),
-                            info: req.flash('info'),
-                            dataReview: dataReview,
+                            info: req.flash('info')
                         });
                     } catch (errorJSONParse) {
                         req.flash('error', 'Don\'t allow show this book');
