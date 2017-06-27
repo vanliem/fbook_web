@@ -119,6 +119,7 @@ Book.booking = function (bookId, status) {
         var userReading = $('#user_reading .event-list');
         var bookUserStatus = configs.book_user.status;
         var xhtml = scope.generateUserXhtml(user);
+        var action = buttonBooking.text();
 
         $('section:eq(1)').find('#user-'+ user.id).remove();
 
@@ -134,23 +135,27 @@ Book.booking = function (bookId, status) {
                 break;
 
             case bookUserStatus.done:
-                if (userReading.length > 0) {
-                    buttonBooking.html('Add to Waiting');
-                } else if (userWaitings.find('.event-list').length > 0) {
-                    buttonBooking.html('Add to Reading');
+                if (userReading.children().length > 0) {
+                    buttonBooking.attr('data-status', bookUserStatus.waiting).html('Add to Waiting');
+                } else if (userWaitings.children().length > 0) {
+                    buttonBooking.attr('data-status', bookUserStatus.reading).html('Add to Reading');
+                } else {
+                    buttonBooking.attr('data-status', bookUserStatus.reading).html('Add to Reading');
                 }
                 break;
 
             case bookUserStatus.cancel_waiting:
-                if (userReading.length > 0) {
-                    buttonBooking.html('Add to Waiting');
-                } else if (userWaitings.length > 0) {
-                    buttonBooking.html('Add to Reading');
+                if (userReading.children().length > 0) {
+                    buttonBooking.attr('data-status', bookUserStatus.waiting).html('Add to Waiting');
+                } else if (userWaitings.children().length > 0) {
+                    buttonBooking.attr('data-status', bookUserStatus.reading).html('Add to Reading');
+                } else {
+                    buttonBooking.attr('data-status', bookUserStatus.reading).html('Add to Reading');
                 }
                 break;
         }
 
-        showNotify('success', 'Booking success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+        showNotify('success', action +' success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
 
     }).fail(function (error) {
         var msg = '';
