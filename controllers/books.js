@@ -201,9 +201,10 @@ router.post('/review/:id', function (req, res, next) {
                     }
                 } else {
                     if (response.statusCode == 401) {
-                        res.redirect('../../login');
+                        req.flash('error', 'Please login to review this book');
+                        res.redirect('back');
                     } else {
-                        req.flash('error', 'Dont\'t allow review this book');
+                        req.flash('error', 'Don\'t allow review this book');
                         res.redirect('back');
                     }
                 }

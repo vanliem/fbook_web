@@ -262,7 +262,17 @@
 <%- contentFor('appjs') %>
 <script src="/javascripts/books/book.js" type="text/javascript"></script>
 <script type="text/javascript">
-    $('#form-review').validate();
+    $('#form-review').validate({highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+    },
+    errorElement: 'p',
+        errorClass: 'error',
+        errorPlacement: function(error, element) {
+        error.insertAfter(element);
+    }});
 
     $('#booking-book').on('click', function (e) {
         var status = $(this).attr('data-status');
