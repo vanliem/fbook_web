@@ -6,6 +6,8 @@ var app = express();
 module.exports = {
     isAuthenticated: function (req, res, next) {
         if (typeof req.session.user === 'undefined' || typeof req.session.access_token === 'undefined') {
+            req.flash('error', 'Please login');
+
             return res.redirect('back');
         }
 

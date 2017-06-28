@@ -15,12 +15,18 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-md-6 book-list-position padding60">
-                <button type="button" class="btn-save btn btn-info">Save</button>
+                <% if (userId === user.id) { %>
+                    <button type="button" class="btn-save btn btn-info">Save</button>
+                <% } %>
                 <div class="rows">
                     <% categories.items.forEach(function (category) { %>
                         <div class="col-md-6 list-category">
                         <span class="button-checkbox">
-                            <button type="button" class="btn-category btn-block btn-sm" data-color="info"><%= getString(category.name, configs.user.category_name) %></button>
+                            <% if (userId === user.id) { %>
+                                <button type="button" class="btn-category btn-block btn-sm" data-color="info"><%= getString(category.name, configs.user.category_name) %></button>
+                            <% } else { %>
+                                <button type="button" disabled class="btn-category btn-block btn-sm" data-color="info"><%= getString(category.name, configs.user.category_name) %></button>
+                            <% } %>
                             <% if (typeof(interestedCategoryIds) != 'undefined') { %>
                                 <% var isInterested = false; %>
                                 <% interestedCategoryIds.forEach (function (categoryId) {%>
