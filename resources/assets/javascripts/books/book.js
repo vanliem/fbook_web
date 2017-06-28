@@ -199,3 +199,36 @@ Book.generateUserXhtml = function (user) {
 
     return xhtml;
 };
+
+Book.sortBooksBy = function (data) {
+    var scope = this;
+    var body = JSON.stringify({
+        sort : {
+            field: data.sortBy,
+            order_by: data.orderBy
+        }
+    });
+
+    $.ajax({
+        url: API_PATH + 'books/filters?field='+ data.field +'&page='+ data.currentPage,
+        dataType: 'json',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        method: 'POST',
+        data: body
+    }).done(function (results) {
+        if (results.item.data.length > 0) {
+            var elementBookContent = $('.row .ajax-book-content');
+            var xhtml = '';
+            elementBookContent.empty();
+
+            results.item.data.forEach(function (book) {
+                xhtml += scope.generateBookXhtml(book);
+            });
+            elementBookContent.html(xhtml);
+
+            showNotify('success', 'Sort success', {icon: 'glyphicon glyphicon-ok'}, {delay: 2000});
+        }
+    }).fail(function (error) {
+        showNotify('danger', 'Sort error', {icon: 'glyphicon glyphicon-remove'}, {delay: 2000});
+    });
+};
