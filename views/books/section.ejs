@@ -3,23 +3,30 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-md-10 pull-right">
-                <h3><%= field %> books</h3>
-                <div class="space-30"></div>
+                <h3><i class="icofont icofont-book"></i> <%= field %> books</h3>
+                <div class="space-10"></div>
                 <div class="row">
                     <div class="pull-left col-xs-12 col-sm-5 col-md-6">
-                        <p>Books in <%= field%></p>
+                        <i>Books for <span class="text-primary">"<%= field %>"</span></i>
+                        <p><strong><%= section.item.per_page %></strong> of <strong><%= section.item.total %></strong> Book Found</p>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-7 col-md-6">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label class="control-label col-xs-4" for="sort">Sort By : </label>
-                                <div class="col-xs-8">
+                                <label class="control-label col-xs-4" for="sort">Sort By <i class="icofont icofont-sort"></i></label>
+                                <div class="col-xs-6">
                                     <div class="form-group">
                                         <select name="sort" id="sort-book" class="form-control">
-                                            <option value="">Best Match</option>
-                                            <option value="">Best Book</option>
-                                            <option value="">Latest Book</option>
-                                            <option value="">Old Book</option>
+                                            <optgroup label="Order By Desc" data-order-by="desc">
+                                            <% sortBookBy.items.forEach(function (condition) { %>
+                                                <option value="<%= condition.field %>"><%= condition.text %></option>
+                                            <% }) %>
+                                            </optgroup>
+                                            <optgroup label="Order By Asc"  data-order-by="asc">
+                                            <% sortBookBy.items.forEach(function (condition) { %>
+                                                <option value="<%= condition.field %>"><%= condition.text %></option>
+                                            <% }) %>
+                                            </optgroup>
                                         </select>
                                     </div>
                                 </div>
@@ -42,14 +49,14 @@
                                     <% } %>
                                 </div>
                                 <div class="media-body">
-                                    <% if (typeof (book.title) != 'undefined' && book.title) {%>
+                                    <% if (typeof (book.title) != 'undefined' && book.title) { %>
                                         <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
-                                    <% } else {%>
+                                    <% } else { %>
                                         <h6>No title</h6>
                                     <% } %>
-                                    <% if (typeof (book.author) != 'undefined' && book.author) {%>
+                                    <% if (typeof (book.author) != 'undefined' && book.author) { %>
                                         <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
-                                    <% } else {%>
+                                    <% } else { %>
                                         <h6>By Framgia</h6>
                                     <% } %>
                                     <div class="space-10"></div>
@@ -68,7 +75,7 @@
                 <div class="space-60"></div>
                 <div class="row">
                     <div class="col-xs-12 text-center">
-                        <a href="javascript:void(0)" class="btn btn-warning btn-xs btn-loadmore-book" data-field="<%= field %>" data-next-page="<%= section.item.next_page %>">More</a>
+                        <a href="javascript:void(0)" class="btn btn-warning btn-xs btn-loadmore-book" data-field="<%= field %>" data-next-page="<%= section.item.next_page %>" data-current-page="<%= section.item.current_page %>">More</a>
                     </div>
                 </div>
             </div>
@@ -80,23 +87,16 @@
                     <div class="sigle-sidebar">
                         <h4>Category</h4>
                         <hr>
-                        <ul class="list-unstyled menu-tip">
-                            <% categories.items.forEach(function (category) { %>
-                            <li><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
+                        <ul class="list-unstyled menu-tip category-sidebar">
+                            <% categories.items.forEach(function (category, index) { %>
+                                <% if (index <= 9) { %>
+                                    <li><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
+                                <% } else { %>
+                                    <li class="hidden"><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
+                                <% } %>
                             <% }) %>
                         </ul>
-                    </div>
-                    <div class="space-20"></div>
-                    <div class="sigle-sidebar">
-                        <h4>Rating</h4>
-                        <hr>
-                        <ul class="list-inline list-unstyled rating-star">
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                        </ul>
+                        <a href="#" class="btn btn-primary btn-xs" id="btn-loadmore-category">See All</a>
                     </div>
                 </aside>
             </div>
@@ -113,6 +113,28 @@
         var nextPage = $(this).attr('data-next-page');
         var field = $(this).attr('data-field');
         Book.loadMoreAtSectionPage(field, nextPage);
+    });
+
+    $('#sort-book').on('change', function (e) {
+        var sortBy = $('#sort-book').val();
+        var orderBy = $('#sort-book :selected').parent().attr('data-order-by');
+        var field = $('.btn-loadmore-book').attr('data-field');
+        var currentPage = $('.btn-loadmore-book').attr('data-current-page');
+
+        var data = {
+            field: field,
+            currentPage: currentPage,
+            sortBy: sortBy,
+            orderBy: orderBy
+        };
+
+        Book.sortBooksBy(data);
+    });
+
+    $('#btn-loadmore-category').on('click', function (e) {
+        e.preventDefault();
+        $('.category-sidebar li.hidden').removeClass('hidden');
+        $('#btn-loadmore-category').addClass('hidden');
     });
 </script>
 
