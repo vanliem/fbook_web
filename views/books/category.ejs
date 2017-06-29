@@ -1,14 +1,14 @@
-<section>
+<section data-category-id="<%= books.item.category.id %>">
     <div class="space-80"></div>
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-md-10 pull-right">
-                <h3><i class="icofont icofont-book"></i><%= books.items.category.name %></h3>
+                <h3><i class="icofont icofont-book"></i><%= books.item.category.name %></h3>
                 <div class="space-30"></div>
                 <div class="row">
                     <div class="pull-left col-xs-12 col-sm-5 col-md-6">
-                        <i>Books for <span class="text-primary">"<%= books.items.category.name %>"</span></i>
-                        <p><strong><%= books.items.category.data.length %></strong> of <strong><%= books.items.total %></strong> Book Found</p>
+                        <i>Books for <span class="text-primary">"<%= books.item.category.name %>"</span></i>
+                        <p><strong><%= books.item.category.data.length %></strong> of <strong><%= books.item.total %></strong> Book Found</p>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-7 col-md-6">
                         <form class="form-horizontal">
@@ -37,7 +37,7 @@
                 <hr>
                 <div class="space-20"></div>
                 <div class="row ajax-book-content">
-                    <% books.items.category.data.forEach(function (book) { %>
+                    <% books.item.category.data.forEach(function (book) { %>
                     <div class="col-xs-12 col-md-6">
                         <div class="category-item well yellow">
                             <div class="media">
@@ -73,14 +73,13 @@
                     <% }) %>
                 </div>
                 <div class="space-60"></div>
-                <% if (books.items.next_page !== null) { %>
+                <% if (books.item.next_page !== null) { %>
                 <div class="row">
                     <div class="col-xs-12 text-center">
                         <a href="javascript:void(0)"
                            class="btn btn-warning btn-xs btn-loadmore-book"
-                           data-category-id="<%= books.items.category.id %>"
-                           data-current-page="<%= books.items.current_page %>"
-                           data-next-page="<%= books.items.next_page %>">More
+                           data-current-page="<%= books.item.current_page %>"
+                           data-next-page="<%= books.item.next_page %>">More
                         </a>
                     </div>
                 </div>
@@ -117,26 +116,32 @@
 
 <script type="text/javascript">
     $('.btn-loadmore-book').on('click', function () {
-        var nextPage = $(this).attr('data-next-page');
-        var categoryId = $(this).attr('data-category-id');
+        var nextPage = $(this).attr('data-next-page') !== undefined ? $(this).attr('data-next-page') : 1;
+        var categoryId = $('section').attr('data-category-id');
+        if (categoryId === undefined) {
+            location.reload();
+        }
 
-        Book.loadMoreAtListBooksByCategoryPage(categoryId, nextPage);
+        Book.loadMoreBook({categoryId: categoryId, nextPage: nextPage});
     });
 
     $('#sort-book').on('change', function () {
         var sortBy = $('#sort-book').val();
-        var orderBy = $('#sort-book :selected').parent().attr('data-order-by');
-        var categoryId = $('.btn-loadmore-book').attr('data-category-id');
-        var currentPage = $('.btn-loadmore-book').attr('data-current-page');
-
+        var categoryId = $('section').attr('data-category-id');
+        var orderBy = $('#sort-book :selected').parent().attr('data-order-by') !== undefined ? $('#sort-book :selected').parent().attr('data-order-by'): 'desc';
+        var currentPage = $('.btn-loadmore-book').attr('data-current-page') !== undefined ?
+            $('.btn-loadmore-book').attr('data-current-page') : 1;
         var data = {
             categoryId: categoryId,
-            currentPage: currentPage,
             sortBy: sortBy,
-            orderBy: orderBy
+            orderBy: orderBy,
+            currentPage: currentPage
         };
+        if (categoryId === undefined || sortBy === undefined) {
+            location.reload();
+        }
 
-        Book.ajaxSortBookAtListBookByCategory(data);
+        Book.ajaxSortBook(data);
     });
 
     $('#btn-loadmore-category').on('click', function (e) {

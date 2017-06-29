@@ -8,50 +8,45 @@ Book.handle = function () {
 
 };
 
-Book.loadMoreAtSectionPage = function (field, page) {
+Book.loadMoreBook = function (data) {
     var scope = this;
+    var url = data.field !== undefined ?
+        API_PATH + 'books/?field=' + data.field + '&page=' + data.nextPage
+        : API_PATH + 'books/category/' + data.categoryId + '/?page=' + data.nextPage;
+
     $.ajax({
-        url: API_PATH + 'books/?field=' + field + '&page=' + page,
+        url: url,
         contentType: 'application/json',
         dataType: 'json',
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
         method: 'GET'
     }).done(function (response) {
-        response.item.data.forEach(function (book) {
-            $('.row .ajax-book-content').append(scope.generateBookXhtml(book));
-        });
+        if (data.field !== undefined) {
+            response.item.data.forEach(function (book) {
+                $('.row .ajax-book-content').append(scope.generateBookXhtml(book));
+            });
+        } else {
+            response.item.category.data.forEach(function (book) {
+                $('.row .ajax-book-content').append(scope.generateBookXhtml(book));
+            });
+        }
 
         if (response.item.next_page !== null) {
             $('.btn-loadmore-book').attr('data-next-page', response.item.next_page);
         } else {
-            $('.btn-loadmore-book').addClass('hidden');
+            $('.btn-loadmore-book').remove();
         }
 
-    }).fail(function (error) {
-        showNotify('danger', "Don't allow load more books", {icon: "glyphicon glyphicon-remove"}, {delay: 1000});
-    });
-};
-
-Book.loadMoreAtListBooksByCategoryPage = function (categoryId, page) {
-    var scope = this;
-    $.ajax({
-        url: API_PATH + 'books/category/' + categoryId + '/?page=' + page,
-        contentType: 'application/json',
-        dataType: 'json',
-        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-        method: 'GET'
-    }).done(function (response) {
-        response.item.data.forEach(function (book) {
-            $('.row .ajax-book-content').append(scope.generateBookXhtml(book));
-        });
-
-        if (response.item.next_page !== null) {
-            $('.btn-loadmore-book').attr('data-next-page', response.item.next_page);
+    }).fail(function (errors) {
+        var msg = '';
+        if (typeof(errors.responseJSON.message.description) !== 'undefined') {
+            errors.responseJSON.message.description.forEach(function (err) {
+                msg += err;
+            });
         } else {
-            $('.btn-loadmore-book').addClass('hidden');
+            msg = 'Can\'t load more';
         }
 
-    }).fail(function (error) {
         showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
     });
 };
@@ -200,7 +195,7 @@ Book.generateUserXhtml = function (user) {
     return xhtml;
 };
 
-Book.ajaxSortBookAtSectionPage = function (data) {
+Book.ajaxSortBook = function (data) {
     var scope = this;
     var body = JSON.stringify({
         sort : {
@@ -208,60 +203,41 @@ Book.ajaxSortBookAtSectionPage = function (data) {
             order_by: data.orderBy
         }
     });
+    var url = (data.field !== undefined) ?
+        (API_PATH + 'books/filters?field='+ data.field +'&page='+ data.currentPage)
+        : (API_PATH + 'books/category/'+ data.categoryId +'/filter/?page='+ data.currentPage);
 
     $.ajax({
-        url: API_PATH + 'books/filters?field='+ data.field +'&page='+ data.currentPage,
+        url: url,
         dataType: 'json',
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
         method: 'POST',
         data: body
-    }).done(function (results) {
-        if (results.item.data.length > 0) {
+    }).done(function (response) {
+        var result = data.field !== undefined ? response.item : response.item.category;
+
+        if (result.data.length > 0) {
             var elementBookContent = $('.row .ajax-book-content');
             var xhtml = '';
-            elementBookContent.empty();
 
-            results.item.data.forEach(function (book) {
+            elementBookContent.empty();
+            result.data.forEach(function (book) {
                 xhtml += scope.generateBookXhtml(book);
             });
             elementBookContent.html(xhtml);
 
             showNotify('success', 'Sort success', {icon: 'glyphicon glyphicon-ok'}, {delay: 2000});
         }
-    }).fail(function (error) {
-        showNotify('danger', 'Sort error', {icon: 'glyphicon glyphicon-remove'}, {delay: 2000});
-    });
-};
-
-Book.ajaxSortBookAtListBookByCategory = function (data) {
-    var scope = this;
-    var body = JSON.stringify({
-        sort : {
-            by: data.sortBy,
-            order_by: data.orderBy
-        }
-    });
-
-    $.ajax({
-        url: API_PATH + 'books/category/'+ data.categoryId +'/filter/?page='+ data.currentPage,
-        dataType: 'json',
-        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-        method: 'POST',
-        data: body
-    }).done(function (results) {
-        if (results.items.category.data.length > 0) {
-            var elementBookContent = $('.row .ajax-book-content');
-            var xhtml = '';
-            elementBookContent.empty();
-
-            results.items.category.data.forEach(function (book) {
-                xhtml += scope.generateBookXhtml(book);
+    }).fail(function (errors) {
+        var msg = '';
+        if (typeof(errors.responseJSON.message.description) !== 'undefined') {
+            errors.responseJSON.message.description.forEach(function (err) {
+                msg += err;
             });
-            elementBookContent.html(xhtml);
-
-            showNotify('success', 'Sort success', {icon: 'glyphicon glyphicon-ok'}, {delay: 2000});
+        } else {
+            msg = 'Can\'t load more';
         }
-    }).fail(function (error) {
-        showNotify('danger', 'Sort error', {icon: 'glyphicon glyphicon-remove'}, {delay: 2000});
+
+        showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
     });
 };
