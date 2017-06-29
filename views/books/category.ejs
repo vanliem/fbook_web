@@ -3,23 +3,30 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-md-10 pull-right">
-                <h3><%= books.items.data.length > 0 ? books.items.data[0].category.name : '' %></h3>
+                <h3><i class="icofont icofont-book"></i><%= books.items.category.name %></h3>
                 <div class="space-30"></div>
                 <div class="row">
                     <div class="pull-left col-xs-12 col-sm-5 col-md-6">
-                        <p>Books in <%= books.items.data.length > 0 ? books.items.data[0].category.name : '' %> </p>
+                        <i>Books for <span class="text-primary">"<%= books.items.category.name %>"</span></i>
+                        <p><strong><%= books.items.category.data.length %></strong> of <strong><%= books.items.total %></strong> Book Found</p>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-7 col-md-6">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label class="control-label col-xs-4" for="sort">Sort By : </label>
-                                <div class="col-xs-8">
+                                <label class="control-label col-xs-4" for="sort">Sort By <i class="icofont icofont-sort"></i></label>
+                                <div class="col-xs-6">
                                     <div class="form-group">
                                         <select name="sort" id="sort-book" class="form-control">
-                                            <option value="">Best Match</option>
-                                            <option value="">Best Book</option>
-                                            <option value="">Latest Book</option>
-                                            <option value="">Old Book</option>
+                                            <optgroup label="Order By Desc" data-order-by="desc">
+                                                <% sortBookBy.items.forEach(function (condition) { %>
+                                                <option value="<%= condition.field %>"><%= condition.text %></option>
+                                                <% }) %>
+                                            </optgroup>
+                                            <optgroup label="Order By Asc"  data-order-by="asc">
+                                                <% sortBookBy.items.forEach(function (condition) { %>
+                                                <option value="<%= condition.field %>"><%= condition.text %></option>
+                                                <% }) %>
+                                            </optgroup>
                                         </select>
                                     </div>
                                 </div>
@@ -30,7 +37,7 @@
                 <hr>
                 <div class="space-20"></div>
                 <div class="row ajax-book-content">
-                    <% books.items.data.forEach(function (book) { %>
+                    <% books.items.category.data.forEach(function (book) { %>
                     <div class="col-xs-12 col-md-6">
                         <div class="category-item well yellow">
                             <div class="media">
@@ -71,8 +78,8 @@
                     <div class="col-xs-12 text-center">
                         <a href="javascript:void(0)"
                            class="btn btn-warning btn-xs btn-loadmore-book"
-                           data-category-id="<%= categoryId %>"
-                           data-next-page="<%= books.items.next_page %>">More
+                           data-category-id="<%= books.items.next_page %>"
+                           data-next-page="<%= books.items.category.id %>">More
                         </a>
                     </div>
                 </div>
@@ -86,22 +93,14 @@
                     <div class="sigle-sidebar">
                         <h4>Category</h4>
                         <hr>
-                        <ul class="list-unstyled menu-tip">
-                            <% categories.items.forEach(function (category) { %>
-                                <li><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
+                        <ul class="list-unstyled menu-tip category-sidebar">
+                            <% categories.items.forEach(function (category, index) { %>
+                            <% if (index <= 9) { %>
+                            <li><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
+                            <% } else { %>
+                            <li class="hidden"><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
+                            <% } %>
                             <% }) %>
-                        </ul>
-                    </div>
-                    <div class="space-20"></div>
-                    <div class="sigle-sidebar">
-                        <h4>Rating</h4>
-                        <hr>
-                        <ul class="list-inline list-unstyled rating-star">
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                            <li class="active"><i class="icofont icofont-star"></i></li>
-                            <li class="active"><i class="icofont icofont-star"></i></li>
                         </ul>
                     </div>
                 </aside>
@@ -121,6 +120,12 @@
         var categoryId = $(this).attr('data-category-id');
 
         Book.loadMoreAtListBooksByCategoryPage(categoryId, nextPage);
+    });
+
+    $('#btn-loadmore-category').on('click', function (e) {
+        e.preventDefault();
+        $('.category-sidebar li.hidden').removeClass('hidden');
+        $('#btn-loadmore-category').addClass('hidden');
     });
 </script>
 

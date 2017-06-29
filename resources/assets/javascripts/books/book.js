@@ -204,7 +204,7 @@ Book.sortBooksBy = function (data) {
     var scope = this;
     var body = JSON.stringify({
         sort : {
-            field: data.sortBy,
+            by: data.sortBy,
             order_by: data.orderBy
         }
     });
