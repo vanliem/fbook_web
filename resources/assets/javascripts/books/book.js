@@ -200,7 +200,7 @@ Book.generateUserXhtml = function (user) {
     return xhtml;
 };
 
-Book.sortBooksBy = function (data) {
+Book.ajaxSortBookAtSectionPage = function (data) {
     var scope = this;
     var body = JSON.stringify({
         sort : {
@@ -222,6 +222,39 @@ Book.sortBooksBy = function (data) {
             elementBookContent.empty();
 
             results.item.data.forEach(function (book) {
+                xhtml += scope.generateBookXhtml(book);
+            });
+            elementBookContent.html(xhtml);
+
+            showNotify('success', 'Sort success', {icon: 'glyphicon glyphicon-ok'}, {delay: 2000});
+        }
+    }).fail(function (error) {
+        showNotify('danger', 'Sort error', {icon: 'glyphicon glyphicon-remove'}, {delay: 2000});
+    });
+};
+
+Book.ajaxSortBookAtListBookByCategory = function (data) {
+    var scope = this;
+    var body = JSON.stringify({
+        sort : {
+            by: data.sortBy,
+            order_by: data.orderBy
+        }
+    });
+
+    $.ajax({
+        url: API_PATH + 'books/category/'+ data.categoryId +'/filter/?page='+ data.currentPage,
+        dataType: 'json',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        method: 'POST',
+        data: body
+    }).done(function (results) {
+        if (results.items.category.data.length > 0) {
+            var elementBookContent = $('.row .ajax-book-content');
+            var xhtml = '';
+            elementBookContent.empty();
+
+            results.items.category.data.forEach(function (book) {
                 xhtml += scope.generateBookXhtml(book);
             });
             elementBookContent.html(xhtml);

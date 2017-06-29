@@ -78,8 +78,9 @@
                     <div class="col-xs-12 text-center">
                         <a href="javascript:void(0)"
                            class="btn btn-warning btn-xs btn-loadmore-book"
-                           data-category-id="<%= books.items.next_page %>"
-                           data-next-page="<%= books.items.category.id %>">More
+                           data-category-id="<%= books.items.category.id %>"
+                           data-current-page="<%= books.items.current_page %>"
+                           data-next-page="<%= books.items.next_page %>">More
                         </a>
                     </div>
                 </div>
@@ -120,6 +121,22 @@
         var categoryId = $(this).attr('data-category-id');
 
         Book.loadMoreAtListBooksByCategoryPage(categoryId, nextPage);
+    });
+
+    $('#sort-book').on('change', function () {
+        var sortBy = $('#sort-book').val();
+        var orderBy = $('#sort-book :selected').parent().attr('data-order-by');
+        var categoryId = $('.btn-loadmore-book').attr('data-category-id');
+        var currentPage = $('.btn-loadmore-book').attr('data-current-page');
+
+        var data = {
+            categoryId: categoryId,
+            currentPage: currentPage,
+            sortBy: sortBy,
+            orderBy: orderBy
+        };
+
+        Book.ajaxSortBookAtListBookByCategory(data);
     });
 
     $('#btn-loadmore-category').on('click', function (e) {
