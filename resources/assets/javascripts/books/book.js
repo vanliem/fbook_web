@@ -241,3 +241,4 @@ Book.ajaxSortBook = function (data) {
         showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
     });
 };
+

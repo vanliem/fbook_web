@@ -119,15 +119,5 @@ jQuery(document).ready(function ($) {
         navText: ['<i class="icofont icofont-long-arrow-left"></i>', '<i class="icofont icofont-long-arrow-right"></i>'],
         items: 1
     });
-    /* -------------------
-      Dinamyc-Pagination
-    ----------------------*/
-    $('#pagination-demo').twbsPagination({
-        totalPages: 35,
-        visiblePages: 7,
-        onPageClick: function (event, page) {
-            $('#page-content').text('Showing 1 - ' + page + ' of 35');
-        }
-    });
     $('.wow').parent('div').addClass('fix');
 }(jQuery));

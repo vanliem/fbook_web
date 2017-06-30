@@ -184,6 +184,7 @@ router.get('/:id', localSession, function (req, res, next) {
 router.get('/category/:category_id', function (req, res, next) {
     req.checkParams('category_id', 'Invalid category').notEmpty().isInt();
 
+    var page = req.query.page ? req.query.page : 1;
     req.getValidationResult().then(function (result) {
         if (!result.isEmpty()) {
             res.status(400).send('There have been validation errors: ' + util.inspect(result.array()));
@@ -192,7 +193,7 @@ router.get('/category/:category_id', function (req, res, next) {
             async.parallel({
                 books: function (callback) {
                     request({
-                        url: req.configs.api_base_url + 'books/category/' + req.params.category_id,
+                        url: req.configs.api_base_url + 'books/category/' + req.params.category_id + '/?page=' + page,
                         headers: objectHeaders.headers
                     }, function (error, response, body) {
                         if (!error && response.statusCode === 200) {
