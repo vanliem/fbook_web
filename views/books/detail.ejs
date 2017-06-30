@@ -121,7 +121,7 @@
                                             </div>
                                             <div class="media-body">
                                                 <div class="space-10"></div>
-                                                <a href="javascript:void(0)"><h4 class="media-heading"><%= review.user.name %></h4></a>
+                                                <a href="/users/<%= review.user.id %>"><h4 class="media-heading"><%= review.user.name %></h4></a>
                                                 <div class="space-10"></div>
                                                 <ul class="list-inline list-unstyled rating-star">
                                                 <% for (var i=0; i<review.star; i++) { %>
@@ -188,7 +188,7 @@
                                             </div>
                                             <div class="media-body">
                                                 <div class="space-10"></div>
-                                                <a href="#"><h4 class="media-heading"><%= data.item.user_reading_book.name %></h4></a>
+                                                <a href="/users/<%= data.item.user_reading_book.id %>"><h4 class="media-heading"><%= data.item.user_reading_book.name %></h4></a>
                                                 <div class="space-10"></div>
                                                 <p><%= data.item.user_reading_book.name %></p>
                                             </div>
@@ -216,7 +216,7 @@
                                             </div>
                                             <div class="media-body">
                                                 <div class="space-10"></div>
-                                                <a href="books.html"><h4 class="media-heading"><%= user.name %></h4></a>
+                                                <a href="/users/<%= user.id %>"><h4 class="media-heading"><%= user.name %></h4></a>
                                                 <div class="space-10"></div>
                                                 <p><%= user.name %></p>
 

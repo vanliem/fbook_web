@@ -6,10 +6,14 @@ var authorize = require('../middlewares/authorize');
 var async = require('async');
 
 router.get('/profile', authorize.isAuthenticated, function(req, res, next) {
+    res.redirect('/users/' + req.session.user.id);
+});
+
+router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
     async.parallel({
         user: function (callback) {
           request({
-                url: req.configs.api_base_url + 'user-profile',
+                url: req.configs.api_base_url + 'users/' + req.params.id,
                 headers: objectHeaders.headers({'Authorization': req.session.access_token})
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
@@ -42,7 +46,7 @@ router.get('/profile', authorize.isAuthenticated, function(req, res, next) {
             });
         }
     }, function (err, results) {
-        if (err) {
+        if (err || !results.user) {
             req.flash('error', 'You can\'t view user profile');
 
             return res.redirect('../home');
@@ -62,6 +66,7 @@ router.get('/profile', authorize.isAuthenticated, function(req, res, next) {
                 categories: results.categories,
                 interestedCategoryIds: interestedCategoryIds,
                 categoryIds: categoryIds,
+                userId: results.user.item.id,
             });
         }
     });

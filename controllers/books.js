@@ -181,7 +181,6 @@ router.get('/:id', localSession, function (req, res, next) {
     });
 });
 
-
 router.get('/category/:category_id', function (req, res, next) {
     req.checkParams('category_id', 'Invalid category').notEmpty().isInt();
 
