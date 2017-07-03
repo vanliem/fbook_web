@@ -1,6 +1,6 @@
 <div class="row event-list">
     <div class="row">
-        <% if (books && books.items.total) { %>
+        <% if (books && books.items.data.length && books.items.total) { %>
         <% books.items.data.forEach(function (book, index) { %>
         <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.<%= index + 1 %>s">
             <div class="category-item well yellow">
