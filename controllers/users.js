@@ -14,10 +14,30 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
     var pageWaiting = req.query.pageWaiting ? req.query.pageWaiting : 1;
     var pageDone = req.query.pageDone ? req.query.pageDone : 1;
     var pageSharing = req.query.pageSharing ? req.query.pageSharing : 1;
+    var pageSuggest = req.query.pageSuggest ? req.query.pageSuggest : 1;
+    var userId = req.params.id;
+
     async.parallel({
+        suggestedBooks: function (callback) {
+            request({
+                url: req.configs.api_base_url + 'users/interested-books?page=' + pageSuggest,
+                headers: objectHeaders.headers({'Authorization': req.session.access_token})
+            }, function (error, response, body) {
+                if (!error && response.statusCode === 200) {
+                    try {
+                        var suggestedBooks = JSON.parse(body);
+                        callback(null, suggestedBooks);
+                    } catch (errorJSONParse) {
+                        callback(null, null);
+                    }
+                } else {
+                    callback(null, null);
+                }
+            });
+        },
         waitingBooks: function (callback) {
             request({
-                url: req.configs.api_base_url + 'users/book/waiting?page=' + pageWaiting,
+                url: req.configs.api_base_url + 'users/book/' + userId + '/waiting?page=' + pageWaiting,
                 headers: objectHeaders.headers({'Authorization': req.session.access_token})
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
@@ -34,7 +54,7 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
         },
         readingBooks: function (callback) {
             request({
-                url: req.configs.api_base_url + 'users/book/reading?page=' + pageReading,
+                url: req.configs.api_base_url + 'users/book/' + userId + '/reading?page=' + pageReading,
                 headers: objectHeaders.headers({'Authorization': req.session.access_token})
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
@@ -51,7 +71,7 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
         },
         doneBooks: function (callback) {
             request({
-                url: req.configs.api_base_url + 'users/book/done?page=' + pageDone,
+                url: req.configs.api_base_url + 'users/book/' + userId + '/done?page=' + pageDone,
                 headers: objectHeaders.headers({'Authorization': req.session.access_token})
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
@@ -68,7 +88,7 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
         },
         sharingBooks: function (callback) {
             request({
-                url: req.configs.api_base_url + 'users/book/sharing?page=' + pageSharing,
+                url: req.configs.api_base_url + 'users/book/' + userId + '/sharing?page=' + pageSharing,
                 headers: objectHeaders.headers({'Authorization': req.session.access_token})
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
@@ -143,11 +163,13 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
                 doneBooks: results.doneBooks,
                 waitingBooks: results.waitingBooks,
                 sharingBooks: results.sharingBooks,
+                suggestedBooks: results.suggestedBooks,
                 currentUrl: req.protocol + "://" + req.get('host') + '/users' + req.path,
                 pageReading: pageReading,
                 pageWaiting: pageWaiting,
                 pageDone: pageDone,
                 pageSharing: pageSharing,
+                pageSuggest: pageSuggest,
             });
         }
     });

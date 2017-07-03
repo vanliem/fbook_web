@@ -74,70 +74,140 @@
     </div>
 </section>
 
-<% if (userId === user.id) { %>
-    <section class="relative">
-        <div class="container">
-            <div class="panel">
-                <div class="panel-heading">
-                    <ul class="nav nav-tabs">
-                        <li class=<%= pageReading !== 1 || pageWaiting === 1 && pageDone === 1 && pageSharing === 1 ? "active" : "" %>>
+<section class="relative">
+    <div class="container">
+        <div class="panel">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <% var isTabActived = false; %>
+                    <% if (!isTabActived && pageReading !== 1 || pageWaiting === 1 && pageDone === 1 && pageSharing === 1 && pageSuggest === 1) {
+                        isTabActived = true;
+                    %>
+                        <li class="active">
                             <a data-toggle="tab" href="#reading_books">Reading Books</a>
                         </li>
-                        <li class=<%= pageWaiting !== 1 ? "active" : "" %>>
+                    <% } else { %>
+                        <li>
+                            <a data-toggle="tab" href="#reading_books">Reading Books</a>
+                        </li>
+                    <% } %>
+
+                    <% if (!isTabActived && pageWaiting !== 1) {
+                        isTabActived = true;
+                    %>
+                        <li class="active">
                             <a data-toggle="tab" href="#waiting_books">Waiting Books</a>
                         </li>
-                        <li class=<%= pageDone !== 1 ? "active" : "" %>>
+                    <% } else { %>
+                        <li>
+                            <a data-toggle="tab" href="#waiting_books">Waiting Books</a>
+                        </li>
+                    <% } %>
+
+                    <% if (!isTabActived && pageDone !== 1) {
+                        isTabActived = true;
+                    %>
+                        <li class="active">
                             <a data-toggle="tab" href="#done_books">Done Books</a>
                         </li>
-                        <li class=<%= pageSharing !== 1 ? "active" : "" %>>
+                    <% } else { %>
+                        <li>
+                            <a data-toggle="tab" href="#done_books">Done Books</a>
+                        </li>
+                    <% } %>
+
+                    <% if (!isTabActived && pageSharing !== 1) {
+                        isTabActived = true;
+                    %>
+                        <li class="active">
                             <a data-toggle="tab" href="#sharing_books">Sharing Books</a>
                         </li>
-                    </ul>
-                </div>
-                <div class="panel-body">
-                    <div class="tab-content">
-                        <% if (pageReading !== 1 || pageWaiting === 1 && pageDone === 1 && pageSharing === 1) { %>
-                            <div class="tab-pane fade in active" id="reading_books">
+                    <% } else { %>
+                        <li>
+                            <a data-toggle="tab" href="#sharing_books">Sharing Books</a>
+                        </li>
+                    <% } %>
+
+                    <% if (userId === user.id) { %>
+                        <% if (!isTabActived && pageSuggest !== 1) {
+                            isTabActived = true;
+                        %>
+                            <li class="active">
+                                <a data-toggle="tab" href="#suggested_books">Suggested Books</a>
+                            </li>
                         <% } else { %>
-                            <div class="tab-pane fade" id="reading_books">
+                            <li>
+                                <a data-toggle="tab" href="#suggested_books">Suggested Books</a>
+                            </li>
                         <% } %>
+                    <% } %>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <% var isTabPaneActived = false; %>
+                    <% if (!isTabPaneActived && pageReading !== 1 || pageWaiting === 1 && pageDone === 1 && pageSharing === 1 && pageSuggest === 1) {
+                        isTabPaneActived = true;
+                    %>
+                        <div class="tab-pane fade in active" id="reading_books">
+                    <% } else { %>
+                        <div class="tab-pane fade" id="reading_books">
+                    <% } %>
 
-                        <%- include('../shared/myBooks', {books: readingBooks, pageName: 'pageReading'}); %>
-                        </div>
-
-                        <% if (pageWaiting !== 1) { %>
-                            <div class="tab-pane fade in active" id="waiting_books">
-                        <% } else { %>
-                            <div class="tab-pane fade" id="waiting_books">
-                        <% } %>
-
-                        <%- include('../shared/myBooks', {books: waitingBooks, pageName: 'pageWaiting'}); %>
-                        </div>
-
-                        <% if (pageDone !== 1) { %>
-                            <div class="tab-pane fade in active" id="done_books">
-                        <% } else { %>
-                            <div class="tab-pane fade" id="done_books">
-                        <% } %>
-
-                        <%- include('../shared/myBooks', {books: doneBooks, pageName: 'pageDone'}); %>
-                        </div>
-
-                        <% if (pageSharing !== 1) { %>
-                            <div class="tab-pane fade in active" id="sharing_books">
-                        <% } else { %>
-                            <div class="tab-pane fade" id="sharing_books">
-                        <% } %>
-
-                        <%- include('../shared/myBooks', {books: sharingBooks, pageName: 'pageSharing'}); %>
-                        </div>
+                    <%- include('../shared/myBooks', {books: readingBooks, pageName: 'pageReading'}); %>
                     </div>
+
+                    <% if (!isTabPaneActived && pageWaiting !== 1) {
+                        isTabPaneActived = true;
+                    %>
+                        <div class="tab-pane fade in active" id="waiting_books">
+                    <% } else { %>
+                        <div class="tab-pane fade" id="waiting_books">
+                    <% } %>
+
+                    <%- include('../shared/myBooks', {books: waitingBooks, pageName: 'pageWaiting'}); %>
+                    </div>
+
+                    <% if (!isTabPaneActived && pageDone !== 1) {
+                        isTabPaneActived = true;
+                    %>
+                        <div class="tab-pane fade in active" id="done_books">
+                    <% } else { %>
+                        <div class="tab-pane fade" id="done_books">
+                    <% } %>
+
+                    <%- include('../shared/myBooks', {books: doneBooks, pageName: 'pageDone'}); %>
+                    </div>
+
+                    <% if (!isTabPaneActived && pageSharing !== 1) {
+                        isTabPaneActived = true;
+                    %>
+                        <div class="tab-pane fade in active" id="sharing_books">
+                    <% } else { %>
+                        <div class="tab-pane fade" id="sharing_books">
+                    <% } %>
+
+                    <%- include('../shared/myBooks', {books: sharingBooks, pageName: 'pageSharing'}); %>
+                    </div>
+
+                    <% if (userId === user.id) { %>
+                        <% if (!isTabPaneActived && pageSuggest !== 1) {
+                            isTabPaneActived = true;
+                        %>
+                            <div class="tab-pane fade in active" id="suggested_books">
+                        <% } else { %>
+                            <div class="tab-pane fade" id="suggested_books">
+                        <% } %>
+
+                        <%- include('../shared/myBooks', {books: suggestedBooks, pageName: 'pageSuggest'}); %>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </div>
-        <div class="space-20"></div>
-    </section>
-<% } %>
+    </div>
+    <div class="space-20"></div>
+</section>
 
 <%- contentFor('appCss') %>
 <link href="/bower/bootstrap-star-rating/css/star-rating.css" rel="stylesheet" type="text/css">
