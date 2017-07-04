@@ -34,41 +34,43 @@
             </div>
         </div>
         <% }) %>
-        <div class="col-xs-12">
-            <div class="shop-pagination pull-right">
-                <ul class="pagination">
-                    <% if (Math.ceil(books.items.total / books.items.per_page) > 1
-                    && books.items.current_page !== 1) { %>
-                        <li><a href="<%= currentUrl %>?<%= pageName %>=1">First</a></li>
-                    <% } else { %>
-                        <li class="disabled"><a href="javascript:void(0)">First</a></li>
-                    <% } %>
-                    <% if (books.items.prev_page) { %>
-                        <li><a href="<%= currentUrl %>?<%= pageName %>=<%= books.items.prev_page %>">Previous</a></li>
-                    <% } else { %>
-                        <li class="disabled"><a href="javascript:void(0)">Previous</a></li>
-                    <% } %>
-                    <% for (var i=0; i< Math.ceil(books.items.total / books.items.per_page); i++) { %>
-                        <% if (books.items.current_page == (i + 1)) { %>
-                            <li class="active"><a href="javascript:void(0)"><%= i+ 1 %></a></li>
+        <% if (books.items.total > books.items.per_page) { %>
+            <div class="col-xs-12">
+                <div class="shop-pagination pull-right">
+                    <ul class="pagination">
+                        <% if (Math.ceil(books.items.total / books.items.per_page) > 1
+                        && books.items.current_page !== 1) { %>
+                            <li><a href="<%= currentUrl %>?<%= pageName %>=1">First</a></li>
                         <% } else { %>
-                            <li><a href="<%= currentUrl %>?<%= pageName %>=<%= i + 1 %>"><%= i+ 1 %></a></li>
+                            <li class="disabled"><a href="javascript:void(0)">First</a></li>
                         <% } %>
-                    <% } %>
-                    <% if (books.items.next_page) { %>
-                        <li><a href="<%= currentUrl %>?<%= pageName %>=<%= books.items.next_page %>">Next</a></li>
-                    <% } else { %>
-                        <li class="disabled"><a href="javascript:void(0)">Next</a></li>
-                    <% } %>
-                    <% if (Math.ceil(books.items.total / books.items.per_page) > 1
-                    && books.items.current_page !== Math.ceil(books.items.total / books.items.per_page)) { %>
-                        <li><a href="<%= currentUrl %>?<%= pageName %>=<%= Math.ceil(books.items.total / books.items.per_page) %>">Last</a></li>
-                    <% } else { %>
-                        <li class="disabled"><a href="javascript:void(0)">Last</a></li>
-                    <% } %>
-                </ul>
-             </div>
-        </div>
+                        <% if (books.items.prev_page) { %>
+                            <li><a href="<%= currentUrl %>?<%= pageName %>=<%= books.items.prev_page %>">Previous</a></li>
+                        <% } else { %>
+                            <li class="disabled"><a href="javascript:void(0)">Previous</a></li>
+                        <% } %>
+                        <% for (var i=0; i< Math.ceil(books.items.total / books.items.per_page); i++) { %>
+                            <% if (books.items.current_page == (i + 1)) { %>
+                                <li class="active"><a href="javascript:void(0)"><%= i+ 1 %></a></li>
+                            <% } else { %>
+                                <li><a href="<%= currentUrl %>?<%= pageName %>=<%= i + 1 %>"><%= i+ 1 %></a></li>
+                            <% } %>
+                        <% } %>
+                        <% if (books.items.next_page) { %>
+                            <li><a href="<%= currentUrl %>?<%= pageName %>=<%= books.items.next_page %>">Next</a></li>
+                        <% } else { %>
+                            <li class="disabled"><a href="javascript:void(0)">Next</a></li>
+                        <% } %>
+                        <% if (Math.ceil(books.items.total / books.items.per_page) > 1
+                        && books.items.current_page !== Math.ceil(books.items.total / books.items.per_page)) { %>
+                            <li><a href="<%= currentUrl %>?<%= pageName %>=<%= Math.ceil(books.items.total / books.items.per_page) %>">Last</a></li>
+                        <% } else { %>
+                            <li class="disabled"><a href="javascript:void(0)">Last</a></li>
+                        <% } %>
+                    </ul>
+                 </div>
+            </div>
+        <% } %>
         <% } else { %>
             <h5 class="text-center">No book in section </h5>
         <% } %>

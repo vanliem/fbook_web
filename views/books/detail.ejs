@@ -114,9 +114,13 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <% if (review.user.avatar !== null) { %>
-                                                <img src="<%= review.user.avatar %>" class="media-object w-70-h-70" alt="library">
+                                                <a href="/users/<%= review.user.id %>">
+                                                    <img src="<%= review.user.avatar %>" class="media-object w-70-h-70" alt="library">
+                                                </a>
                                                 <% } else { %>
-                                                <img src="/images/user/icon_user_default.png" class="media-object  w-70-h-70" alt="library">
+                                                    <a href="/users/<%= review.user.id %>">
+                                                        <img src="/images/user/icon_user_default.png" class="media-object  w-70-h-70" alt="library">
+                                                    </a>
                                                 <% } %>
                                             </div>
                                             <div class="media-body">
@@ -181,9 +185,13 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <% if (data.item.user_reading_book.avatar !== null) { %>
-                                                <img src="<%= data.item.user_reading_book.avatar %>" class="media-object w-70-h-70" alt="library">
+                                                    <a href="/users/<%= data.item.user_reading_book.id %>">
+                                                        <img src="<%= data.item.user_reading_book.avatar %>" class="media-object w-70-h-70" alt="library">
+                                                    </a>
                                                 <% } else { %>
-                                                <img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">
+                                                    <a href="/users/<%= data.item.user_reading_book.id %>">
+                                                        <img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">
+                                                    </a>
                                                 <% } %>
                                             </div>
                                             <div class="media-body">
@@ -209,9 +217,13 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <% if (user.avatar !== null) { %>
-                                                    <img src="<%= user.avatar %>" class="media-object w-70-h-70" alt="library">
+                                                    <a href="/users/<%= user.id %>">
+                                                        <img src="<%= user.avatar %>" class="media-object w-70-h-70" alt="library">
+                                                    </a>
                                                 <% } else { %>
-                                                    <img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">
+                                                    <a href="/users/<%= user.id %>">
+                                                        <img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">
+                                                    </a>
                                                 <% } %>
                                             </div>
                                             <div class="media-body">

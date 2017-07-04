@@ -1,12 +1,22 @@
 $('#search-book').on('keyup', function (e) {
-    e.preventDefault();
-    searchBooks();
+    delay(function(){
+        e.preventDefault();
+        searchBooks();
+    }, 700);
 });
 
 $('input[name="type-search"]').on('change', function (e) {
     e.preventDefault();
     searchBooks();
 });
+
+var delay = (function() {
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
 
 function searchBooks() {
     if ($('#search-book').val() == "") {
