@@ -1,5 +1,5 @@
-<section class="relative fix" id="sc3">
-    <div class="hide-categoryIds" data-category-ids=<%= categoryIds %></div>
+<section class="relative fix m-bottom50" id="sc3">
+    <div class="hide-categoryIds" data-category-ids=<%= categoryIds %>></div>
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-md-6 book-list-position padding60">
+            <div class="col-xs-12 col-md-6">
                 <% if (userId === user.id) { %>
                     <button type="button" class="btn-save btn btn-info">Save</button>
                 <% } %>
@@ -47,7 +47,7 @@
                     <% }) %>
                 </div>
             </div>
-            <div class="col-xs-12 pull-right col-md-6 padding60 wow fadeInRight">
+            <div class="col-xs-12 pull-right col-md-6 padding40 wow fadeInRight">
                 <div class="book_item">
                     <% if (typeof data.avatar != 'undefined' && data.avatar) { %>
                         <img class="img-profile" src="<%= data.avatar %>" alt="library">

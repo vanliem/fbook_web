@@ -1,6 +1,6 @@
-<% data.items.forEach(function (section) { %>
+<% data.items.forEach(function (section, key) { %>
 <!--Begin section-->
-<section>
+<section id="section<%= key%>">
     <div class="space-40"></div>
     <div class="container">
         <div class="row">
@@ -18,7 +18,7 @@
         <div class="row">
             <% if (section.data.length > 0 ) { %>
             <% section.data.forEach(function (book, index) { %>
-            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.<%= index + 1 %>s">
+            <div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.1s" data-wow-offset="50">
                 <div class="category-item well yellow">
                     <div class="media">
                         <div class="media-left">
