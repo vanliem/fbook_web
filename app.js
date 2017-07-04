@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(session({resave: true, saveUninitialized: true, secret: 'wemakeitawesome', cookie: { maxAge: 60000 }}));
+app.use(session({resave: true, saveUninitialized: true, secret: 'wemakeitawesome', cookie: { maxAge: 60000 * 60 * 24 * 7 }}));
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
