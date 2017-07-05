@@ -37,44 +37,36 @@
                         <h4 class="tip-left">Title</h4>
                         <p class="lead"><%= data.item.title %></p>
                         <div class="space-10"></div>
+                        <h4 class="tip-left">Count view: <%= data.item.count_view %></h4>
+                        <div class="space-30"></div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-8">
-                                <h4 class="tip-left">Count view: <%= data.item.count_view %></h4>
                                 <h4 class="tip-left">Author</h4>
                                 <div class="media">
-                                    <% if (typeof (data.item.author) != 'undefined' && data.item.author) { %>
-                                    <div class="media-body">
-                                        <img src="/images/user_default.png" class="media-object author-photo img-thumbnail" alt="library">
-                                        <br>
-                                        <h5><%= data.item.author %></h5>
-                                    </div>
-                                    <% } else { %>
                                     <div class="media-left">
-                                        <img src="/images/logo_framgia.png" class="media-object author-photo background--white img-thumbnail" alt="library">
-                                        <br>
-                                        <h5> By Framgia </h5>
+                                        <img src="<%= data.item.author ? '/images/user_default.png' : '/images/logo_framgia.png' %>"
+                                             class="media-object author-photo img-thumbnail"
+                                             alt="library">
                                     </div>
-                                    <% } %>
-                                </div>%>
+                                    <div class="media-body">
+                                        <h5><%= data.item.author ? data.item.author : Framgia %></h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="space-30"></div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-8">
                                 <h4 class="tip-left">Owner By</h4>
                                 <div class="media">
-                                    <% if (data.item.owner !== null) { %>
-                                    <div class="media-body">
-                                        <img src="/images/user_default.png" class="media-object author-photo img-thumbnail" alt="library">
-                                        <br>
-                                        <h5>username</h5>
-                                    </div>
-                                    <% } else { %>
                                     <div class="media-left">
-                                        <img src="/images/logo_framgia.png" class="media-object author-photo background--white img-thumbnail" alt="library">
-                                        <br>
-                                        <h5> By Framgia </h5>
+                                        <img src="<%= (data.item.owner && data.item.owner.avatar) ? data.item.owner.avatar : '/images/logo_framgia.png' %>"
+                                             class="media-object author-photo img-thumbnail <%= data.item.owner ? '' : 'background--white' %>"
+                                             alt="library">
                                     </div>
-                                    <% } %>
+                                    <div class="media-body">
+                                        <p><%= data.item.owner ? data.item.owner : 'Framgia' %></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +76,29 @@
                         <div class="space-20"></div>
                         <h4 class="tip-left">Rating</h4>
                         <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value=<%= data.item.avg_star %> disabled="true" data-step="0.01" data-size="xs">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <a href="#user_review"><%= data.item.reviews_detail_book.length %> Review </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <a href="#user_review"><%= data.item.users_waiting_book.length %> Waiting</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <a href="#user_review"><%= data.item.users_read_book.length %> Read</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="space-20"></div>
                         <button class="btn btn-primary hover-btn-default btn-xs" id="booking-book" data-id="<%= data.item.id %>" data-status="<%= data.item.btn_booking.data_status %>"><%= data.item.btn_booking.text %></button>
                     </div>
@@ -100,6 +115,7 @@
                     <li class="active"><a data-toggle="tab" href="#user_review">User Review</a></li>
                     <li><a data-toggle="tab" href="#user_reading">User Reading</a></li>
                     <li><a data-toggle="tab" href="#user_waiting">User Waiting</a></li>
+                    <li><a data-toggle="tab" href="#user_read">User Read</a></li>
                 </ul>
             </div>
             <div class="panel-body">
@@ -224,6 +240,33 @@
                                                         <img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">
                                                     </a>
                                                 <% } %>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="space-10"></div>
+                                                <a href="/users/<%= user.id %>"><h4 class="media-heading"><%= user.name %></h4></a>
+                                                <div class="space-10"></div>
+                                                <p><%= user.name %></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="user_read">
+                        <div class="row event-list">
+                            <% if (data.item.users_read_book.length > 0) { %>
+                            <% data.item.users_read_book.forEach(function (user) { %>
+                            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9" id="user-<%= user.id %>">
+                                <div class="event-item wow fadeInRight">
+                                    <div class="well">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <img src="<%= user.avatar ? user.avatar : '/images/user/icon_user_default.png' %>"
+                                                     class="media-object w-70-h-70" alt="library">
                                             </div>
                                             <div class="media-body">
                                                 <div class="space-10"></div>
