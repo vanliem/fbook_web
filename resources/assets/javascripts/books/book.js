@@ -52,26 +52,27 @@ Book.loadMoreBook = function (data) {
 };
 
 Book.generateBookXhtml = function (book) {
+    var bookConfigs = configs.book;
+    var thumbnailPath = book.image.web.thumbnail_path !== undefined
+        ? book.image.web.thumbnail_path
+        : '/images/book_thumb_default.jpg';
+    var bookTitle = (book.title && book.title.length) > bookConfigs.title_limit_characters
+        ? (book.title.substring(0, bookConfigs.title_limit_characters) + ' ...')
+        : book.title;
+    var bookAuthor = (book.author && book.author.length) > bookConfigs.author_limit_characters
+        ? (book.author.substring(0, bookConfigs.author_limit_characters) + ' ...')
+        : book.author;
+
     var xhtml = '';
     xhtml += '<div class="col-xs-12 col-md-6">';
     xhtml += '<div class="category-item well yellow">';
     xhtml += '<div class="media">';
     xhtml += '<div class="media-left">';
-
-    if (typeof(book.image.web.thumbnail_path) !== 'undefined') {
-        xhtml += '<img src="'+ book.image.web.thumbnail_path +'" class="media-object" alt="">';
-    } else {
-        xhtml += '<img src="/images/book_thumb_default.jpg" class="media-object" alt="">';
-    }
+    xhtml += '<img src="'+ thumbnailPath +'" class="media-object" alt="Framgia Book">';
     xhtml += '</div>';
     xhtml += '<div class="media-body">';
-
-    var bookTitle = (book.title.length) > configs.book.title_limit_characters
-     ? (book.title.substring(0, configs.book.title_limit_characters) + ' ...') : book.title;
-    xhtml += '<h5 title="'+ book.title +'">' + bookTitle + '</h5>';
-
-    var bookAuthor = (book.author.length) > configs.book.author_limit_characters ? (book.author.substring(0, configs.book.author_limit_characters) + ' ...') : book.author;
-    xhtml += '<h6 title="'+ book.title +'">' + bookAuthor + '</h6>';
+    xhtml += '<h5 title="'+ bookTitle +'">' + bookTitle + '</h5>';
+    xhtml += '<h6 title="'+ bookAuthor +'">' + bookAuthor + '</h6>';
     xhtml += '<div class="space-10"></div>';
     xhtml += '<input id="rating-book" name="star" class="rating" disabled="true" value="' + book.avg_star + '"data-size="xs">';
     xhtml += '</ul>';

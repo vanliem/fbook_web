@@ -5,6 +5,7 @@
             <div class="col-xs-12 col-md-10 pull-right">
                 <h3><i class="icofont icofont-book"></i><%= books.item.category.name %></h3>
                 <div class="space-30"></div>
+                <% if (books.item.category.data.length > 0) { %>
                 <div class="row">
                     <div class="pull-left col-xs-12 col-sm-5 col-md-6">
                         <i>Books for <span class="text-primary">"<%= books.item.category.name %>"</span></i>
@@ -34,6 +35,7 @@
                         </form>
                     </div>
                 </div>
+                <% } %>
                 <hr>
                 <div class="space-20"></div>
                 <div class="row ajax-book-content">
@@ -42,23 +44,16 @@
                         <div class="category-item well yellow">
                             <div class="media">
                                 <div class="media-left">
-                                    <% if (book.image !== null) { %>
-                                        <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="">
-                                    <% } else { %>
-                                        <img src="/images/book_thumb_default.jpg" class="media-object" alt="">
-                                    <% } %>
+                                    <img class="media-object" alt="Framgia book"
+                                         src="<%= book.image ? book.image.web.thumbnail_path : '/images/book_thumb_default.jpg' %>">
                                 </div>
                                 <div class="media-body">
-                                    <% if (typeof (book.title) != 'undefined' && book.title) { %>
-                                        <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
-                                    <% } else { %>
-                                        <h6>No title</h6>
-                                    <% } %>
-                                    <% if (typeof (book.author) != 'undefined' && book.author) { %>
-                                        <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
-                                    <% } else { %>
-                                        <h6>By Framgia</h6>
-                                    <% } %>
+                                    <h5 title="<%= book.title %>">
+                                        <%= book.title ? getString(book.title, configs.book.title_limit_characters) : 'No title' %>
+                                    </h5>
+                                    <h6 title="<%= book.author %>">By
+                                        <%= book.author ? getString(book.author, configs.book.author_limit_characters) : 'Framgia' %>
+                                    </h6>
                                     <div class="space-10"></div>
                                     <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value=<%= book.avg_star %> disabled="true" data-step="0.01" data-size="xs">
                                     <div class="space-10"></div>
@@ -73,6 +68,7 @@
                     <% }) %>
                 </div>
                 <div class="space-60"></div>
+                <% if (books.item.category.data.length > 0) { %>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="shop-pagination pull-right">
@@ -81,6 +77,9 @@
                         </div>
                     </div>
                 </div>
+                <% } else { %>
+                <h4 class="text-center">No book</h4>
+                <% } %>
             </div>
             <!-- Sidebar-Start -->
             <div class="col-xs-12 col-md-2">
@@ -92,11 +91,7 @@
                         <hr>
                         <ul class="list-unstyled menu-tip category-sidebar">
                             <% categories.items.forEach(function (category, index) { %>
-                            <% if (index <= 9) { %>
-                            <li><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
-                            <% } else { %>
-                            <li class="hidden"><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
-                            <% } %>
+                            <li class="<%= index > 9 ? 'hidden' : '' %>"><a href="/books/category/<%= category.id %>"><%= category.name %></a></li>
                             <% }) %>
                         </ul>
                     </div>
@@ -117,11 +112,13 @@
     var currentPage = parseInt("<%= books.item.current_page %>");
     var nextPage = "<%= books.item.next_page %>"
 
-    Paginate.book({
-        totalPages: totalPages,
-        currentPage: currentPage,
-        nextPage: nextPage
-    });
+    if (totalPages) {
+        Paginate.book({
+            totalPages: totalPages,
+            currentPage: currentPage,
+            nextPage: nextPage
+        });
+    }
 
     $('#sort-book').on('change', function () {
         var sortBy = $('#sort-book').val();

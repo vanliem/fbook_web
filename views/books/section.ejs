@@ -5,6 +5,7 @@
             <div class="col-xs-12 col-md-10 pull-right">
                 <h3><i class="icofont icofont-book"></i> <%= field %> books</h3>
                 <div class="space-10"></div>
+                <% if (section.item.data.length > 0) { %>
                 <div class="row">
                     <div class="pull-left col-xs-12 col-sm-5 col-md-6">
                         <i>Books for <span class="text-primary">"<%= field %>"</span></i>
@@ -34,31 +35,26 @@
                         </form>
                     </div>
                 </div>
+                <% } %>
                 <hr>
                 <div class="space-20"></div>
                 <div class="row ajax-book-content">
+                    <% if (section.item.data.length > 0) { %>
                     <% section.item.data.forEach(function (book) { %>
                     <div class="col-xs-12 col-md-6">
                         <div class="category-item well yellow">
                             <div class="media">
                                 <div class="media-left">
-                                    <% if (book.image !== null) { %>
-                                        <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="">
-                                    <% } else { %>
-                                        <img src="/images/book_thumb_default.jpg" class="media-object" alt="">
-                                    <% } %>
+                                    <img class="media-object" alt="Framgia book"
+                                        src="<%= book.image ? book.image.web.thumbnail_path : '/images/book_thumb_default.jpg' %>">
                                 </div>
                                 <div class="media-body">
-                                    <% if (typeof (book.title) != 'undefined' && book.title) { %>
-                                        <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
-                                    <% } else { %>
-                                        <h6>No title</h6>
-                                    <% } %>
-                                    <% if (typeof (book.author) != 'undefined' && book.author) { %>
-                                        <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
-                                    <% } else { %>
-                                        <h6>By Framgia</h6>
-                                    <% } %>
+                                    <h5 title="<%= book.title %>">
+                                        <%= book.title ? getString(book.title, configs.book.title_limit_characters) : 'No title' %>
+                                    </h5>
+                                    <h6 title="<%= book.author %>">By
+                                        <%= book.author ? getString(book.author, configs.book.author_limit_characters) : 'Framgia' %>
+                                    </h6>
                                     <div class="space-10"></div>
                                     <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value=<%= book.avg_star %> disabled="true" data-step="0.01" data-size="xs">
                                     <div class="space-10"></div>
@@ -71,8 +67,12 @@
                         </div>
                     </div>
                     <% }) %>
+                    <% } else { %>
+                    <h4 class="text-center">No book</h4>
+                    <% } %>
                 </div>
                 <div class="space-60"></div>
+                <% if (section.item.data.length > 0) { %>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="shop-pagination pull-right">
@@ -81,6 +81,7 @@
                         </div>
                     </div>
                 </div>
+                <% } %>
             </div>
             <!-- Sidebar-Start -->
             <div class="col-xs-12 col-md-2">
@@ -117,11 +118,13 @@
     var currentPage = parseInt("<%= section.item.current_page %>");
     var nextPage = "<%= section.item.next_page %>";
 
-    Paginate.book({
-        totalPages: totalPages,
-        currentPage: currentPage,
-        nextPage: nextPage
-    });
+    if (totalPages) {
+        Paginate.book({
+            totalPages: totalPages,
+            currentPage: currentPage,
+            nextPage: nextPage
+        });
+    }
 
     $('#sort-book').on('change', function () {
         var sortBy = $('#sort-book').val();
