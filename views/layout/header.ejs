@@ -132,22 +132,41 @@
                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 ">
                     <div class="panel">
                         <div class="panel-heading">
-                            <ul class="nav nav-tabs">
-                                <li><a data-toggle="tab" href="#book">Search Book</a></li>
-                            </ul>
+                            <div class="panel-heading">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#search_internal">Search internal books</a></li>
+                                    <li><a data-toggle="tab" href="#search_google_books">Search books with google books</a></li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="panel-body">
-                            <div class="search-result col-md-12">
-                                <label class="radio-inline"><input type="radio" name="type-search" value="title" checked="true">Title</label>
-                                <label class="radio-inline"><input type="radio" name="type-search" value="author">Author</label>
-                                <label class="radio-inline"><input type="radio" name="type-search" value="description">Description</label>
-                                <label class="radio-inline"><input type="radio" name="type-search" value="Others">Others</label>
-                            </div>
-                            <div class="category-container col-md-12">
-                                <input type="text" id="search-book"/>
-                            </div>
-                            <div class="search-result col-md-12">
-                                <ul id="data-search"></ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="search_internal">
+                                    <div class="row event-list">
+                                        <div class="search-result col-md-12">
+                                            <label class="radio-inline"><input type="radio" name="type-search" value="title" checked="true">Title</label>
+                                            <label class="radio-inline"><input type="radio" name="type-search" value="author">Author</label>
+                                            <label class="radio-inline"><input type="radio" name="type-search" value="description">Description</label>
+                                        </div>
+                                        <div class="category-container col-md-12">
+                                            <input type="text" id="search-book"/>
+                                        </div>
+                                        <div class="search-result col-md-12">
+                                            <ul id="data-search"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="search_google_books">
+                                    <div class="row event-list">
+                                        <div class="category-container col-md-12">
+                                            <input type="text" id="search-book-google"/>
+                                        </div>
+                                        <div class="search-result col-md-12">
+                                            <ul id="data-search-google"></ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
