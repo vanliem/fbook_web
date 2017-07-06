@@ -243,3 +243,45 @@ Book.ajaxSortBook = function (data) {
     });
 };
 
+Book.addNew = function () {
+    if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
+        showNotify('danger', 'Please login before booking', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        return false;
+    }
+
+    if (!$('#form-add-book').valid()) {
+        return false;
+    }
+
+    var data = {
+        title: $('#title').val().trim(),
+        author: $('#author').val().trim(),
+        code: $('#code').val().trim(),
+        category_id: $('#category').val().trim(),
+        office_id: $('#office').val().trim(),
+        publish_date: $('#publish_date').val().trim(),
+        description: $('#description').val().trim()
+    };
+
+    $.ajax({
+        url: API_PATH + 'books',
+        headers: {'Accept': 'application/json', 'Authorization': access_token},
+        method: 'POST',
+        data: data
+    }).done(function (res) {
+        if (res.message.status && res.message.code === 200) {
+            showNotify('success', 'Add book success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+        }
+    }).fail(function (errors) {
+        var msg = '';
+        if (typeof(errors.responseJSON.message.description) !== 'undefined') {
+            errors.responseJSON.message.description.forEach(function (err) {
+                msg += err;
+            });
+        } else {
+            msg = 'Can\'t load more';
+        }
+
+        showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    });
+};
