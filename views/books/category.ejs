@@ -48,10 +48,10 @@
                                          src="<%= book.image ? book.image.web.thumbnail_path : '/images/book_thumb_default.jpg' %>">
                                 </div>
                                 <div class="media-body">
-                                    <h5 title="<%= book.title %>">
+                                    <h5 title="<%= book.title %>" data-toggle="tooltip">
                                         <%= book.title ? getString(book.title, configs.book.title_limit_characters) : 'No title' %>
                                     </h5>
-                                    <h6 title="<%= book.author %>">By
+                                    <h6 title="<%= book.author %>" data-toggle="tooltip">By
                                         <%= book.author ? getString(book.author, configs.book.author_limit_characters) : 'Framgia' %>
                                     </h6>
                                     <div class="space-10"></div>
