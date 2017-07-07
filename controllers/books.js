@@ -5,6 +5,7 @@ var util = require('util');
 var async = require('async');
 var objectHeaders = require('../helpers/headers');
 var localSession = require('../middlewares/localSession');
+var authorize = require('../middlewares/authorize');
 
 router.get('/', localSession, function (req, res, next) {
     req.checkQuery('field', 'Invalid field').notEmpty().isAlpha();
@@ -81,6 +82,54 @@ router.get('/', localSession, function (req, res, next) {
                         info: req.flash('info')
                     });
                 }
+            });
+        }
+    });
+});
+
+router.get('/add', authorize.isAuthenticated, function (req, res, next) {
+    async.parallel({
+        offices: function (callback) {
+            request({
+                url: req.configs.api_base_url + 'offices',
+                headers: objectHeaders.headers
+            }, function (error, response, body) {
+                if (!error && response.statusCode === 200) {
+                    try {
+                        var offices = JSON.parse(body);
+                        callback(null, offices);
+                    } catch (errorJSONParse) {
+                        callback(null, null);
+                    }
+                } else {
+                    callback(null, null);
+                }
+            });
+        },
+        categories: function (callback) {
+            request({
+                url: req.configs.api_base_url + 'categories',
+                headers: objectHeaders.headers
+            }, function (error, response, body) {
+                if (!error && response.statusCode === 200) {
+                    try {
+                        var categories = JSON.parse(body);
+                        callback(null, categories);
+                    } catch (errorJSONParse) {
+                        callback(null, null);
+                    }
+                } else {
+                    callback(null, null);
+                }
+            });
+        }
+    }, function (err, results) {
+        if (err) {
+            res.redirect('back');
+        } else {
+            res.render('books/add', {
+                categories: results.categories,
+                offices: results.offices
             });
         }
     });
