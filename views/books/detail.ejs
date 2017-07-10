@@ -65,7 +65,7 @@
                                              alt="library">
                                     </div>
                                     <div class="media-body">
-                                        <p><%= data.item.owner ? data.item.owner : 'Framgia' %></p>
+                                        <p><%= data.item.owner ? data.item.owner.name : 'Framgia' %></p>
                                     </div>
                                 </div>
                             </div>
@@ -80,21 +80,27 @@
                             <div class="col-xs-12 col-sm-4">
                                 <div class="media">
                                     <div class="media-body">
-                                        <a href="#user_review"><%= data.item.reviews_detail_book.length %> Review </a>
+                                        <a href="#user_review">
+                                            <span class="badge"><%= data.item.reviews_detail_book.length %></span> Review
+                                        <span class="badge"></a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4">
                                 <div class="media">
                                     <div class="media-body">
-                                        <a href="#user_review"><%= data.item.users_waiting_book.length %> Waiting</a>
+                                        <a href="#user_review">
+                                            <span class="badge"><%= data.item.users_waiting_book.length %></span> Waiting
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4">
                                 <div class="media">
                                     <div class="media-body">
-                                        <a href="#user_review"><%= data.item.users_read_book.length %> Read</a>
+                                        <a href="#user_review">
+                                            <span class="badge"><%= data.item.users_read_book.length %></span> Read
+                                        </a>
                                     </div>
                                 </div>
                             </div>

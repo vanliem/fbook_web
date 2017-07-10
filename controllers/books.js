@@ -142,90 +142,108 @@ router.get('/:id', localSession, function (req, res, next) {
             res.status(400).send('There have been validation errors: ' + util.inspect(result.array()));
             return;
         } else {
-            request({
-                url: req.configs.api_base_url + 'books/' + req.params.id,
-                headers: objectHeaders.headers
-            }, function (error, response, body) {
-                if (!error && response.statusCode === 200) {
-                    try {
-                        var data = JSON.parse(body);
-                        var currentUserReview = null;
-                        var btnBooking = {
-                            'text': 'Add to Reading',
-                            'data_status': req.configs.book_user.status.reading
-                        };
+            if (typeof req.session.book_detail_key == 'undefined') {
+                request({
+                    url: req.configs.api_base_url + 'books/' + req.params.id + '/increase-view',
+                    headers: objectHeaders.headers
+                }, function (error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        try {
+                            req.session.book_detail_key = Math.random().toString(36).substring(7);
+                            redirect('books/' + req.params.id);
+                        } catch (errorJSONParse) {
+                            res.redirect('back');
+                        }
+                    } else {
+                        res.redirect('back');
+                    }
+                });
+            } else {
+                request({
+                    url: req.configs.api_base_url + 'books/' + req.params.id,
+                    headers: objectHeaders.headers
+                }, function (error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        try {
+                            var data = JSON.parse(body);
+                            var currentUserReview = null;
+                            var btnBooking = {
+                                'text': 'Add to Reading',
+                                'data_status': req.configs.book_user.status.reading
+                            };
 
-                        if (typeof req.session.user !== 'undefined') {
-                            var userReading = data.item.user_reading_book;
-                            var userWaitings = data.item.users_waiting_book;
-                            var bookStatus = data.item.status;
+                            if (typeof req.session.user !== 'undefined') {
+                                var userReading = data.item.user_reading_book;
+                                var userWaitings = data.item.users_waiting_book;
+                                var bookStatus = data.item.status;
 
-                            if (data.item.reviews_detail_book.length > 0) {
-                                data.item.reviews_detail_book.forEach (function (review) {
-                                    if (review.user.id === req.session.user.id) {
-                                        currentUserReview = review;
-                                        return;
-                                    }
-                                });
-                            }
-
-                            if (bookStatus === req.configs.book.status.unavailable) {
-                                if (userReading !== null) {
-                                    if (req.session.user.id === userReading.id) {
-                                        btnBooking = {
-                                            'text': 'Return Book',
-                                            'data_status': req.configs.book_user.status.done
-                                        };
-                                    } else if (userWaitings.length === 0) {
-                                        btnBooking = {
-                                            'text': 'Add to Waiting',
-                                            'data_status': req.configs.book_user.status.waiting
-                                        };
-                                    }
-                                }
-
-                                if (userWaitings.length > 0) {
-                                    var flag = true;
-                                    userWaitings.forEach(function (userWaiting) {
-                                        if (userWaiting.id === req.session.user.id) {
-                                            flag = false;
-                                            btnBooking = {
-                                                'text': 'Cancel Waiting',
-                                                'data_status': req.configs.book_user.status.cancel_waiting
-                                            };
+                                if (data.item.reviews_detail_book.length > 0) {
+                                    data.item.reviews_detail_book.forEach (function (review) {
+                                        if (review.user.id === req.session.user.id) {
+                                            currentUserReview = review;
                                             return;
                                         }
                                     });
+                                }
 
-                                    if (flag && userReading !== null && req.session.user.id !== userReading.id) {
-                                        btnBooking = {
-                                            'text': 'Add to Waiting',
-                                            'data_status': req.configs.book_user.status.waiting
-                                        };
+                                if (bookStatus === req.configs.book.status.unavailable) {
+                                    if (userReading !== null) {
+                                        if (req.session.user.id === userReading.id) {
+                                            btnBooking = {
+                                                'text': 'Return Book',
+                                                'data_status': req.configs.book_user.status.done
+                                            };
+                                        } else if (userWaitings.length === 0) {
+                                            btnBooking = {
+                                                'text': 'Add to Waiting',
+                                                'data_status': req.configs.book_user.status.waiting
+                                            };
+                                        }
+                                    }
+
+                                    if (userWaitings.length > 0) {
+                                        var flag = true;
+                                        userWaitings.forEach(function (userWaiting) {
+                                            if (userWaiting.id === req.session.user.id) {
+                                                flag = false;
+                                                btnBooking = {
+                                                    'text': 'Cancel Waiting',
+                                                    'data_status': req.configs.book_user.status.cancel_waiting
+                                                };
+                                                return;
+                                            }
+                                        });
+
+                                        if (flag && userReading !== null && req.session.user.id !== userReading.id) {
+                                            btnBooking = {
+                                                'text': 'Add to Waiting',
+                                                'data_status': req.configs.book_user.status.waiting
+                                            };
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        var messages = req.flash('errors');
-                        data.item.btn_booking = btnBooking;
-                        data.item.current_user_review = currentUserReview;
-                        res.render('books/detail', {
-                            data: data,
-                            pageTitle: 'Chi tiết',
-                            messages: messages,
-                            error: req.flash('error'),
-                            info: req.flash('info')
-                        });
-                    } catch (errorJSONParse) {
+                            var messages = req.flash('errors');
+                            data.item.btn_booking = btnBooking;
+                            data.item.current_user_review = currentUserReview;
+                            res.render('books/detail', {
+                                data: data,
+                                pageTitle: 'Chi tiết',
+                                messages: messages,
+                                error: req.flash('error'),
+                                info: req.flash('info')
+                            });
+                        } catch (errorJSONParse) {
+                            req.flash('error', 'Don\'t allow show this book');
+                            res.redirect('back');
+                        }
+                    } else {
                         req.flash('error', 'Don\'t allow show this book');
                         res.redirect('back');
                     }
-                } else {
-                    req.flash('error', 'Don\'t allow show this book');
-                    res.redirect('back');
-                }
-            });
+                });
+            }
         }
     });
 });
