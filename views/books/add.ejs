@@ -81,36 +81,36 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <input type="file" name="medias" class="medias">
+                                <input type="file" name="medias[][file]" class="medias">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="checkbox">
-                                <label><input type="checkbox" value="">Is book avatar</label>
+                                <label><input type="checkbox" name="medias[][type]" value="0">Is book avatar</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <input type="file" name="medias[]" class="medias">
+                                <input type="file" name="medias[][file]" class="medias">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="checkbox">
-                                <label><input type="checkbox" value="">Is book avatar</label>
+                                <label><input type="checkbox" value="1" name="medias[][type]">Is book avatar</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <input type="file" name="medias[]" class="medias">
+                                <input type="file" name="medias[][file]" class="medias">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="checkbox">
-                                <label><input type="checkbox" value="">Is book avatar</label>
+                                <label><input type="checkbox" value="2" name="medias[][type]">Is book avatar</label>
                             </div>
                         </div>
                     </div>
@@ -132,7 +132,9 @@
 <script src="/javascripts/books/book.js" type="text/javascript"></script>
 <script src="/javascripts/books/suggestData.js" type="text/javascript"></script>
 <script type="text/javascript">
-    $('#publish_date').datepicker();
+    $('#publish_date').datepicker({
+        format: 'yyyy-mm-dd'
+    });
     $('#form-add-book').validate({
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');
@@ -147,9 +149,31 @@
         }
     });
 
-    $('#btn-add-book').on('click', function (e) {
+    /*$('#btn-add-book').on('click', function (e) {
         e.preventDefault();
         Book.addNew();
-    });
+    });*/
 
+    $('form#form-add-book').submit(function () {
+        var formData = new FormData(this);
+        $.ajax({
+            url: API_PATH + 'books',
+            headers: {'Accept': 'application/json', 'Authorization': access_token},
+            method: 'POST',
+            data: formData,
+            async: false,
+            success: function (data) {
+                alert(data)
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: false
+            }
+        });
+
+        return false;
+    });
 </script>
