@@ -30,12 +30,14 @@
                         </div>
                         <div class="media-body">
                             <% if (typeof (book.title) != 'undefined' && book.title) {%>
-                                <h5 title="<%= book.title %>"><%= getString(book.title, configs.book.title_limit_characters) %></h5>
+                                <h5 title="<%= book.title %>" data-toggle="tooltip">
+                                    <%= getString(book.title, configs.book.title_limit_characters) %>
+                                </h5>
                             <% } else {%>
                                 <h6>No title</h6>
                             <% } %>
                             <% if (typeof (book.author) != 'undefined' && book.author) { %>
-                                <h6 title="<%= book.author %>">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
+                                <h6 title="<%= book.author %>" data-toggle="tooltip">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
                             <% } else {%>
                                 <h6>By Framgia</h6>
                             <% } %>
