@@ -15,8 +15,11 @@
         </div>
         <div class="space-60"></div>
         <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 ">
-                <form action="#" id="form-add-book" enctype="multipart/form-data">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <div id="modelSpace"></div>
+                <div class='suggestedTitle'></div>
+                <span><button class="btn btn-primary btn-xs" id="fillSuggestData"> Suggest book </button></span>
+                <form action="/books/add" id="form-add-book" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
@@ -127,6 +130,7 @@
 
 <%- contentFor('appjs') %>
 <script src="/javascripts/books/book.js" type="text/javascript"></script>
+<script src="/javascripts/books/suggestData.js" type="text/javascript"></script>
 <script type="text/javascript">
     $('#publish_date').datepicker();
     $('#form-add-book').validate({
@@ -149,4 +153,3 @@
     });
 
 </script>
-
