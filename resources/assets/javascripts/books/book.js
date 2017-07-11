@@ -4,9 +4,9 @@ Book.init = function () {
     var scope = this;
 };
 
-Book.handle = function () {
-
-};
+Book.configs = function () {
+    return configs.book;
+}
 
 Book.loadMoreBook = function (data) {
     var scope = this;
@@ -52,15 +52,15 @@ Book.loadMoreBook = function (data) {
 };
 
 Book.generateBookXhtml = function (book) {
-    var bookConfigs = configs.book;
-    var thumbnailPath = book.image.web.thumbnail_path !== undefined
+    var scope = this;
+    var thumbnailPath = book.image && book.image.web.thumbnail_path !== undefined
         ? book.image.web.thumbnail_path
         : '/images/book_thumb_default.jpg';
-    var bookTitle = (book.title && book.title.length) > bookConfigs.title_limit_characters
-        ? (book.title.substring(0, bookConfigs.title_limit_characters) + ' ...')
+    var bookTitle = (book.title && book.title.length) > scope.configs.title_limit_characters
+        ? (book.title.substring(0, scope.configs.title_limit_characters) + ' ...')
         : book.title;
-    var bookAuthor = (book.author && book.author.length) > bookConfigs.author_limit_characters
-        ? (book.author.substring(0, bookConfigs.author_limit_characters) + ' ...')
+    var bookAuthor = (book.author && book.author.length) > scope.configs.author_limit_characters
+        ? (book.author.substring(0, scope.configs.author_limit_characters) + ' ...')
         : book.author;
 
     var xhtml = '';
