@@ -78,42 +78,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group">
-                                <input type="file" name="medias" class="medias">
+                    <% for(i = 1; i <= 3; i++) { %>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="form-group">
+                                    <input type="file" id="image<%= i %>" name="image<%= i %>" accept="Image/*" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="checkbox">
+                                    <label><input type="radio" <%= i == 1 ? "checked" : "" %> name="media_book" value="<%= i %>">Is book avatar</label>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="">Is book avatar</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group">
-                                <input type="file" name="medias[]" class="medias">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="">Is book avatar</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group">
-                                <input type="file" name="medias[]" class="medias">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="">Is book avatar</label>
-                            </div>
-                        </div>
-                    </div>
+                    <% } %>
                     <div class="row">
                         <div class="space-20"></div>
                         <div class="col-xs-12 col-sm-6">
