@@ -243,6 +243,10 @@ Book.ajaxSortBook = function (data) {
     });
 };
 
+$('#publish_date').datepicker({
+    format: 'yyyy-mm-dd'
+});
+
 Book.addNew = function () {
     if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
         showNotify('danger', 'Please login before booking', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
@@ -253,21 +257,35 @@ Book.addNew = function () {
         return false;
     }
 
-    var data = {
-        title: $('#title').val().trim(),
-        author: $('#author').val().trim(),
-        code: $('#code').val().trim(),
-        category_id: $('#category').val().trim(),
-        office_id: $('#office').val().trim(),
-        publish_date: $('#publish_date').val().trim(),
-        description: $('#description').val().trim()
-    };
+    var formData = new FormData();
+    formData.append('title', $('#title').val().trim());
+    formData.append('author', $('#author').val().trim());
+    formData.append('code', $('#code').val().trim());
+    formData.append('category_id', $('#category').val().trim());
+    formData.append('office_id', $('#office').val().trim());
+    formData.append('publish_date', $('#publish_date').val());
+    formData.append('description', $('#description').val().trim());
+    // Attach file
+    for(i = 1; i <= 3; i++) {
+        if ($('#image' + i)[0].files[0]) {
+            formData.append('medias[' + (i - 1) + '][file]', $('#image' + i)[0].files[0]);
+
+            if ($('input[name="media_book"]:checked').val() == i) {
+                formData.append('medias[' + (i - 1) + '][type]', 1);
+            } else {
+                formData.append('medias[' + (i - 1) + '][type]', 0);
+            }
+        }
+    }
 
     $.ajax({
         url: API_PATH + 'books',
         headers: {'Accept': 'application/json', 'Authorization': access_token},
         method: 'POST',
-        data: data
+        contentType:false,
+        cache: false,
+        processData:false,
+        data: formData
     }).done(function (res) {
         if (res.message.status && res.message.code === 200) {
             showNotify('success', 'Add book success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
