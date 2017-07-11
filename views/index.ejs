@@ -22,10 +22,10 @@
                 <div class="category-item well yellow">
                     <div class="media">
                         <div class="media-left">
-                            <% if (book.image !== null) { %>
-                            <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="<%= book.title %>">
+                            <% if (book.image && book.image.web.thumbnail_path !== undefined) { %>
+                                <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="<%= book.title %>">
                             <% } else { %>
-                            <img src="/images/book_thumb_default.jpg" class="media-object" alt="<%= book.title %>">
+                                <img src="/images/book_thumb_default.jpg" class="media-object" alt="<%= book.title %>">
                             <% } %>
                         </div>
                         <div class="media-body">
@@ -34,7 +34,7 @@
                                     <%= getString(book.title, configs.book.title_limit_characters) %>
                                 </h5>
                             <% } else {%>
-                                <h6>No title</h6>
+                                <h5>No title</h5>
                             <% } %>
                             <% if (typeof (book.author) != 'undefined' && book.author) { %>
                                 <h6 title="<%= book.author %>" data-toggle="tooltip">By <%= getString(book.author, configs.book.author_limit_characters) %></h6>
