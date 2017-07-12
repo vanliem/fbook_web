@@ -6,7 +6,6 @@ var config = {
     client_id: "YRsMngWe7ZLwuTFRkpVNUutE",
     client_secret: "06de87ccaad2e0104fec49157bb6352245649081b547e943ba23e0d378f2",
     auth_server_authorization_code_url: "http://auth.framgia.vn/auth/hr_system/access_token",
-    url_search_google_books_apis: "https://www.googleapis.com/books/v1/volumes?key=AIzaSyABsSrm2Utr2zFW47Wbiagu6DDxkbf7EEo",
     url_sign_in_auth_server: "http://auth.framgia.vn/users/sign_in",
     book: {
         default_star: 5,
@@ -24,8 +23,9 @@ var config = {
         status: {
             "waiting": 1,
             "reading": 2,
-            "done": 3,
-            "cancel_waiting": 4
+            "returning": 3,
+            "returned": 4,
+            "cancel_waiting": 5
         }
     }
 };
