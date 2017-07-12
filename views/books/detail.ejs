@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-xs-12 col-md-6 book-list-position padding60  ">
                 <div class="book-list-photo">
-                    <% if (typeof(data.item.media) != 'undefined') { %>
+                    <% if (data.item.media.length > 0) { %>
                         <div class="book-list">
                             <% data.item.media.forEach(function (image) { %>
                             <div class="book_item">
@@ -55,21 +55,25 @@
                             </div>
                         </div>
                         <div class="space-30"></div>
+                        <h4 class="tip-left">Owner By</h4>
+                        <% if(data.item.owners.length > 0) { %>
+                        <% data.item.owners.forEach(function (owner) { %>
                         <div class="row">
                             <div class="col-xs-12 col-sm-8">
-                                <h4 class="tip-left">Owner By</h4>
                                 <div class="media">
                                     <div class="media-left">
-                                        <img src="<%= (data.item.owner && data.item.owner.avatar) ? data.item.owner.avatar : '/images/logo_framgia.png' %>"
-                                             class="media-object author-photo img-thumbnail <%= data.item.owner ? '' : 'background--white' %>"
+                                        <img src="<%= owner.avatar ? owner.avatar : '/images/logo_framgia.png' %>"
+                                             class="media-object author-photo img-thumbnail <%= owner.avatar ? '' : 'background--white' %>"
                                              alt="library">
                                     </div>
                                     <div class="media-body">
-                                        <p><%= data.item.owner ? data.item.owner.name : 'Framgia' %></p>
+                                        <p><%= owner.name %></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <% }) %>
+                        <% } %>
                         <div class="space-30"></div>
                         <h4 class="tip-left">Description</h4>
                         <p><%= data.item.description %></p>
@@ -81,7 +85,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <a href="#user_review">
-                                            <span class="badge"><%= data.item.reviews_detail_book.length %></span> Review
+                                            <span class="badge"><%= data.item.reviews_detail.length %></span> Review
                                         <span class="badge"></a>
                                     </div>
                                 </div>
@@ -90,7 +94,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <a href="#user_review">
-                                            <span class="badge"><%= data.item.users_waiting_book.length %></span> Waiting
+                                            <span class="badge"><%= data.item.users_waiting.length %></span> Waiting
                                         </a>
                                     </div>
                                 </div>
@@ -99,7 +103,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <a href="#user_review">
-                                            <span class="badge"><%= data.item.users_read_book.length %></span> Read
+                                            <span class="badge"><%= data.item.users_returned.length %></span> Read
                                         </a>
                                     </div>
                                 </div>
@@ -174,6 +178,7 @@
                     <li class="active"><a data-toggle="tab" href="#user_review">User Review</a></li>
                     <li><a data-toggle="tab" href="#user_reading">User Reading</a></li>
                     <li><a data-toggle="tab" href="#user_waiting">User Waiting</a></li>
+                    <li><a data-toggle="tab" href="#user_returning">User Returning</a></li>
                     <li><a data-toggle="tab" href="#user_read">User Read</a></li>
                 </ul>
             </div>
@@ -181,8 +186,8 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="user_review">
                         <div class="row event-list">
-                            <% if (data.item.reviews_detail_book.length > 0) { %>
-                            <% data.item.reviews_detail_book.forEach(function (review) { %>
+                            <% if (data.item.reviews_detail.length > 0) { %>
+                            <% data.item.reviews_detail.forEach(function (review) { %>
                             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
                                 <div class="event-item wow fadeInRight">
                                     <h4 class="show tip-left"><%= review.created_at %></h4>
@@ -252,27 +257,27 @@
                     </div>
                     <div class="tab-pane fade" id="user_reading">
                         <div class="row event-list">
-                            <% if (data.item.user_reading_book !== null) { %>
+                            <% if (data.item.user_reading !== null) { %>
                             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
                                 <div class="event-item wow fadeInRight">
                                     <div class="well">
                                         <div class="media">
                                             <div class="media-left">
-                                                <% if (data.item.user_reading_book.avatar !== null) { %>
-                                                    <a href="/users/<%= data.item.user_reading_book.id %>">
-                                                        <img src="<%= data.item.user_reading_book.avatar %>" class="media-object w-70-h-70" alt="library">
+                                                <% if (data.item.user_reading.avatar !== null) { %>
+                                                    <a href="/users/<%= data.item.user_reading.id %>">
+                                                        <img src="<%= data.item.user_reading.avatar %>" class="media-object w-70-h-70" alt="library">
                                                     </a>
                                                 <% } else { %>
-                                                    <a href="/users/<%= data.item.user_reading_book.id %>">
+                                                    <a href="/users/<%= data.item.user_reading.id %>">
                                                         <img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">
                                                     </a>
                                                 <% } %>
                                             </div>
                                             <div class="media-body">
                                                 <div class="space-10"></div>
-                                                <a href="/users/<%= data.item.user_reading_book.id %>"><h4 class="media-heading"><%= data.item.user_reading_book.name %></h4></a>
+                                                <a href="/users/<%= data.item.user_reading.id %>"><h4 class="media-heading"><%= data.item.user_reading.name %></h4></a>
                                                 <div class="space-10"></div>
-                                                <p><%= data.item.user_reading_book.name %></p>
+                                                <p><%= data.item.user_reading.name %></p>
                                             </div>
                                         </div>
                                     </div>
@@ -283,8 +288,42 @@
                     </div>
                     <div class="tab-pane fade" id="user_waiting">
                         <div class="row event-list">
-                            <% if (data.item.users_waiting_book.length > 0) { %>
-                            <% data.item.users_waiting_book.forEach(function (user) { %>
+                            <% if (data.item.users_waiting.length > 0) { %>
+                            <% data.item.users_waiting.forEach(function (user) { %>
+                            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9" id="user-<%= user.id %>">
+                                <div class="event-item wow fadeInRight">
+                                    <div class="well">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <% if (user.avatar !== null) { %>
+                                                    <a href="/users/<%= user.id %>">
+                                                        <img src="<%= user.avatar %>" class="media-object w-70-h-70" alt="library">
+                                                    </a>
+                                                <% } else { %>
+                                                    <a href="/users/<%= user.id %>">
+                                                        <img src="/images/user/icon_user_default.png" class="media-object w-70-h-70" alt="library">
+                                                    </a>
+                                                <% } %>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="space-10"></div>
+                                                <a href="/users/<%= user.id %>"><h4 class="media-heading"><%= user.name %></h4></a>
+                                                <div class="space-10"></div>
+                                                <p><%= user.name %></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="user_returning">
+                        <div class="row event-list">
+                            <% if (data.item.users_returning.length > 0) { %>
+                            <% data.item.users_returning.forEach(function (user) { %>
                             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9" id="user-<%= user.id %>">
                                 <div class="event-item wow fadeInRight">
                                     <div class="well">
@@ -317,8 +356,8 @@
                     </div>
                     <div class="tab-pane fade" id="user_read">
                         <div class="row event-list">
-                            <% if (data.item.users_read_book.length > 0) { %>
-                            <% data.item.users_read_book.forEach(function (user) { %>
+                            <% if (data.item.users_returned.length > 0) { %>
+                            <% data.item.users_returned.forEach(function (user) { %>
                             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9" id="user-<%= user.id %>">
                                 <div class="event-item wow fadeInRight">
                                     <div class="well">

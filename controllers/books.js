@@ -173,7 +173,6 @@ router.get('/:id', localSession, function (req, res, next) {
                 }, function (error, response, body) {
                     if (!error && response.statusCode === 200) {
                         try {
-                            var data = JSON.parse(body);
                             var currentUserReview = null;
                             var btnBooking = {
                                 'text': 'Add to Reading',
@@ -181,12 +180,12 @@ router.get('/:id', localSession, function (req, res, next) {
                             };
 
                             if (typeof req.session.user !== 'undefined') {
-                                var userReading = data.item.user_reading_book;
-                                var userWaitings = data.item.users_waiting_book;
+                                var userReading = data.item.user_reading;
+                                var userWaitings = data.item.users_waiting;
                                 var bookStatus = data.item.status;
 
-                                if (data.item.reviews_detail_book.length > 0) {
-                                    data.item.reviews_detail_book.forEach (function (review) {
+                                if (data.item.reviews_detail.length > 0) {
+                                    data.item.reviews_detail.forEach (function (review) {
                                         if (review.user.id === req.session.user.id) {
                                             currentUserReview = review;
                                             return;
@@ -194,7 +193,7 @@ router.get('/:id', localSession, function (req, res, next) {
                                     });
                                 }
 
-                                if (bookStatus === req.configs.book.status.unavailable) {
+                                /*if (bookStatus === req.configs.book.status.unavailable) {
                                     if (userReading !== null) {
                                         if (req.session.user.id === userReading.id) {
                                             btnBooking = {
@@ -229,7 +228,7 @@ router.get('/:id', localSession, function (req, res, next) {
                                             };
                                         }
                                     }
-                                }
+                                }*/
                             }
 
                             var messages = req.flash('errors');
