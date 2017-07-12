@@ -191,6 +191,11 @@
     height: 70px;
 }
 
+.w-30-h-30 {
+    width: 30px;
+    height: 30px;
+}
+
 [data-notify="container"][class*="alert-"] {
     width: 300px;
 }
@@ -241,4 +246,17 @@
 
 .m-bottom15 {
     margin-bottom: 15px;
+}
+
+.owner-right {
+    float: right;
+}
+
+.owner-clear {
+    clear: both;
+}
+
+.owner-image {
+    float:left;
+    padding: 5px;
 }
