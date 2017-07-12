@@ -135,6 +135,14 @@ router.get('/add', authorize.isAuthenticated, function (req, res, next) {
     });
 });
 
+router.get('/waiting_approve', function (req, res, next) {
+    res.render('books/waiting_approve');
+});
+
+router.get('/approve_user', function (req, res, next) {
+    res.render('books/approve_user');
+});
+
 router.get('/:id', localSession, function (req, res, next) {
     req.checkParams('id', 'Invalid id').notEmpty().isInt();
     req.getValidationResult().then(function (result) {
@@ -169,7 +177,7 @@ router.get('/:id', localSession, function (req, res, next) {
                             var currentUserReview = null;
                             var btnBooking = {
                                 'text': 'Add to Reading',
-                                'data_status': req.configs.book_user.status.reading
+                                'status': req.configs.book_user.status.reading
                             };
 
                             if (typeof req.session.user !== 'undefined') {
@@ -191,12 +199,12 @@ router.get('/:id', localSession, function (req, res, next) {
                                         if (req.session.user.id === userReading.id) {
                                             btnBooking = {
                                                 'text': 'Return Book',
-                                                'data_status': req.configs.book_user.status.done
+                                                'status': req.configs.book_user.status.done
                                             };
                                         } else if (userWaitings.length === 0) {
                                             btnBooking = {
                                                 'text': 'Add to Waiting',
-                                                'data_status': req.configs.book_user.status.waiting
+                                                'status': req.configs.book_user.status.waiting
                                             };
                                         }
                                     }
@@ -208,7 +216,7 @@ router.get('/:id', localSession, function (req, res, next) {
                                                 flag = false;
                                                 btnBooking = {
                                                     'text': 'Cancel Waiting',
-                                                    'data_status': req.configs.book_user.status.cancel_waiting
+                                                    'status': req.configs.book_user.status.cancel_waiting
                                                 };
                                                 return;
                                             }
@@ -217,7 +225,7 @@ router.get('/:id', localSession, function (req, res, next) {
                                         if (flag && userReading !== null && req.session.user.id !== userReading.id) {
                                             btnBooking = {
                                                 'text': 'Add to Waiting',
-                                                'data_status': req.configs.book_user.status.waiting
+                                                'status': req.configs.book_user.status.waiting
                                             };
                                         }
                                     }
@@ -347,6 +355,49 @@ router.post('/review/:id', function (req, res, next) {
                     }
                 } else {
                     if (response.statusCode == 401) {
+                        req.flash('error', 'Please login to review this book');
+                        res.redirect('back');
+                    } else {
+                        req.flash('error', 'Don\'t allow review this book');
+                        res.redirect('back');
+                    }
+                }
+            });
+        }
+    });
+});
+
+router.post('/booking/:id', function (req, res, next) {
+    req.checkParams('id', 'Invalid book_id').notEmpty().isInt();
+    req.checkBody('owner_id', 'Invalid owner_id').notEmpty().isInt();
+    req.checkBody('status', 'Invalid status').notEmpty().isInt();
+
+    req.getValidationResult().then(function (result) {
+        if (!result.isEmpty()) {
+            req.flash('errors', result.array());
+            res.redirect('/books/' + req.params.id + '#form-review');
+        } else {
+            var form = {
+                item: {
+                    book_id: req.params.id,
+                    owner_id: req.body.owner_id,
+                    status: req.body.status
+                }
+            };
+            request.post({
+                url: req.configs.api_base_url + 'books/booking',
+                form: form,
+                headers: objectHeaders.headers({'Authorization': req.session.access_token})
+            }, function (error, response, body) {
+                if (!error && response.statusCode === 200) {
+                    try {
+                        req.flash('info', 'Booking success');
+                        res.redirect('/home');
+                    } catch (errorJSONParse) {
+                        res.redirect('back');
+                    }
+                } else {
+                    if (response.statusCode === 401) {
                         req.flash('error', 'Please login to review this book');
                         res.redirect('back');
                     } else {
