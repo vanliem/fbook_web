@@ -158,7 +158,7 @@ router.get('/:id', localSession, function (req, res, next) {
                     if (!error && response.statusCode === 200) {
                         try {
                             req.session.book_detail_key = Math.random().toString(36).substring(7);
-                            redirect('books/' + req.params.id);
+                            res.redirect(req.params.id);
                         } catch (errorJSONParse) {
                             res.redirect('back');
                         }
@@ -343,7 +343,14 @@ router.post('/review/:id', function (req, res, next) {
             var star = req.body.star != 0 ? req.body.star : 1;
             request.post({
                 url: req.configs.api_base_url + 'books/review/' + req.params.id,
-                form: {'item': {'content': req.body.content, 'star': star}},
+                form: {
+                    'item':
+                    {
+                        'content': req.body.content,
+                        'star': star,
+                        'owner_id': req.body.owner_review
+                    }
+                },
                 headers: objectHeaders.headers({'Authorization': req.session.access_token})
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
