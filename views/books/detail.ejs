@@ -61,7 +61,7 @@
                                 <% if (data.item.owners) { %>
                                     <% data.item.owners.forEach(function (owner) { %>
                                         <a class="owner-image" data-toggle="tooltip" title="<%= owner.name %>" href="/users/<%= owner.id %>">
-                                            <img src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
+                                            <img class="img-owner-detail img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
                                                  class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
                                                  alt="library">
                                         </a>
@@ -216,19 +216,6 @@
                                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
                                     <div class="event-item wow fadeInRight">
                                         <h4 class="show tip-left"><%= review.created_at %></h4>
-                                        <div class="media-left owner-right">
-                                            <% if (review.owner.avatar !== null) { %>
-                                                <a href="/users/<%= review.owner.id %>">
-                                                    <img src="<%= review.owner.avatar %>" class="w-30-h-30" alt="library">
-                                                    <%= review.owner.name %>
-                                                </a><strong>[Owner this book]</strong>
-                                            <% } else { %>
-                                                <a href="/users/<%= review.owner.id %>">
-                                                    <img src="/images/user/icon_user_default.png" class="w-30-h-30" alt="library">
-                                                    <%= review.owner.name %>
-                                                </a><strong>[Owner this book]</strong>
-                                            <% } %>
-                                        </div>
                                         <div class="well padding5 owner-clear">
                                             <div class="media">
                                                 <div class="media-left">
@@ -271,32 +258,13 @@
                                 <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-9">
                                     <div class="form-group">
                                         <div class="col-xs-12 col-sm-12 col-md-12">
-                                            Content
                                             <% if (data.item.current_user_review !== null) { %>
                                                 <textarea name="content" id="content" class="form-control bg-info" cols="50" rows="5"placeholder="Enter your review..." required> <%= data.item.current_user_review.content %> </textarea>
+                                                    <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" data-step="1" value=<%= data.item.current_user_review.star %> data-size="xs">
                                             <% } else { %>
                                                 <textarea name="content" id="content" class="form-control bg-info" cols="50" rows="5" placeholder="Enter your review..." required></textarea>
+                                                <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" data-step="1" data-size="xs">
                                             <% } %>
-                                        </div>
-                                        <div class="space-10"></div>
-                                        <div class="col-xs-12 col-sm-12 col-md-12">
-                                            <div class="col-xs-8 col-sm-8 col-md-8 owner-option">
-                                                <% if (data.item.owners) { %>
-                                                    Choose book owner
-                                                    <select class='form-control' name='owner_review'>
-                                                        <% data.item.owners.forEach(function (owner) { %>
-                                                            <option <%= data.item.current_user_review !== null && data.item.current_user_review.owner.id == owner.id ? "selected" : "" %> value="<%= owner.id %>"><%= owner.name %> [<%= owner.email %>]</option>
-                                                        <% }) %>
-                                                    </select>
-                                                <% } %>
-                                            </div>
-                                            <div class="col-xs-4 col-sm-4 col-md-4">
-                                                <% if (data.item.current_user_review !== null) { %>
-                                                    <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" data-step="1" value=<%= data.item.current_user_review.star %> data-size="xs">
-                                                <% } else { %>
-                                                    <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" data-step="1" data-size="xs">
-                                                <% } %>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
