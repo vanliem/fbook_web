@@ -58,7 +58,7 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-8">
                                 <h4 class="tip-left">Owner By</h4>
-                                <% if (data.item.owners) { %>
+                                <% if (data.item.owners.length > 0) { %>
                                     <% data.item.owners.forEach(function (owner) { %>
                                         <a class="owner-image" data-toggle="tooltip" title="<%= owner.name %>" href="/users/<%= owner.id %>">
                                             <img src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
@@ -134,55 +134,49 @@
                             </div>
                         </div>
                         <div class="space-20"></div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> <%= data.item.btn_booking.text %> </button>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4">
+                                <select class="form-control" name="action_booking">
+                                    <option value="" disabled selected>You want to ?</option>
+                                    <option value="waiting" <%= data.item.btn_booking.status !== 1 ? 'disabled' : '' %>>Read</option>
+                                    <option value="return" <%= data.item.btn_booking.status !== 3 ? 'disabled' : '' %>>Return</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!--Begin Modal Owner-->
-        <div aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog" style="display: none;" tabindex="-1">
+        <!--Begin Modal Booking-->
+        <div aria-labelledby="myModalLabel" class="modal fade" id="modalWantToRead" role="dialog" style="display: none;" tabindex="-1">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
                         <h5 class="modal-title" id="myModalLabel">
-                            Bạn muốn mượn sách <%= data.item.title %> của ai ?
+                            Do you want to read this book <%= data.item.title %> from ?
                         </h5>
                     </div>
                     <div class="modal-body">
                         <form action="/books/booking/<%= data.item.id %>" method="post" id="form-booking-book" novalidate="novalidate">
                             <input type="hidden" name="status" value="<%= data.item.btn_booking.status %>">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6">
-                                    <div class="checkbox">
-                                        <label for="owner_id_01">
-                                            <input type="radio" id="owner_id_01" name="owner_id" value="1" required aria-required="true"/> Owner_01
-                                        </label>
+                            <% if (data.item.owners.length > 0) { %>
+                                <% data.item.owners.forEach(function (owner) { %>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="radio" name="owner_id" value="<%= owner.id %>" required aria-required="true"/> <%= owner.name %> - You can <i><span class="text-danger"> <%= owner.pivot.status ? 'Ready to Reading' : 'Add to Waiting' %></span></i>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                <% }) %>
+                            <% } %>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-6">
-                                    <div class="checkbox">
-                                        <label for="owner_id_02">
-                                            <input type="radio" id="owner_id_02" name="owner_id" value="1"/> Owner_01
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6">
-                                    <div class="checkbox">
-                                        <label for="owner_id_03">
-                                            <input type="radio" id="owner_id_03" name="owner_id" value="1"/> Owner_01
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6">
-                                    <button type="submit" class="btn btn-primary btn-xs" id="booking-book"><%= data.item.btn_booking.text %><i class="fa fa-long-arrow-right"></i></button>
+                                <div class="col-xs-12 col-sm-12 text-center">
+                                    <button type="submit" class="btn btn-primary btn-xs">Want to Read<i class="fa fa-long-arrow-right"></i></button>
                                     <input type="reset" class="btn btn-danger btn-xs"/>
                                 </div>
                             </div>
@@ -191,7 +185,45 @@
                 </div>
             </div>
         </div>
-        <!--End Modal Owner-->
+        <!--End Modal Booking-->
+        <!--Begin Modal Return-->
+        <div aria-labelledby="myModalLabel" class="modal fade" id="modalReturn" role="dialog" style="display: none;" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                        <h5 class="modal-title" id="myModalLabel">
+                            Do you want to return this book <%= data.item.title %> for ?
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/books/booking/<%= data.item.id %>" method="post" id="form-booking-book" novalidate="novalidate">
+                            <input type="hidden" name="status" value="<%= data.item.btn_booking.status %>">
+                            <% if (data.item.owners.length > 0) { %>
+                                <% data.item.owners.forEach(function (owner) { %>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="radio" name="owner_id" value="<%= owner.id %>" required aria-required="true"/> <%= owner.name %>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                            <% } %>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 text-center">
+                                    <button type="submit" class="btn btn-primary btn-xs" >Return Book <i class="fa fa-long-arrow-right"></i></button>
+                                    <input type="reset" class="btn btn-danger btn-xs"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Modal Return-->
     </div>
 </section>
 
@@ -540,6 +572,7 @@
         error.insertAfter(element);
     }});
 
+    Book.init();
 </script>
 <script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>
 
