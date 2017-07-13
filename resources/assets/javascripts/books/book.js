@@ -2,11 +2,12 @@ var Book = {};
 
 Book.init = function () {
     var scope = this;
+    scope.popUpModal();
 };
 
 Book.configs = function () {
     return configs.book;
-}
+};
 
 Book.loadMoreBook = function (data) {
     var scope = this;
@@ -301,5 +302,16 @@ Book.addNew = function () {
         }
 
         showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    });
+};
+
+Book.popUpModal = function () {
+    $('select[name=action_booking]').on('change', function (e) {
+        var action = $(this).val();
+        if (action === 'waiting') {
+            $('#modalWantToRead').modal('show');
+        } else if (action === 'return') {
+            $('#modalReturn').modal('show');
+        }
     });
 };

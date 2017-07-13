@@ -150,7 +150,7 @@ router.get('/:id', localSession, function (req, res, next) {
             res.status(400).send('There have been validation errors: ' + util.inspect(result.array()));
             return;
         } else {
-            if (typeof req.session.book_detail_key == 'undefined') {
+            if (typeof req.session.book_detail_key === 'undefined') {
                 request({
                     url: req.configs.api_base_url + 'books/' + req.params.id + '/increase-view',
                     headers: objectHeaders.headers
@@ -177,13 +177,12 @@ router.get('/:id', localSession, function (req, res, next) {
                             var currentUserReview = null;
                             var btnBooking = {
                                 'text': 'Add to Reading',
-                                'status': req.configs.book_user.status.reading
+                                'status': req.configs.book_user.status.waiting
                             };
+                            var messages = req.flash('errors');
 
                             if (typeof req.session.user !== 'undefined') {
-                                var userReading = data.item.user_reading;
-                                var userWaitings = data.item.users_waiting;
-                                var bookStatus = data.item.status;
+                                var usersReading = data.item.users_reading;
 
                                 if (data.item.reviews_detail.length > 0) {
                                     data.item.reviews_detail.forEach (function (review) {
@@ -194,47 +193,22 @@ router.get('/:id', localSession, function (req, res, next) {
                                     });
                                 }
 
-                                if (bookStatus === req.configs.book.status.unavailable) {
-                                    if (userReading !== null) {
-                                        if (req.session.user.id === userReading.id) {
+                                if (usersReading) {
+                                    usersReading.forEach (function (userReading) {
+                                        if (userReading.id === req.session.user.id) {
                                             btnBooking = {
                                                 'text': 'Return Book',
-                                                'status': req.configs.book_user.status.done
+                                                'status': req.configs.book_user.status.returning
                                             };
-                                        } else if (userWaitings.length === 0) {
-                                            btnBooking = {
-                                                'text': 'Add to Waiting',
-                                                'status': req.configs.book_user.status.waiting
-                                            };
+                                            return;
                                         }
-                                    }
-
-                                    if (userWaitings.length > 0) {
-                                        var flag = true;
-                                        userWaitings.forEach(function (userWaiting) {
-                                            if (userWaiting.id === req.session.user.id) {
-                                                flag = false;
-                                                btnBooking = {
-                                                    'text': 'Cancel Waiting',
-                                                    'status': req.configs.book_user.status.cancel_waiting
-                                                };
-                                                return;
-                                            }
-                                        });
-
-                                        if (flag && userReading !== null && req.session.user.id !== userReading.id) {
-                                            btnBooking = {
-                                                'text': 'Add to Waiting',
-                                                'status': req.configs.book_user.status.waiting
-                                            };
-                                        }
-                                    }
+                                    });
                                 }
                             }
 
-                            var messages = req.flash('errors');
                             data.item.btn_booking = btnBooking;
                             data.item.current_user_review = currentUserReview;
+
                             res.render('books/detail', {
                                 data: data,
                                 pageTitle: 'Chi tiết',
@@ -391,6 +365,7 @@ router.post('/booking/:id', function (req, res, next) {
                     status: req.body.status
                 }
             };
+
             request.post({
                 url: req.configs.api_base_url + 'books/booking',
                 form: form,
@@ -405,10 +380,10 @@ router.post('/booking/:id', function (req, res, next) {
                     }
                 } else {
                     if (response.statusCode === 401) {
-                        req.flash('error', 'Please login to review this book');
+                        req.flash('error', 'Please login to booking this book');
                         res.redirect('back');
                     } else {
-                        req.flash('error', 'Don\'t allow review this book');
+                        req.flash('error', 'Don\'t allow booking this book');
                         res.redirect('back');
                     }
                 }
