@@ -264,3 +264,16 @@
 .owner-option {
     padding: 0px;
 }
+
+.owner-image-home {
+    padding: 1px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+.img-owner-detail {
+    float:left;
+    width: 50px;
+    height: 50px;
+}

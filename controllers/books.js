@@ -211,7 +211,7 @@ router.get('/:id', localSession, function (req, res, next) {
 
                             res.render('books/detail', {
                                 data: data,
-                                pageTitle: 'Chi tiết',
+                                pageTitle: 'Detail',
                                 messages: messages,
                                 error: req.flash('error'),
                                 info: req.flash('info')
@@ -321,8 +321,7 @@ router.post('/review/:id', function (req, res, next) {
                     'item':
                     {
                         'content': req.body.content,
-                        'star': star,
-                        'owner_id': req.body.owner_review
+                        'star': star
                     }
                 },
                 headers: objectHeaders.headers({'Authorization': req.session.access_token})
