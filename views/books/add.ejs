@@ -21,24 +21,18 @@
                 <span><button class="btn btn-primary btn-xs" id="fillSuggestData"> Import data book </button></span>
                 <form action="/books/add" id="form-add-book" method="post" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-xs-12 col-sm-12">
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input type="text" name="title" id="title" class="form-control bg-danger" placeholder="Enter your book title..." required="required">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="author">Author</label>
-                                <input type="text" id="author" name="author" class="form-control bg-danger" placeholder="Enter your book author..." required="required">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <label for="code">Code</label>
-                                <input type="text" id="code" name="code" class="form-control bg-danger" placeholder="Enter your book code..." required="required">
+                                <label for="author">Author</label>
+                                <input type="text" id="author" name="author" class="form-control bg-danger" placeholder="Enter your book author..." required="required">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
@@ -53,12 +47,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6" >
-                            <div class="form-group">
-                                <label for="publish_date">Publish date</label>
-                                <input type="text" id="publish_date" name="publish_date" class="form-control bg-danger datepicker" placeholder="Enter your book code...">
-                            </div>
-                        </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="category">Category</label>
@@ -67,6 +55,12 @@
                                         <option value="<%= category.id %>"><%= category.name %></option>
                                     <% }) %>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="publish_date">Publish date</label>
+                                <input type="text" id="publish_date" name="publish_date" class="form-control bg-danger datepicker" placeholder="Enter your book code...">
                             </div>
                         </div>
                     </div>
@@ -78,7 +72,6 @@
                             </div>
                         </div>
                     </div>
-                    <img id="thumbnail-image"> </img>
                     <div class="row" id="row-image1">
                         <div class="col-xs-12 col-sm-8">
                             <div class="form-group">

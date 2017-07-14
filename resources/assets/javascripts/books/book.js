@@ -261,20 +261,20 @@ Book.addNew = function () {
     var formData = new FormData();
     formData.append('title', $('#title').val().trim());
     formData.append('author', $('#author').val().trim());
-    formData.append('code', $('#code').val().trim());
     formData.append('category_id', $('#category').val().trim());
     formData.append('office_id', $('#office').val().trim());
     formData.append('publish_date', $('#publish_date').val());
     formData.append('description', $('#description').val().trim());
-    // Attach file
-    for(i = 1; i <= 3; i++) {
-        if ($('#image' + i)[0].files[0]) {
-            formData.append('medias[' + (i - 1) + '][file]', $('#image' + i)[0].files[0]);
 
-            if ($('input[name="media_book"]:checked').val() == i) {
-                formData.append('medias[' + (i - 1) + '][type]', 1);
+    //Attach file
+    if ($("[name='image']")[0].files[0]) {
+        for (i=0; i<$("[name='image']").length; i++) {
+            formData.append('medias[' + i + '][file]', $("[name='image']")[i].files[0]);
+
+            if (i === 0) {
+                formData.append('medias[' + i + '][type]', 1);
             } else {
-                formData.append('medias[' + (i - 1) + '][type]', 0);
+                formData.append('medias[' + i + '][type]', 0);
             }
         }
     }
@@ -291,6 +291,8 @@ Book.addNew = function () {
         if (res.message.status && res.message.code === 200) {
             showNotify('success', 'Add book success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
         }
+
+        window.location.href = '/home';
     }).fail(function (errors) {
         var msg = '';
         if (typeof(errors.responseJSON.message.description) !== 'undefined') {
