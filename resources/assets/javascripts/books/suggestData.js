@@ -35,6 +35,10 @@ function suggestDataBooks() {
                 $('#description').val(response.item.volumeInfo.description);
             }
 
+            if (typeof response.item.volumeInfo.imageLinks != 'undefined') {
+                $('#thumbnail-image').attr('src', response.item.volumeInfo.imageLinks.thumbnail);
+            }
+
             showNotify('success', 'Suggest data filled', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
         } else {
             showNotify('danger', 'Don \'t have suggest data books', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
