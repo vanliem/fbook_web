@@ -306,12 +306,29 @@ Book.addNew = function () {
 };
 
 Book.popUpModal = function () {
-    $('select[name=action_booking]').on('change', function (e) {
-        var action = $(this).val();
+    var elementBooking = $('select[name=action_booking]');
+    var modalWantToRead = $('#modalWantToRead');
+    var modalReturn = $('#modalReturn');
+    modalWantToRead.on('hidden.bs.modal', function () {
+        elementBooking.prop('selectedIndex', 0);
+    });
+    modalReturn.on('hidden.bs.modal', function () {
+        elementBooking.prop('selectedIndex', 0);
+    });
+
+    elementBooking.on('change', function (e) {
+        if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
+            elementBooking.prop('selectedIndex', 0);
+            showNotify('danger', 'Please login before doing', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+
+            return false;
+        }
+        var action = $(this).val().trim();
+
         if (action === 'waiting') {
-            $('#modalWantToRead').modal('show');
+            modalWantToRead.modal('show');
         } else if (action === 'return') {
-            $('#modalReturn').modal('show');
+            modalReturn.modal('show');
         }
     });
 };

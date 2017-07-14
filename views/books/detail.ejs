@@ -149,20 +149,20 @@
         </div>
 
         <!--Begin Modal Booking-->
-        <div aria-labelledby="myModalLabel" class="modal fade" id="modalWantToRead" role="dialog" style="display: none;" tabindex="-1">
+        <div aria-labelledby="modalWantToReadLabel" class="modal fade" id="modalWantToRead" role="dialog" style="display: none;" tabindex="-1">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
-                        <h5 class="modal-title" id="myModalLabel">
+                        <h5 class="modal-title" id="modalWantToReadLabel">
                             Do you want to read this book <%= data.item.title %> from ?
                         </h5>
                     </div>
                     <div class="modal-body">
-                        <form action="/books/booking/<%= data.item.id %>" method="post" id="form-booking-book" novalidate="novalidate">
+                        <form action="/books/booking/<%= data.item.id %>" method="post" name="form-booking-book">
                             <input type="hidden" name="status" value="<%= data.item.btn_booking.status %>">
                             <% if (data.item.owners.length > 0) { %>
-                                <% data.item.owners.forEach(function (owner) { %>
+                                <% data.item.owners.forEach(function (owner, index) { %>
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="checkbox">
@@ -176,7 +176,7 @@
                             <% } %>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-primary btn-xs">Want to Read<i class="fa fa-long-arrow-right"></i></button>
+                                    <button type="submit" class="btn btn-primary btn-xs"><%= data.item.btn_booking.text %><i class="fa fa-long-arrow-right"></i></button>
                                     <input type="reset" class="btn btn-danger btn-xs"/>
                                 </div>
                             </div>
@@ -187,34 +187,34 @@
         </div>
         <!--End Modal Booking-->
         <!--Begin Modal Return-->
-        <div aria-labelledby="myModalLabel" class="modal fade" id="modalReturn" role="dialog" style="display: none;" tabindex="-1">
+        <div aria-labelledby="modalReturnLabel" class="modal fade" id="modalReturn" role="dialog" style="display: none;" tabindex="-1">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
-                        <h5 class="modal-title" id="myModalLabel">
+                        <h5 class="modal-title" id="modalReturnLabel">
                             Do you want to return this book <%= data.item.title %> for ?
                         </h5>
                     </div>
                     <div class="modal-body">
-                        <form action="/books/booking/<%= data.item.id %>" method="post" id="form-booking-book" novalidate="novalidate">
+                        <form action="/books/booking/<%= data.item.id %>" method="post" name="form-booking-book">
                             <input type="hidden" name="status" value="<%= data.item.btn_booking.status %>">
-                            <% if (data.item.owners.length > 0) { %>
-                                <% data.item.owners.forEach(function (owner) { %>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="radio" name="owner_id" value="<%= owner.id %>" required aria-required="true"/> <%= owner.name %>
-                                                </label>
-                                            </div>
+                            <% if (data.item.return_book_for_owner) { %>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="radio" name="owner_id" value="<%= data.item.return_book_for_owner.id %>"
+                                                    required aria-required="true"/>
+                                                    <%= data.item.return_book_for_owner.name %>
+                                            </label>
                                         </div>
                                     </div>
-                                <% }) %>
+                                </div>
                             <% } %>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-primary btn-xs" >Return Book <i class="fa fa-long-arrow-right"></i></button>
+                                    <button type="submit" class="btn btn-primary btn-xs"><%= data.item.btn_booking.text %><i class="fa fa-long-arrow-right"></i></button>
                                     <input type="reset" class="btn btn-danger btn-xs"/>
                                 </div>
                             </div>
@@ -540,7 +540,7 @@
         error.insertAfter(element);
     }});
 
-    Book.init();
+    Book.init()
 </script>
 <script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>
 
