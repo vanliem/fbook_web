@@ -175,15 +175,13 @@ router.get('/:id', localSession, function (req, res, next) {
                         try {
                             var data = JSON.parse(body);
                             var currentUserReview = null;
+                            var returnBookForOwner = null;
+                            var messages = req.flash('errors');
                             var btnBooking = {
-                                'text': 'Add to Reading',
+                                'text': 'Want to Read',
                                 'status': req.configs.book_user.status.waiting
                             };
-                            var messages = req.flash('errors');
-
                             if (typeof req.session.user !== 'undefined') {
-                                var usersReading = data.item.users_reading;
-
                                 if (data.item.reviews_detail.length > 0) {
                                     data.item.reviews_detail.forEach (function (review) {
                                         if (review.user.id === req.session.user.id) {
@@ -192,22 +190,27 @@ router.get('/:id', localSession, function (req, res, next) {
                                         }
                                     });
                                 }
-
-                                if (usersReading) {
-                                    usersReading.forEach (function (userReading) {
-                                        if (userReading.id === req.session.user.id) {
-                                            btnBooking = {
-                                                'text': 'Return Book',
-                                                'status': req.configs.book_user.status.returning
-                                            };
-                                            return;
-                                        }
+                                if (data.item.users_reading) {
+                                    data.item.users_reading.forEach (function (userReading) {
+                                        data.item.owners.forEach (function (owner) {
+                                            if (userReading.id === req.session.user.id) {
+                                                btnBooking = {
+                                                    'text': 'Want to Return',
+                                                    'status': req.configs.book_user.status.returning
+                                                };
+                                                if (userReading.owner_id === owner.id) {
+                                                    returnBookForOwner = owner;
+                                                }
+                                                return;
+                                            }
+                                        });
                                     });
                                 }
                             }
 
                             data.item.btn_booking = btnBooking;
                             data.item.current_user_review = currentUserReview;
+                            data.item.return_book_for_owner = returnBookForOwner;
 
                             res.render('books/detail', {
                                 data: data,
@@ -364,7 +367,6 @@ router.post('/booking/:id', function (req, res, next) {
                     status: req.body.status
                 }
             };
-
             request.post({
                 url: req.configs.api_base_url + 'books/booking',
                 form: form,
