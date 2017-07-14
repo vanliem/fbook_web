@@ -265,6 +265,10 @@
     padding: 0px;
 }
 
+#add-owner {
+    padding: 4px;
+}
+
 .owner-image-home {
     padding: 1px;
     width: 35px;

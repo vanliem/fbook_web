@@ -315,3 +315,31 @@ Book.popUpModal = function () {
         }
     });
 };
+
+$('#add-owner').on('click', function(e) {
+    if (typeof(access_token) === 'undefined') {
+        showNotify('danger', 'Add owner fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+
+        return false;
+    }
+
+    $.ajax({
+        url: API_PATH + 'books/add-owner/' + $('.hide-book').data('bookId'),
+        contentType: 'application/json',
+        dataType: 'json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': access_token,
+        },
+        type: 'GET',
+    }).done(function (response) {
+        if (response.message.status) {
+            showNotify('success', 'Add owner success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+        } else {
+            showNotify('danger', 'Add owner fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        }
+    }).fail(function (error) {
+        showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    });
+});

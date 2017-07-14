@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="space-20"></div>
+                        <div class="space-20 hide-book" data-book-id="<%= data.item.id %>"></div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-4">
                                 <select class="form-control" name="action_booking">
@@ -142,6 +142,7 @@
                                     <option value="return" <%= data.item.btn_booking.status !== 3 ? 'disabled' : '' %>>Return</option>
                                 </select>
                             </div>
+                            <button class="btn btn-primary btn-lg" id="add-owner"> Add owner this book </button>
                         </div>
                     </div>
                 </div>
