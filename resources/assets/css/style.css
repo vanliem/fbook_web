@@ -160,3 +160,14 @@ input:-webkit-autofill:focus {
 .caption, .clear-rating {
     display: none !important;
 }
+
+.pre-img {
+    height: 75px;
+    max-width: 500px;
+    border: 1px solid #000;
+    margin: 0px 10px 10px 10px;
+}
+
+.hidden {
+    display: none;
+}
