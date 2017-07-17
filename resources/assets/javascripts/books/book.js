@@ -248,6 +248,8 @@ $('#publish_date').datepicker({
     format: 'yyyy-mm-dd'
 });
 
+$('.loader').hide();
+
 Book.addNew = function () {
     if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
         showNotify('danger', 'Please login before booking', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
@@ -258,6 +260,7 @@ Book.addNew = function () {
         return false;
     }
 
+    $('.loader').show();
     var formData = new FormData();
     formData.append('title', $('#title').val().trim());
     formData.append('author', $('#author').val().trim());
@@ -289,11 +292,10 @@ Book.addNew = function () {
         data: formData
     }).done(function (res) {
         if (res.message.status && res.message.code === 200) {
-            showNotify('success', 'Add book success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+            window.location.href = '/home';
         }
-
-        window.location.href = '/home';
     }).fail(function (errors) {
+        $('.loader').hide();
         var msg = '';
         if (typeof(errors.responseJSON.message.description) !== 'undefined') {
             errors.responseJSON.message.description.forEach(function (err) {

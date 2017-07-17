@@ -20,8 +20,8 @@
 	                <div class="category-item well yellow">
 	                    <div class="media">
 	                        <div class="media-left">
-	                            <img src="<%= book.image ? book.image.web.thumbnail_path : '/images/book_thumb_default.jpg' %>"
-	                            	class="media-object" alt="<%= book.title %>">
+	                            <img onclick="window.open('/books/<%= book.id %>', '_self')" src="<%= book.image ? book.image.web.thumbnail_path : '/images/book_thumb_default.jpg' %>"
+	                            	class="media-object img-avatar-book" alt="<%= book.title %>">
 	                        </div>
 	                        <div class="media-body">
 	                            <h5 title="<%= book.title %>" data-toggle="tooltip">
@@ -35,7 +35,7 @@
 	                            <p>
 	                                <%- book.overview %>
 	                            </p>
-	                            <a href="#" class="text-primary">View Users Waiting Approve</a>
+	                            <a href="#" class="text-primary">View all request</a>
 	                        </div>
 	                    </div>
 	                </div>
