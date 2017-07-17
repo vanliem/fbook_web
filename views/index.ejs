@@ -23,9 +23,9 @@
                     <div class="media">
                         <div class="media-left">
                             <% if (book.image && book.image.web.thumbnail_path !== undefined) { %>
-                                <img src="<%= book.image.web.thumbnail_path %>" class="media-object" alt="<%= book.title %>">
+                                <img onclick="window.open('/books/<%= book.id %>', '_self')" src="<%= book.image.web.thumbnail_path %>" class="media-object img-avatar-book" alt="<%= book.title %>">
                             <% } else { %>
-                                <img src="/images/book_thumb_default.jpg" class="media-object" alt="<%= book.title %>">
+                                <img onclick="window.open('/books/<%= book.id %>', '_self', '_self')" src="/images/book_thumb_default.jpg" class="media-object img-avatar-book" alt="<%= book.title %>">
                             <% } %>
                         </div>
                         <div class="media-body">
@@ -59,7 +59,7 @@
                                     return;
                                 }
                              %>
-                            <img onclick="window.open('/users/<%= owner.id %>')" data-toggle="tooltip" title="<%= owner.name %>" class="owner-image-home img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
+                            <img onclick="window.open('/users/<%= owner.id %>', '_self')" data-toggle="tooltip" title="<%= owner.name %>" class="owner-image-home img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
                                      class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
                                      alt="library">
                         <% }) %>
