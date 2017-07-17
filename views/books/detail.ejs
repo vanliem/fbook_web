@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-md-6 book-list-position padding60  ">
+            <div class="col-xs-12 col-md-6 book-list-position padding60">
                 <div class="book-list-photo">
                     <% if (data.item.media.length) { %>
                         <div class="book-list">
@@ -65,13 +65,15 @@
                             <div class="col-xs-12 col-sm-8">
                                 <h4 class="tip-left">Shared by</h4>
                                 <% if (data.item.owners.length > 0) { %>
-                                    <% data.item.owners.forEach(function (owner) { %>
-                                        <a class="owner-image" data-toggle="tooltip" title="<%= owner.name %>" href="/users/<%= owner.id %>">
-                                            <img class="img-owner-detail img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
-                                                 class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
-                                                 alt="library">
-                                        </a>
-                                    <% }) %>
+                                    <div class="list-owners">
+                                        <% data.item.owners.forEach(function (owner) { %>
+                                            <a class="owner-image" data-toggle="tooltip" title="<%= owner.name %>" href="/users/<%= owner.id %>">
+                                                <img class="img-owner-detail img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
+                                                     class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
+                                                     alt="library">
+                                            </a>
+                                        <% }) %>
+                                    </div>
                                 <% } else { %>
                                     <div class="media">
                                         <div class="media-left">

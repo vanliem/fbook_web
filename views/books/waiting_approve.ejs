@@ -15,32 +15,36 @@
 		</div>
 		<div class="space-20"></div>
 		<div class="row">
-			<% books.items.data.forEach(function (book) { %>
-				<div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.1s" data-wow-offset="50">
-	                <div class="category-item well yellow">
-	                    <div class="media">
-	                        <div class="media-left">
-	                            <img onclick="window.open('/books/<%= book.id %>', '_self')" src="<%= book.image ? book.image.web.thumbnail_path : '/images/book_thumb_default.jpg' %>"
-	                            	class="media-object img-avatar-book" alt="<%= book.title %>">
-	                        </div>
-	                        <div class="media-body">
-	                            <h5 title="<%= book.title %>" data-toggle="tooltip">
-	                            	<%= book.title ? getString(book.title, configs.book.title_limit_characters) : 'No title' %>
-	                            </h5>
-	                            <h6 title="<%= book.athor %>" data-toggle="tooltip">
-	                            	<%= book.author ? getString(book.title, configs.book.author_limit_characters) : 'Framgia' %>
-	                            </h6>
-	                            <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value="<%= book.avg_star %>" disabled="true" data-step="0.01" data-size="xs">
-	                            <div class="space-10"></div>
-	                            <p>
-	                                <%- book.overview %>
-	                            </p>
-	                            <a href="#" class="text-primary">View all request</a>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-			<% }) %>
+			<% if (books.items.data.length) { %>
+				<% books.items.data.forEach(function (book) { %>
+					<div class="col-xs-12 col-md-4 wow fadeInLeft" data-wow-delay="0.1s" data-wow-offset="50">
+		                <div class="category-item well yellow">
+		                    <div class="media">
+		                        <div class="media-left">
+		                            <img onclick="window.open('/books/<%= book.id %>', '_self')" src="<%= book.image ? book.image.web.thumbnail_path : '/images/book_thumb_default.jpg' %>"
+		                            	class="media-object img-avatar-book" alt="<%= book.title %>">
+		                        </div>
+		                        <div class="media-body">
+		                            <h5 title="<%= book.title %>" data-toggle="tooltip">
+		                            	<%= book.title ? getString(book.title, configs.book.title_limit_characters) : 'No title' %>
+		                            </h5>
+		                            <h6 title="<%= book.athor %>" data-toggle="tooltip">
+		                            	<%= book.author ? getString(book.title, configs.book.author_limit_characters) : 'Framgia' %>
+		                            </h6>
+		                            <input id="rating-book" name="star" class="rating" data-min="0" data-max="5" value="<%= book.avg_star %>" disabled="true" data-step="0.01" data-size="xs">
+		                            <div class="space-10"></div>
+		                            <p>
+		                                <%- book.overview %>
+		                            </p>
+		                            <a href="/books/<%= book.id %>/approve-request" class="text-primary">View all request</a>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+				<% }) %>
+			<% } else { %>
+				<center><h4> No book waiting to approve </h4></center>
+			<% } %>
 		</div>
 		<% if (books.items.total > books.items.per_page) { %>
 			<div class="space-60"></div>
