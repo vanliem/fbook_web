@@ -158,8 +158,36 @@ router.get('/waiting_approve', authorize.isAuthenticated, function (req, res, ne
     });
 });
 
-router.get('/approve_user', function (req, res, next) {
-    res.render('books/approve_user');
+router.get('/:id/approve-request', authorize.isAuthenticated, function (req, res, next) {
+    req.checkParams('id', 'Invalid id').notEmpty().isInt();
+    req.getValidationResult().then(function (result) {
+        if (!result.isEmpty()) {
+            res.status(400).send('There have been validation errors: ' + util.inspect(result.array()));
+            return;
+        } else {
+            request({
+                url: req.configs.api_base_url + 'user/' + req.params.id + '/approve/detail',
+                headers: objectHeaders.headers({'Authorization': req.session.access_token})
+            }, function (error, response, body) {
+                if (!error && response.statusCode === 200) {
+                    try {
+                        var data = JSON.parse(body);
+
+                        res.render('books/approve_user', {
+                            data: data,
+                            pageTitle: 'Approve requests'
+                        });
+                    } catch (errorJSONParse) {
+                        req.flash('error', 'Don\'t allow show approve request page');
+                        res.redirect('back');
+                    }
+                } else {
+                    req.flash('error', 'Don\'t allow show approve request page');
+                    res.redirect('back');
+                }
+            });
+        }
+    });
 });
 
 router.get('/:id', localSession, function (req, res, next) {
