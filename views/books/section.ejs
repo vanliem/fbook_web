@@ -1,4 +1,4 @@
-<section data-field="<%= field %>">
+<section data-field="<%= field %>" class="gray-bg">
     <div class="space-80"></div>
     <div class="container">
         <div class="row">
@@ -45,8 +45,11 @@
                         <div class="category-item well yellow">
                             <div class="media">
                                 <div class="media-left">
-                                    <img class="media-object" alt="Framgia book"
-                                        src="<%= book.image ? book.image.web.thumbnail_path : '/images/book_thumb_default.jpg' %>">
+                                    <% if (book.image && book.image.web.thumbnail_path !== undefined) { %>
+                                        <img onclick="window.open('/books/<%= book.id %>', '_self')" src="<%= book.image.web.thumbnail_path %>" class="media-object img-avatar-book" alt="<%= book.title %>">
+                                    <% } else { %>
+                                        <img onclick="window.open('/books/<%= book.id %>', '_self', '_self')" src="/images/book_thumb_default.jpg" class="media-object img-avatar-book" alt="<%= book.title %>">
+                                    <% } %>
                                 </div>
                                 <div class="media-body">
                                     <h5 title="<%= book.title %>" data-toggle="tooltip">
@@ -63,6 +66,23 @@
                                     </p>
                                     <a href="/books/<%= book.id %>" class="text-primary">View detail</a>
                                 </div>
+                            </div>
+                            <div class="owners">
+                                <strong> Shared by: </strong>
+                                <% if (book.owners) { %>
+                                    <% var countOwner = 0 %>
+                                    <% book.owners.forEach(function (owner) { %>
+                                        <%  countOwner++;
+                                            if (countOwner == 6) {
+                                                %> <strong> ... </strong> <%
+                                                return;
+                                            }
+                                        %>
+                                        <img onclick="window.open('/users/<%= owner.id %>')" data-toggle="tooltip" title="<%= owner.name %>" class="owner-image-home img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
+                                             class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
+                                             alt="library">
+                                    <% }) %>
+                                <% } %>
                             </div>
                         </div>
                     </div>

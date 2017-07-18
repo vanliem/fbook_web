@@ -180,6 +180,8 @@
 .category-item.well {
     height: 330px;
     overflow: hidden;
+    border: 1px solid rgba(214, 214, 214, 0.34) !important;
+    border-radius: 0;
 }
 
 .background--white {
@@ -300,4 +302,21 @@
     z-index: 9999;
     background: url('/images/loader.gif') 50% 50% no-repeat rgb(249,249,249);
     opacity: 0.6;
+}
+
+.category-item.well .owners {
+    position: absolute;
+    bottom: 30px
+}
+
+.category-item.well:hover {
+    transform: none !important;
+}
+
+.section-books {
+    background: aliceblue;
+}
+
+.category-item.yellow:hover {
+    border-color: #fec826 !important;
 }

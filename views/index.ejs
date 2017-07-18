@@ -1,6 +1,6 @@
 <% data.items.forEach(function (section, key) { %>
 <!--Begin section-->
-<section id="section<%= key%>">
+<section id="section<%= key%>" class="gray-bg">
     <div class="space-40"></div>
     <div class="container">
         <div class="row">
@@ -49,21 +49,23 @@
                             <a href="/books/<%= book.id %>" class="text-primary">View detail</a>
                         </div>
                     </div>
-                    <strong> Shared by: </strong>
-                    <% if (book.owners) { %>
-                        <% var countOwner = 0 %>
-                        <% book.owners.forEach(function (owner) { %>
-                            <%  countOwner++;
-                                if (countOwner == 6) {
-                                    %> <strong> ... </strong> <%
-                                    return;
-                                }
-                             %>
-                            <img onclick="window.open('/users/<%= owner.id %>', '_self')" data-toggle="tooltip" title="<%= owner.name %>" class="owner-image-home img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
-                                     class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
-                                     alt="library">
-                        <% }) %>
-                     <% } %>
+                    <div class="owners">
+                        <strong> Shared by: </strong>
+                        <% if (book.owners) { %>
+                            <% var countOwner = 0 %>
+                            <% book.owners.forEach(function (owner) { %>
+                                <%  countOwner++;
+                                    if (countOwner == 6) {
+                                        %> <strong> ... </strong> <%
+                                        return;
+                                    }
+                                 %>
+                                <img onclick="window.open('/users/<%= owner.id %>')" data-toggle="tooltip" title="<%= owner.name %>" class="owner-image-home img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
+                                         class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
+                                         alt="library">
+                            <% }) %>
+                         <% } %>
+                    </div>
                 </div>
             </div>
             <% }) %>
