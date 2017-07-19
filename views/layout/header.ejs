@@ -69,7 +69,7 @@
                         <li>
                             <a href="http://education.framgia.vn/tools" target="_blank">More Tools</a>
                         </li>
-                        <% if (typeof(offices.items) !== 'undefined' && offices.items) { %>
+                        <% if (typeof(offices.items) !== 'undefined' && typeof(offices) !== 'undefined' && offices && offices.items) { %>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle opacity-0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Workspace <span class="caret"></span></a>
                                 <ul class="dropdown-menu">

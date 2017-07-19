@@ -14,6 +14,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var books = require('./routes/books');
 var authentication = require('./routes/authentication');
+var request = require('request');
+var objectHeaders = require('./helpers/headers');
 
 var app = express();
 
@@ -72,5 +74,21 @@ getString = function (string, maxLength) {
         return string.length > maxLength ? string.substring(0, maxLength) + '...' : string;
     }
 };
+
+request({
+    url: app.locals.configs.api_base_url + 'offices',
+    headers: objectHeaders.headers
+}, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+        try {
+            var offices = JSON.parse(body);
+            app.locals.offices = offices;
+        } catch (errorJSONParse) {
+            app.locals.offices = false;
+        }
+    } else {
+        app.locals.offices = false;
+    }
+});
 
 module.exports = app;
