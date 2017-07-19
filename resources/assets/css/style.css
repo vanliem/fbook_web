@@ -93,7 +93,7 @@ input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
-#search-book, #search-book-google {
+#search-book, #search-book-google, .title-book {
    width: 100%;
    padding: 3px 5px;
    font-size: 24px;
@@ -111,7 +111,7 @@ input:-webkit-autofill:focus {
     padding-right: 0;
 }
 
-#data-search, #data-search-google {
+#data-search, #data-search-google, #data-suggest-book {
     /* Remove default list styling */
     list-style-type: none;
     padding: 0;
@@ -119,7 +119,7 @@ input:-webkit-autofill:focus {
 
 }
 
-#data-search li a, #data-search-google li a {
+#data-search li a, #data-search-google li a, #data-suggest-book li a {
     border: 1px solid #ddd; /* Add a border to all links */
     margin-top: -1px; /* Prevent double borders */
     background-color: #f6f6f6; /* Grey background color */
@@ -130,12 +130,12 @@ input:-webkit-autofill:focus {
     display: block; /* Make it into a block element to fill the whole list */
 }
 
-#data-search li a.header, #data-search-google li a.header {
+#data-search li a.header, #data-search-google li a.header, #data-suggest-book li a.header {
     background-color: #e2e2e2; /* Add a darker background color for headers */
     cursor: default; /* Change cursor style */
 }
 
-#data-search li a:hover:not(.header), #data-search-google li a:hover:not(.header) {
+#data-search li a:hover:not(.header), #data-search-google li a:hover:not(.header), #data-suggest-book li a:hover:not(.header){
     background-color: #eee; /* Add a hover effect to all links, except for headers */
 }
 

@@ -39,7 +39,7 @@
                                         <a href="#"> <span><i class="icofont icofont-notification"></i></span> Notifications</a>
                                     </li>
                                     <li>
-                                        <a href="/books/add"> <span><i class="icofont icofont-ui-add"></i></span> Share books </a>
+                                        <a href="/books/add"> <span><i class="glyphicon glyphicon-share-alt"></i></span> Share books </a>
                                     </li>
                                     <li>
                                         <a href="/books/waiting_approve"> <span><i class="glyphicon glyphicon-ok"></i></span> Approve requests </a>
@@ -69,6 +69,16 @@
                         <li>
                             <a href="http://education.framgia.vn/tools" target="_blank">More Tools</a>
                         </li>
+                        <% if (typeof(offices.items) !== 'undefined' && offices.items) { %>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle opacity-0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Workspace <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <% offices.items.forEach(function(office) { %>
+                                        <li><a href="#" class="office-dropdow-a"><%= office.area %></a></li>
+                                    <% }) %>
+                                </ul>
+                            </li>
+                        <% } %>
                         <% if (typeof user != 'undefined' && typeof user.name !== 'undefined' && user.name) { %>
                             <li>
                                 <a href="#"><%= user.name %></a>
