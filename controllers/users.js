@@ -94,7 +94,7 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
                 if (!error && response.statusCode === 200) {
                     try {
                         var books = JSON.parse(body);
-                        callback(null, sharingBooks);
+                        callback(null, books);
                     } catch (errsorJSONParse) {
                         callback(null, null);
                     }

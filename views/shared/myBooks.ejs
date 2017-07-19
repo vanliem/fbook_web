@@ -33,6 +33,22 @@
                         <a href="/books/<%= book.id %>" class="text-primary">View detail</a>
                     </div>
                 </div>
+                <% if (book.users_reading && book.users_reading.length) { %>
+                    <div class="owners">
+                        <strong> Keeded by: </strong>
+                        <% book.users_reading.forEach(function (user, index) { %>
+                            <% if (index == 6) {
+                                    %> <strong> ... </strong> <%
+                                    return;
+                                }
+                            %>
+                            <img onclick="window.open('/users/<%= user.id %>')" data-toggle="tooltip" title="<%= user.name %>"
+                                 class="owner-image-home img-circle" src="<%= (user && user.avatar) ? user.avatar : '/images/user_default.png' %>"
+                                 class="media-object author-photo img-thumbnail <%= user ? '' : 'background--white' %>"
+                                 alt="library">
+                        <% }) %>
+                    </div>
+                <% } %>
             </div>
         </div>
         <% }) %>
