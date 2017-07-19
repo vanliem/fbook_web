@@ -320,3 +320,15 @@
 .category-item.yellow:hover {
     border-color: #fec826 !important;
 }
+
+.office-dropdow-a {
+    color: black !important;
+}
+
+.office-dropdow-a:hover {
+    background-color: #f5f5f5 !important;
+}
+
+.office-dropdow-a:hover::after, .opacity-0:hover::after {
+    opacity: 0 !important;
+}

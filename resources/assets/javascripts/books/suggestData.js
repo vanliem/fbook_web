@@ -19,10 +19,6 @@ function suggestDataBooks() {
                 $('#title').val(response.item.volumeInfo.title);
             }
 
-            if (typeof response.item.id != 'undefined') {
-                $('#code').val(response.item.id);
-            }
-
             if (typeof response.item.volumeInfo.authors != 'undefined') {
                 $('#author').val(response.item.volumeInfo.authors);
             }
@@ -45,6 +41,7 @@ function suggestDataBooks() {
 }
 
 function suggestTitleBooks() {
+    $('#data-suggest-book').empty();
     $.ajax({
         url: API_PATH + 'search-books?q=' + $('#title').val(),
         contentType: 'application/json',
@@ -78,5 +75,101 @@ function suggestTitleBooks() {
         }
     }).fail(function (error) {
         showNotify('danger', 'Don \'t have suggest data books', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    });
+}
+
+$('.title-book').on('keyup', function (e) {
+    delay(function(){
+        e.preventDefault();
+        suggestDataBooksInternal();
+    }, 500);
+});
+
+var delay = (function() {
+    var timer = 0;
+    return function(callback, ms) {
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+
+function suggestDataBooksInternal() {
+    if ($('.title-book').val() == "") {
+        $('#data-suggest-book').empty();
+    } else {
+        $.ajax({
+            url: API_PATH + 'search',
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+            type: 'POST',
+            data: JSON.stringify({
+                search: {
+                    keyword: $('.title-book').val(),
+                    field: 'title'
+                }
+            }),
+        }).done(function (response) {
+            $('#data-suggest-book').empty();
+
+            if (response.items.total) {
+                response.items.data.forEach(function (book) {
+                    $('#data-suggest-book').append("<li data-id=" + book.id + "><a href='javascript:void(0)' onclick='return fillDataBookInternal(" + book.id + ");'>" + book.title + '</a></li>');
+                });
+            } else {
+                $('#data-suggest-book').append('<li><a href="#">Not found</a></li>');
+            }
+        }).fail(function (error) {
+            $('#data-suggest-book').empty();
+        });
+    }
+}
+
+Date.prototype.formattedDate = function (pattern) {
+    formattedDate = pattern.replace('yyyy', this.getFullYear().toString());
+
+    var mm = (this.getMonth() + 1).toString();
+    mm = mm.length > 1 ? mm : '0' + mm;
+    formattedDate = formattedDate.replace('mm', mm);
+
+    var dd = this.getDate().toString();
+    dd = dd.length > 1 ? dd : '0' + dd;
+    formattedDate = formattedDate.replace('dd', dd);
+
+    return formattedDate;
+};
+
+function fillDataBookInternal(bookId) {
+    $('#data-suggest-book').empty();
+    $.ajax({
+        url: API_PATH + 'books/' + bookId,
+        contentType: 'application/json',
+        dataType: 'json',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        type: 'GET',
+    }).done(function (response) {
+        if (response.item) {
+            if (typeof response.item.title != 'undefined') {
+                $('#title').val(response.item.title);
+            }
+
+            if (typeof response.item.author != 'undefined') {
+                $('#author').val(response.item.author);
+            }
+
+            if (typeof response.item.publish_date != 'undefined') {
+                $('#publish_date').val(new Date(response.item.publish_date).formattedDate('yyyy-mm-dd'));
+            }
+
+            if (typeof response.item.description != 'undefined') {
+                $('#description').val(response.item.description);
+            }
+
+            showNotify('success', 'Suggest internal data filled', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+        } else {
+            showNotify('danger', 'Don \'t have suggest internal data books', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        }
+    }).fail(function (error) {
+        showNotify('danger', 'Don \'t have suggest internal data books', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
     });
 }
