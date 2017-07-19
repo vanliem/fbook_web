@@ -17,6 +17,7 @@ router.get('/', localSession, function (req, res, next) {
                 res.render('index', {
                     data: data,
                     pageTitle: 'Home',
+                    isHomePage: true,
                     info: req.flash('info'),
                     error: req.flash('error'),
                 });

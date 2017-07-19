@@ -338,195 +338,195 @@ Book.popUpModal = function () {
 };
 
 $('#add-owner').on('click', function(e) {
-    if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
-        showNotify('danger', 'Add owner fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    swal({
+        title: "Are you sure add owner this book?",
+        type: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: true
+    },
+    function() {
+        if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
+            showNotify('danger', 'Add owner fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
 
-        return false;
-    }
-
-    $.ajax({
-        url: API_PATH + 'books/add-owner/' + $('.hide-book').data('bookId'),
-        contentType: 'application/json',
-        dataType: 'json',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': access_token,
-        },
-        type: 'GET',
-    }).done(function (response) {
-        if (response.message.status) {
-            var htmlCurrentUser = "<a class='owner-image' data-toggle='tooltip' title='" + user.name +  "' href='/users/" + user.id + "'>";
-            if (user.avatar) {
-                htmlCurrentUser += "<img class='img-owner-detail img-circle' src='" + user.avatar + "'";
-                htmlCurrentUser += "class='media-object author-photo img-thumbnail background--white' alt='library'>";
-            } else {
-                htmlCurrentUser += "<img class='img-owner-detail img-circle' src='/images/user_default.png'";
-                htmlCurrentUser += "class='media-object author-photo img-thumbnail' alt='library'>";
-            }
-            htmlCurrentUser += "</a>"
-            $('.list-owners').append(htmlCurrentUser);
-            showNotify('success', 'Add owner success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
-        } else {
-            showNotify('danger', 'Add owner fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+            return false;
         }
-    }).fail(function (error) {
-        showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+
+        $.ajax({
+            url: API_PATH + 'books/add-owner/' + $('.hide-book').data('bookId'),
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': access_token,
+            },
+            type: 'GET',
+        }).done(function (response) {
+            if (response.message.status) {
+                var htmlCurrentUser = "<a class='owner-image' data-toggle='tooltip' title='" + user.name +  "' href='/users/" + user.id + "'>";
+                if (user.avatar) {
+                    htmlCurrentUser += "<img class='img-owner-detail img-circle' src='" + user.avatar + "'";
+                    htmlCurrentUser += "class='media-object author-photo img-thumbnail background--white' alt='library'>";
+                } else {
+                    htmlCurrentUser += "<img class='img-owner-detail img-circle' src='/images/user_default.png'";
+                    htmlCurrentUser += "class='media-object author-photo img-thumbnail' alt='library'>";
+                }
+                htmlCurrentUser += "</a>"
+                $('.list-owners').append(htmlCurrentUser);
+                showNotify('success', 'Add owner success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+            } else {
+                showNotify('danger', 'Add owner fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+            }
+        }).fail(function (error) {
+            showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        });
     });
 });
 
 function approveRequestWaiting(userId)
 {
-    if (typeof(access_token) === 'undefined') {
-        showNotify('danger', 'Approve request fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    swal({
+        title: "Are you sure approve this request?",
+        type: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: true
+    },
+    function() {
+        if (typeof(access_token) === 'undefined') {
+            showNotify('danger', 'Approve request fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
 
-        return false;
-    }
-
-    $.ajax({
-        url: API_PATH + 'books/approve/' + $('.hide-book').data('bookId'),
-        contentType: 'application/json',
-        dataType: 'json',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': access_token,
-        },
-        type: 'POST',
-        data: JSON.stringify({
-            item: {
-                user_id: userId,
-                key: 'approve'
-            }
-        }),
-    }).done(function (response) {
-        if (response.message.status) {
-            $('.lbl-waiting' + userId).removeClass().addClass('label label-success').addClass('lbl-reading' + userId).html('reading');
-            $('.btn-approve-waiting' + userId).attr('onClick', 'unapproveRequestWaiting(' + userId + ')');
-            $('.btn-approve-waiting' + userId).removeClass('btn-approve-waiting' + userId).addClass('btn-unapprove-reading' + userId).addClass('btn-xs').html('Unapprove');
-
-            showNotify('success', 'Request approved', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
-        } else {
-            showNotify('danger', 'Approve request fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+            return false;
         }
-    }).fail(function (error) {
-        showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+
+        $.ajax({
+            url: API_PATH + 'books/approve/' + $('.hide-book').data('bookId'),
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': access_token,
+            },
+            type: 'POST',
+            data: JSON.stringify({
+                item: {
+                    user_id: userId,
+                    key: 'approve'
+                }
+            }),
+        }).done(function (response) {
+            if (response.message.status) {
+                $('.lbl-waiting' + userId).removeClass().addClass('label label-success').addClass('lbl-reading' + userId).html('reading');
+                $('.btn-approve-waiting' + userId).attr('onClick', 'unapproveRequestWaiting(' + userId + ')');
+                $('.btn-approve-waiting' + userId).removeClass('btn-approve-waiting' + userId).addClass('btn-unapprove-reading' + userId).addClass('btn-xs').html('Unapprove');
+
+                showNotify('success', 'Request approved', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+            } else {
+                showNotify('danger', 'Approve request fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+            }
+        }).fail(function (error) {
+            showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        });
     });
 }
 
 function approveRequestReturning(userId)
 {
-    if (typeof(access_token) === 'undefined') {
-        showNotify('danger', 'Approve request fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    swal({
+        title: "Are you sure approve this request?",
+        type: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: true
+    },
+    function() {
+        if (typeof(access_token) === 'undefined') {
+            showNotify('danger', 'Approve request fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
 
-        return false;
-    }
-
-    $.ajax({
-        url: API_PATH + 'books/approve/' + $('.hide-book').data('bookId'),
-        contentType: 'application/json',
-        dataType: 'json',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': access_token,
-        },
-        type: 'POST',
-        data: JSON.stringify({
-            item: {
-                user_id: userId,
-                key: 'approve'
-            }
-        }),
-    }).done(function (response) {
-        if (response.message.status) {
-            $('.lbl-returning' + userId).removeClass().addClass('label label-success').addClass('lbl-returned' + userId).html('returned');
-            $('.btn-approve-returning' + userId).attr('onClick', 'unapproveRequestReturning(' + userId + ')');
-            $('.btn-approve-returning' + userId).removeClass('btn-approve-returning' + userId).addClass('btn-unapprove-returned' + userId).addClass('btn-xs').addClass('btn-xs').html('Unapprove');
-
-            showNotify('success', 'Request approved', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
-        } else {
-            showNotify('danger', 'Approve request fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+            return false;
         }
-    }).fail(function (error) {
-        showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+
+        $.ajax({
+            url: API_PATH + 'books/approve/' + $('.hide-book').data('bookId'),
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': access_token,
+            },
+            type: 'POST',
+            data: JSON.stringify({
+                item: {
+                    user_id: userId,
+                    key: 'approve'
+                }
+            }),
+        }).done(function (response) {
+            if (response.message.status) {
+                $('.lbl-returning' + userId).removeClass().addClass('label label-success').addClass('lbl-returned' + userId).html('returned');
+                $('.btn-approve-returning' + userId).remove();
+
+                showNotify('success', 'Request approved', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+            } else {
+                showNotify('danger', 'Approve request fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+            }
+        }).fail(function (error) {
+            showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        });
     });
 }
 
 function unapproveRequestWaiting(userId)
 {
-    if (typeof(access_token) === 'undefined') {
-        showNotify('danger', 'Approve request fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    swal({
+        title: "Are you sure unapprove this request?",
+        type: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: true
+    },
+    function() {
+        if (typeof(access_token) === 'undefined') {
+            showNotify('danger', 'Approve request fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
 
-        return false;
-    }
-
-    $.ajax({
-        url: API_PATH + 'books/approve/' + $('.hide-book').data('bookId'),
-        contentType: 'application/json',
-        dataType: 'json',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': access_token,
-        },
-        type: 'POST',
-        data: JSON.stringify({
-            item: {
-                user_id: userId,
-                key: 'unapprove'
-            }
-        }),
-    }).done(function (response) {
-        if (response.message.status) {
-            $('.lbl-reading' + userId).removeClass().addClass('label label-warning').addClass('lbl-waiting' + userId).html('waiting');
-            $('.btn-unapprove-reading' + userId).attr('onClick', 'approveRequestWaiting(' + userId + ')');
-            $('.btn-unapprove-reading' + userId).removeClass('btn-unapprove-reading' + userId).addClass('btn-approve-waiting' + userId).addClass('btn-xs').html('Approve');
-
-            showNotify('success', 'Request unapproved', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
-        } else {
-            showNotify('danger', 'Unapprove request fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+            return false;
         }
-    }).fail(function (error) {
-        showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
-    });
-}
 
-function unapproveRequestReturning(userId)
-{
-    if (typeof(access_token) === 'undefined') {
-        showNotify('danger', 'Approve request fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        $.ajax({
+            url: API_PATH + 'books/approve/' + $('.hide-book').data('bookId'),
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': access_token,
+            },
+            type: 'POST',
+            data: JSON.stringify({
+                item: {
+                    user_id: userId,
+                    key: 'unapprove'
+                }
+            }),
+        }).done(function (response) {
+            if (response.message.status) {
+                $('.lbl-reading' + userId).removeClass().addClass('label label-warning').addClass('lbl-waiting' + userId).html('waiting');
+                $('.btn-unapprove-reading' + userId).attr('onClick', 'approveRequestWaiting(' + userId + ')');
+                $('.btn-unapprove-reading' + userId).removeClass('btn-unapprove-reading' + userId).addClass('btn-approve-waiting' + userId).addClass('btn-xs').html('Approve');
 
-        return false;
-    }
-
-    $.ajax({
-        url: API_PATH + 'books/approve/' + $('.hide-book').data('bookId'),
-        contentType: 'application/json',
-        dataType: 'json',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': access_token,
-        },
-        type: 'POST',
-        data: JSON.stringify({
-            item: {
-                user_id: userId,
-                key: 'unapprove'
+                showNotify('success', 'Request unapproved', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+            } else {
+                showNotify('danger', 'Unapprove request fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
             }
-        }),
-    }).done(function (response) {
-        if (response.message.status) {
-            $('.lbl-returned' + userId).removeClass().addClass('label label-warning').addClass('lbl-returning' + userId).html('returning');
-            $('.btn-unapprove-returned' + userId).attr('onClick', 'approveRequestReturning(' + userId + ')');
-            $('.btn-unapprove-returned' + userId).removeClass('btn-unapprove-returned' + userId).addClass('btn-approve-returning' + userId).addClass('btn-xs').html('Approve');
-
-            showNotify('success', 'Request approved', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
-        } else {
-            showNotify('danger', 'Approve request fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
-        }
-    }).fail(function (error) {
-        showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        }).fail(function (error) {
+            showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        });
     });
 }

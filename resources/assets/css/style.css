@@ -171,3 +171,7 @@ input:-webkit-autofill:focus {
 .hidden {
     display: none;
 }
+
+.navbar-header-custom {
+    background: black;
+}
