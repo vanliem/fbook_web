@@ -64,12 +64,17 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-8">
                                 <h4 class="tip-left">Shared by</h4>
+                                <% var isCurrentUserOwneredBook = false; %>
                                 <% if (data.item.owners.length > 0) { %>
                                     <div class="list-owners">
-                                        <% data.item.owners.forEach(function (owner) { %>
-                                            <a class="owner-image" data-toggle="tooltip" title="<%= owner.name %>" href="/users/<%= owner.id %>">
+                                        <% data.item.owners.forEach(function (owner) {
+                                            if (!isCurrentUserOwneredBook && typeof(user) !== 'undefined' && user && user.id === owner.id) {
+                                                isCurrentUserOwneredBook = true;
+                                            }
+                                        %>
+                                            <a class="owner-image<%= owner.id %>" data-toggle="tooltip" title="<%= owner.name %>" href="/users/<%= owner.id %>">
                                                 <img src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
-                                                     class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
+                                                     class="media-object author-photo img-thumbnail img-owner-detail img-circle background--white"
                                                      alt="library">
                                             </a>
                                         <% }) %>
@@ -144,21 +149,23 @@
                             </div>
                         </div>
                         <div class="space-20 hide-book" data-book-id="<%= data.item.id %>"></div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-4">
-                                <% if (data.item.btn_booking.status !== configs.book.returning) { %>
-                                    <button class="btn btn-primary btn-sm" name="booking"> Want to Read </button>
-                                <% } else { %>
-                                    <button class="btn btn-primary btn-sm" name="return"
-                                        data-book-id="<%= data.item.id %>"
-                                        data-owner-id="<%= data.item.return_book_for_owner.id %>"
-                                        data-status="<%= data.item.btn_booking.status %>">
-                                        Want to Return
-                                    </button>
-                                <% } %>
-                            </div>
-                            <div class="col-xs-12 col-sm-offset-1 col-sm-4">
-                                <button class="btn btn-success btn-sm" id="add-owner"> Add owner this book </button>
+                        <div class="row btn-action">
+                                    <% if (data.item.btn_booking.status !== configs.book.returning) { %>
+                                        <button class="btn btn-primary btn-xs" name="booking"> Want to Read </button>
+                                    <% } else { %>
+                                        <button class="btn btn-primary btn-xs" name="return"
+                                            data-book-id="<%= data.item.id %>"
+                                            data-owner-id="<%= data.item.return_book_for_owner.id %>"
+                                            data-status="<%= data.item.btn_booking.status %>">
+                                            Want to Return
+                                        </button>
+                                    <% } %>
+                                    <% if (isCurrentUserOwneredBook) { %>
+                                        <button class="btn btn-danger btn-sm remove-owner"><i class="glyphicon glyphicon-remove"></i> Remove owner this book</button>
+                                    <% } else { %>
+                                        <button class="btn btn-primary btn-sm add-owner"><i class="glyphicon glyphicon-plus"></i> Add owner this book </button>
+                                    <% } %>
+
                             </div>
                         </div>
                     </div>
@@ -433,7 +440,6 @@
                                                    <a href="/users/<%= user.id %>"><h4 class="media-heading"><%= user.name %></h4></a>
                                                    <div class="space-10"></div>
                                                    <p><%= user.email %></p>
-
                                                </div>
                                            </div>
                                        </div>

@@ -267,7 +267,7 @@
     padding: 0px;
 }
 
-#add-owner {
+.add-owner, .remove-owner {
     margin-top: 0px;
     padding: 10px;
 }
