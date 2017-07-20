@@ -15,6 +15,7 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
     var pageDone = req.query.pageDone ? req.query.pageDone : 1;
     var pageSharing = req.query.pageSharing ? req.query.pageSharing : 1;
     var pageSuggest = req.query.pageSuggest ? req.query.pageSuggest : 1;
+    var pageReviewed = req.query.pageReviewed ? req.query.pageReviewed : 1;
     var userId = req.params.id;
 
     async.parallel({
@@ -93,8 +94,25 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
             }, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
                     try {
-                        var books = JSON.parse(body);
-                        callback(null, books);
+                        var sharingBooks = JSON.parse(body);
+                        callback(null, sharingBooks);
+                    } catch (errsorJSONParse) {
+                        callback(null, null);
+                    }
+                } else {
+                    callback(null, null);
+                }
+            });
+        },
+        reviewedBooks: function (callback) {
+            request({
+                url: req.configs.api_base_url + 'users/book/' + userId + '/reviewed?page=' + pageReviewed,
+                headers: objectHeaders.headers({'Authorization': req.session.access_token})
+            }, function (error, response, body) {
+                if (!error && response.statusCode === 200) {
+                    try {
+                        var reviewedBooks = JSON.parse(body);
+                        callback(null, reviewedBooks);
                     } catch (errsorJSONParse) {
                         callback(null, null);
                     }
@@ -164,12 +182,14 @@ router.get('/:id', authorize.isAuthenticated, function(req, res, next) {
                 waitingBooks: results.waitingBooks,
                 sharingBooks: results.sharingBooks,
                 suggestedBooks: results.suggestedBooks,
+                reviewedBooks: results.reviewedBooks,
                 currentUrl: req.protocol + "://" + req.get('host') + '/users' + req.path,
                 pageReading: pageReading,
                 pageWaiting: pageWaiting,
                 pageDone: pageDone,
                 pageSharing: pageSharing,
                 pageSuggest: pageSuggest,
+                pageReviewed: pageReviewed,
             });
         }
     });
