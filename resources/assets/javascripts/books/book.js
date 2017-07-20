@@ -285,7 +285,7 @@ Book.popUpModal = function () {
     });
 };
 
-$('#add-owner').on('click', function() {
+$('.add-owner').on('click', function(e) {
     swal({
         title: "Are you sure add owner this book?",
         type: "info",
@@ -313,19 +313,61 @@ $('#add-owner').on('click', function() {
             type: 'GET',
         }).done(function (response) {
             if (response.message.status) {
-                var htmlCurrentUser = "<a class='owner-image' data-toggle='tooltip' title='" + user.name +  "' href='/users/" + user.id + "'>";
+                var htmlCurrentUser = "<a class='owner-image" + user.id + "' data-toggle='tooltip' title='" + user.name +  "' href='/users/" + user.id + "'>";
                 if (user.avatar) {
-                    htmlCurrentUser += "<img class='img-owner-detail img-circle' src='" + user.avatar + "'";
-                    htmlCurrentUser += "class='media-object author-photo img-thumbnail background--white' alt='library'>";
+                    htmlCurrentUser += "<img src='" + user.avatar + "'";
+                    htmlCurrentUser += "class='img-owner-detail img-circle media-object author-photo img-thumbnail background--white' alt='library'>";
                 } else {
                     htmlCurrentUser += "<img class='img-owner-detail img-circle' src='/images/user_default.png'";
                     htmlCurrentUser += "class='media-object author-photo img-thumbnail' alt='library'>";
                 }
                 htmlCurrentUser += "</a>"
                 $('.list-owners').append(htmlCurrentUser);
+
+                $('.add-owner').removeClass().addClass('btn btn-danger btn-sm remove-owner').html("<i class='glyphicon glyphicon-remove'></i> Remove owner this book");
                 showNotify('success', 'Add owner success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
             } else {
                 showNotify('danger', 'Add owner fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+            }
+        }).fail(function (error) {
+            showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        });
+    });
+});
+
+$('.btn-action').on('click', '.remove-owner', function (e) {
+    swal({
+        title: "Are you sure remove owner this book?",
+        type: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: true
+    },
+    function() {
+        if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
+            showNotify('danger', 'Add owner fail, Please login to continue', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+
+            return false;
+        }
+
+        $.ajax({
+            url: API_PATH + 'books/remove-owner/' + $('.hide-book').data('bookId'),
+            contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': access_token,
+            },
+            type: 'GET',
+        }).done(function (response) {
+            if (response.message.status) {
+                $('.owner-image' + user.id).remove();
+                $('.remove-owner').removeClass().addClass('btn btn-primary btn-sm add-owner').html("<i class='glyphicon glyphicon-plus'></i> Add owner this book");
+                showNotify('success', 'Remove owner success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
+            } else {
+                showNotify('danger', 'Remove owner fail', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
             }
         }).fail(function (error) {
             showNotify('danger', error.responseJSON.message.description, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
