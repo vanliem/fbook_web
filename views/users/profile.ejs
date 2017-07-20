@@ -80,7 +80,7 @@
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
                     <% var isTabActived = false; %>
-                    <% if (!isTabActived && pageReading !== 1 || pageWaiting === 1 && pageDone === 1 && pageSharing === 1 && pageSuggest === 1) {
+                    <% if (!isTabActived && pageReading !== 1 || pageWaiting === 1 && pageDone === 1 && pageSharing === 1 && pageSuggest === 1 && pageReviewed === 1) {
                         isTabActived = true;
                     %>
                         <li class="active">
@@ -108,11 +108,11 @@
                         isTabActived = true;
                     %>
                         <li class="active">
-                            <a data-toggle="tab" href="#done_books">Done Books</a>
+                            <a data-toggle="tab" href="#done_books">Read Books</a>
                         </li>
                     <% } else { %>
                         <li>
-                            <a data-toggle="tab" href="#done_books">Done Books</a>
+                            <a data-toggle="tab" href="#done_books">Read Books</a>
                         </li>
                     <% } %>
 
@@ -141,12 +141,24 @@
                             </li>
                         <% } %>
                     <% } %>
+
+                    <% if (!isTabActived && pageReviewed !== 1) {
+                        isTabActived = true;
+                    %>
+                        <li class="active">
+                            <a data-toggle="tab" href="#reviewed_books">Reviewed Books</a>
+                        </li>
+                    <% } else { %>
+                        <li>
+                            <a data-toggle="tab" href="#reviewed_books">Reviewed Books</a>
+                        </li>
+                    <% } %>
                 </ul>
             </div>
             <div class="panel-body">
                 <div class="tab-content">
                     <% var isTabPaneActived = false; %>
-                    <% if (!isTabPaneActived && pageReading !== 1 || pageWaiting === 1 && pageDone === 1 && pageSharing === 1 && pageSuggest === 1) {
+                    <% if (!isTabPaneActived && pageReading !== 1 || pageWaiting === 1 && pageDone === 1 && pageSharing === 1 && pageSuggest === 1 && pageReviewed === 1) {
                         isTabPaneActived = true;
                     %>
                         <div class="tab-pane fade in active" id="reading_books">
@@ -202,6 +214,17 @@
                         <%- include('../shared/myBooks', {books: suggestedBooks, pageName: 'pageSuggest'}); %>
                         </div>
                     <% } %>
+
+                    <% if (!isTabPaneActived && pageReviewed !== 1) {
+                        isTabPaneActived = true;
+                    %>
+                        <div class="tab-pane fade in active" id="reviewed_books">
+                    <% } else { %>
+                        <div class="tab-pane fade" id="reviewed_books">
+                    <% } %>
+
+                    <%- include('../shared/myBooks', {books: reviewedBooks, pageName: 'pageReviewed'}); %>
+                    </div>
                 </div>
             </div>
         </div>
