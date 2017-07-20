@@ -9,6 +9,16 @@ Book.configs = function () {
     return configs.book;
 };
 
+Book.checkAuthorized = function () {
+    if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
+        showNotify('danger', 'Please login before action', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+
+        return false;
+    }
+
+    return true;
+};
+
 Book.loadMoreBook = function (data) {
     var scope = this;
     var url = data.field !== undefined ?
@@ -91,16 +101,15 @@ Book.generateBookXhtml = function (book) {
     return xhtml;
 };
 
-Book.booking = function (bookId, status) {
-    if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
-        showNotify('danger', 'Please login before booking', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
-        return false;
-    }
+Book.return = function (data) {
     var scope = this;
-    var data = JSON.stringify({
-        item : {
-            book_id: bookId,
-            status: status
+    if (!scope.checkAuthorized()) return false;
+
+    var body = JSON.stringify({
+        item: {
+            book_id: data.book_id,
+            owner_id: data.owner_id,
+            status: data.status
         }
     });
 
@@ -109,62 +118,19 @@ Book.booking = function (bookId, status) {
         dataType: 'json',
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': access_token},
         method: 'POST',
-        data: data
+        data: body
     }).done(function () {
-        var buttonBooking = $('#booking-book');
-        var userWaitings = $('#user_waiting .event-list');
-        var userReading = $('#user_reading .event-list');
-        var bookUserStatus = configs.book_user.status;
-        var xhtml = scope.generateUserXhtml(user);
-        var action = buttonBooking.text();
+        showNotify('success', 'Return success', {icon: 'glyphicon glyphicon-ok'}, {delay: 1000});
 
-        $('section:eq(1)').find('#user-'+ user.id).remove();
+        setTimeout(function () {
+            window.location.href = '/home';
+        }, 3000);
+    }).fail(function () {
+        showNotify('danger', 'Return errors', {icon: 'glyphicon glyphicon-remove'}, {delay: 1000});
 
-        switch (parseInt(status)) {
-            case bookUserStatus.waiting:
-                userWaitings.append(xhtml);
-                buttonBooking.attr('data-status', bookUserStatus.cancel_waiting).html('Cancel Waiting');
-                break;
-
-            case bookUserStatus.reading:
-                userReading.append(xhtml);
-                buttonBooking.attr('data-status', bookUserStatus.done).html('Return Book');
-                break;
-
-            case bookUserStatus.done:
-                if (userReading.children().length > 0) {
-                    buttonBooking.attr('data-status', bookUserStatus.waiting).html('Add to Waiting');
-                } else if (userWaitings.children().length > 0) {
-                    buttonBooking.attr('data-status', bookUserStatus.reading).html('Add to Reading');
-                } else {
-                    buttonBooking.attr('data-status', bookUserStatus.reading).html('Add to Reading');
-                }
-                break;
-
-            case bookUserStatus.cancel_waiting:
-                if (userReading.children().length > 0) {
-                    buttonBooking.attr('data-status', bookUserStatus.waiting).html('Add to Waiting');
-                } else if (userWaitings.children().length > 0) {
-                    buttonBooking.attr('data-status', bookUserStatus.reading).html('Add to Reading');
-                } else {
-                    buttonBooking.attr('data-status', bookUserStatus.reading).html('Add to Reading');
-                }
-                break;
-        }
-
-        showNotify('success', action +' success', {icon: 'glyphicon glyphicon-ok'}, {delay: 3000});
-
-    }).fail(function (error) {
-        var msg = '';
-        if (typeof(error.responseJSON.message.description) !== 'undefined') {
-            error.responseJSON.message.description.forEach(function (err) {
-                msg += err;
-            });
-        } else {
-            msg = 'Don\'t allow booking this book';
-        }
-
-        showNotify('danger', msg, {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+        setTimeout(function () {
+            window.location.reload();
+        }, 3000);
     });
 };
 
@@ -251,10 +217,8 @@ $('#publish_date').datepicker({
 $('.loader').hide();
 
 Book.addNew = function () {
-    if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
-        showNotify('danger', 'Please login before booking', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
-        return false;
-    }
+    var scope = this;
+    if (!scope.checkAuthorized()) return false;
 
     if (!$('#form-add-book').valid()) {
         return false;
@@ -271,7 +235,7 @@ Book.addNew = function () {
 
     //Attach file
     if ($("[name='image']")[0].files[0]) {
-        for (i=0; i<$("[name='image']").length; i++) {
+        for (var i = 0; i < $("[name='image']").length; i++) {
             formData.append('medias[' + i + '][file]', $("[name='image']")[i].files[0]);
 
             if (i === 0) {
@@ -310,34 +274,18 @@ Book.addNew = function () {
 };
 
 Book.popUpModal = function () {
-    var elementBooking = $('select[name=action_booking]');
+    var scope = this;
+    var elementBooking = $('button[name=booking]');
     var modalWantToRead = $('#modalWantToRead');
-    var modalReturn = $('#modalReturn');
-    modalWantToRead.on('hidden.bs.modal', function () {
-        elementBooking.prop('selectedIndex', 0);
-    });
-    modalReturn.on('hidden.bs.modal', function () {
-        elementBooking.prop('selectedIndex', 0);
-    });
 
-    elementBooking.on('change', function (e) {
-        if (typeof(access_token) === 'undefined' || typeof(user) === 'undefined') {
-            elementBooking.prop('selectedIndex', 0);
-            showNotify('danger', 'Please login before doing', {icon: 'glyphicon glyphicon-remove'}, {delay: 3000});
+    elementBooking.on('click', function () {
+        if (!scope.checkAuthorized()) return false;
 
-            return false;
-        }
-        var action = $(this).val().trim();
-
-        if (action === 'waiting') {
-            modalWantToRead.modal('show');
-        } else if (action === 'return') {
-            modalReturn.modal('show');
-        }
+        modalWantToRead.modal('show');
     });
 };
 
-$('#add-owner').on('click', function(e) {
+$('#add-owner').on('click', function() {
     swal({
         title: "Are you sure add owner this book?",
         type: "info",

@@ -50,7 +50,7 @@
                                 <h4 class="tip-left">Author</h4>
                                 <div class="media">
                                     <div class="media-left">
-                                        <img class="img-owner-detail img-circle" src="<%= data.item.author ? '/images/user_default.png' : '/images/logo_framgia.png' %>"
+                                        <img src="<%= data.item.author ? '/images/user_default.png' : '/images/logo_framgia.png' %>"
                                              class="media-object author-photo img-thumbnail"
                                              alt="library">
                                     </div>
@@ -68,7 +68,7 @@
                                     <div class="list-owners">
                                         <% data.item.owners.forEach(function (owner) { %>
                                             <a class="owner-image" data-toggle="tooltip" title="<%= owner.name %>" href="/users/<%= owner.id %>">
-                                                <img class="img-owner-detail img-circle" src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
+                                                <img src="<%= (owner && owner.avatar) ? owner.avatar : '/images/user_default.png' %>"
                                                      class="media-object author-photo img-thumbnail <%= owner ? '' : 'background--white' %>"
                                                      alt="library">
                                             </a>
@@ -146,13 +146,20 @@
                         <div class="space-20 hide-book" data-book-id="<%= data.item.id %>"></div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-4">
-                                <select class="form-control" name="action_booking">
-                                    <option value="" disabled selected>You want to ?</option>
-                                    <option value="waiting" <%= data.item.btn_booking.status !== 1 ? 'disabled' : '' %>>Read</option>
-                                    <option value="return" <%= data.item.btn_booking.status !== 3 ? 'disabled' : '' %>>Return</option>
-                                </select>
+                                <% if (data.item.btn_booking.status !== configs.book.returning) { %>
+                                    <button class="btn btn-primary btn-sm" name="booking"> Want to Read </button>
+                                <% } else { %>
+                                    <button class="btn btn-primary btn-sm" name="return"
+                                        data-book-id="<%= data.item.id %>"
+                                        data-owner-id="<%= data.item.return_book_for_owner.id %>"
+                                        data-status="<%= data.item.btn_booking.status %>">
+                                        Want to Return
+                                    </button>
+                                <% } %>
                             </div>
-                            <button class="btn btn-primary btn-sm" id="add-owner"> Add owner this book </button>
+                            <div class="col-xs-12 col-sm-offset-1 col-sm-4">
+                                <button class="btn btn-success btn-sm" id="add-owner"> Add owner this book </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -197,44 +204,6 @@
             </div>
         </div>
         <!--End Modal Booking-->
-        <!--Begin Modal Return-->
-        <div aria-labelledby="modalReturnLabel" class="modal fade" id="modalReturn" role="dialog" style="display: none;" tabindex="-1">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
-                        <h5 class="modal-title" id="modalReturnLabel">
-                            Do you want to return this book <%= data.item.title %> for ?
-                        </h5>
-                    </div>
-                    <div class="modal-body">
-                        <form action="/books/booking/<%= data.item.id %>" method="post" name="form-booking-book">
-                            <input type="hidden" name="status" value="<%= data.item.btn_booking.status %>">
-                            <% if (data.item.return_book_for_owner) { %>
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="radio" name="owner_id" value="<%= data.item.return_book_for_owner.id %>"
-                                                    required aria-required="true"/>
-                                                    <%= data.item.return_book_for_owner.name %>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            <% } %>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-primary btn-xs"><%= data.item.btn_booking.text %><i class="fa fa-long-arrow-right"></i></button>
-                                    <input type="reset" class="btn btn-danger btn-xs"/>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--End Modal Return-->
     </div>
 </section>
 
@@ -551,7 +520,20 @@
         error.insertAfter(element);
     }});
 
-    Book.init()
+    Book.init();
+
+    $('button[name=return]').on('click', function (e) {
+        e.preventDefault();
+        var bookId = $(this).attr('data-book-id');
+        var ownerId = $(this).attr('data-owner-id');
+        var status = $(this).attr('data-status');
+        var data = {
+            book_id: bookId,
+            owner_id: ownerId,
+            status: status
+        };
+        Book.return(data);
+    });
 </script>
 <script src="/bower/bootstrap-star-rating/js/star-rating.js"></script>
 <script src="/bower/sweetalert/dist/sweetalert.min.js"></script>
