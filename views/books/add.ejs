@@ -77,15 +77,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" id="row-image1">
+                    <div class="row upload-image" id="row-image1">
                         <div class="col-xs-12 col-sm-8">
                             <div class="form-group">
                                 <input type="file" id="image1" name="image" accept="Image/*" key="1" />
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-4">
-                            <span class="glyphicon glyphicon-plus btn-info btn-xs" id="btn-plus1" data-toggle="tooltip" title="Add more image"></span>
-                            <span class="glyphicon glyphicon-minus btn-danger btn-xs hidden" id="btn-minus1" data-toggle="tooltip" title="Clear image"></span>
+                            <span class="glyphicon glyphicon-plus btn-info btn-xs add-more-image" id="btn-plus1" key="1" data-toggle="tooltip" title="Add more image"></span>
+                            <span class="glyphicon glyphicon-minus btn-danger btn-xs clear-image hidden" id="btn-minus1" key="1" data-toggle="tooltip" title="Clear image"></span>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <img id="pre-img1" class="pre-img hidden" />
@@ -129,42 +129,5 @@
         e.preventDefault();
         Book.addNew();
     });
-
-    var i = 1;
-
-    $('#btn-plus' + i).on('click', function (e) {
-        j = i + 1;
-        var cloneUpload = $('#row-image' + i).clone(true).attr('id', 'row-image' + j);
-        cloneUpload.find('#btn-plus' + i).attr('id', 'btn-plus' + j);
-        cloneUpload.find('#btn-minus' + i).attr('id', 'btn-minus' + j).removeClass('hidden');
-        cloneUpload.find('#image' + i).attr('id', 'image' + j).attr('key', j).val('');
-        cloneUpload.find('#pre-img' + i).attr('id', 'pre-img' + j).addClass('hidden').attr('src', '');
-        $("#append-aria").append(cloneUpload);
-        $(this).addClass('hidden');
-        $('#btn-minus' + i).addClass('hidden');
-        i++;
-    });
-
-    $('#btn-minus' + i).on('click', function (e) {
-        j = i - 1;
-        $('#row-image' + i).remove();
-        $('#btn-plus' + j).removeClass('hidden');
-        if (j != 1) {
-            $('#btn-minus' + j).removeClass('hidden');
-        }
-        i--;
-    });
-
-    for (k = 1; k <= i; k++) {
-        $('#image' + k).on('change', function () {
-            var reader = new FileReader();
-            var key = $(this).attr('key');
-            reader.onload = function (e) {
-                document.getElementById('pre-img' + key).src = e.target.result;
-                $('#pre-img' + key).removeClass('hidden');
-            };
-            reader.readAsDataURL(this.files[0]);
-        });
-    }
 
 </script>
