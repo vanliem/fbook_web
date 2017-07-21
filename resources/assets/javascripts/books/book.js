@@ -2,7 +2,7 @@ var Book = {};
 
 Book.init = function () {
     var scope = this;
-    scope.popUpModal();
+    scope.modalBooking();
 };
 
 Book.configs = function () {
@@ -273,15 +273,29 @@ Book.addNew = function () {
     });
 };
 
-Book.popUpModal = function () {
+Book.modalBooking = function () {
     var scope = this;
     var elementBooking = $('button[name=booking]');
     var modalWantToRead = $('#modalWantToRead');
 
     elementBooking.on('click', function () {
         if (!scope.checkAuthorized()) return false;
-
-        modalWantToRead.modal('show');
+        var bookOffice = parseInt($(this).attr('data-office-id'));
+        if (user.office_id && bookOffice === user.office_id) {
+            swal({
+                title: "Are you different from the workplace ?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes",
+                closeOnConfirm: true
+            }, function () {
+                modalWantToRead.modal('show');
+            });
+        } else {
+            modalWantToRead.modal('show');
+        } 
+        
     });
 };
 

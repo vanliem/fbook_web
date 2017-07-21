@@ -151,7 +151,7 @@
                         <div class="space-20 hide-book" data-book-id="<%= data.item.id %>"></div>
                         <div class="row btn-action">
                                     <% if (data.item.btn_booking.status !== configs.book.returning) { %>
-                                        <button class="btn btn-primary btn-xs" name="booking"> Want to Read </button>
+                                        <button class="btn btn-primary btn-xs" data-office-id="<%= data.item.office.id %>" name="booking"> Want to Read </button>
                                     <% } else { %>
                                         <button class="btn btn-primary btn-xs" name="return"
                                             data-book-id="<%= data.item.id %>"
